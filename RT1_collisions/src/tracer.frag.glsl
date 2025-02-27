@@ -185,9 +185,23 @@ bool ray_plane_intersection(
 
 	// can use the plane center if you need it
 	vec3 plane_center = plane_normal * plane_offset;
-	t = MAX_RANGE + 10.;  // corresponds to no intersection, to be updated if one is found
-	//normal = ...;
-	return false;
+
+	float temp = dot(plane_normal, ray_direction);
+	// if (temp < 1e-6) {
+	// 	return false; // parallel
+	// }
+
+	t = dot(plane_normal, plane_center - ray_origin) / temp;
+ 	vec3 x = ray_origin + t * ray_direction;
+	// if ( dot(plane_normal, x) - plane_offset < 1e-6) {
+	// 	return false; // x not in the plane
+	// }
+
+	normal = plane_normal;
+	if (dot(ray_direction, plane_normal) > 0.) {
+		normal = -normal;
+	}
+	return t > 0.; // in front of the viewer
 }
 
 /*
