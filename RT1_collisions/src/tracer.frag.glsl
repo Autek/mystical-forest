@@ -221,10 +221,47 @@ bool ray_cylinder_intersection(
 	- Return whether there is an intersection with t > 0
 	*/
 
-	vec3 intersection_point;
-	t = MAX_RANGE + 10.;
+	vec3 u = cross(ray_origin - cyl.center, cyl.axis);
+	vec3 v = cross(ray_direction, cyl.axis);
 
-	return false;
+	vec2 sol;
+	int nb_sols = solve_quadratic(
+		dot(v, v), 2. * dot(u, v), dot(u, u) - cyl.radius * cyl.radius, sol);
+
+	if (nb_sols == 0) {
+		return false;
+	}
+
+	if (nb_sols == 1) {
+		t = sol[0];
+		if (t < 0.) {
+			return false;	
+		}
+	}
+
+	if (nb_sols == 2) {
+		float t0 = sol[0], t1 = sol[1];
+		if (t0 > t1) {
+			float temp = t0;
+			t0 = t1;
+			t1 = temp;
+		}
+		
+		if (t0 > 0.) {
+			t = t0;
+		} else if (t1 > 0.) {
+			t = t1;
+		} else {
+			return false;
+		}	
+	}
+
+	vec3 intersection_point = ray_origin + ray_direction * t;
+
+	vec3 tmp = intersection_point - cyl.center;
+	normal = normalize((tmp - dot(tmp, cyl.axis) * cyl.axis));
+
+	return true;
 }
 
 
