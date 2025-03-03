@@ -274,10 +274,8 @@ bool ray_cylinder_intersection(
 
 			// break if hit
 			if (h_i < cyl.height) {
-				hit = true;
-				if (i == 1) {
-					in_hit = true;
-				}
+				hit = true;			// hit cylinder
+				in_hit = (i == 1);	// hit if inside cylinder
 				t = tmp[i];
 				break;
 			}
