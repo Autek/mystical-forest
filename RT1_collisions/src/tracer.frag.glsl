@@ -231,7 +231,7 @@ bool ray_cylinder_intersection(
 	if (nb_sols == 0) {
 		return false;
 	}
-
+	
 	if (nb_sols == 1) {
 		t = sol[0];
 		if (t < 0.) {
