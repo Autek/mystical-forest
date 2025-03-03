@@ -261,7 +261,8 @@ bool ray_cylinder_intersection(
 	vec3 tmp = intersection_point - cyl.center;
 	normal = normalize((tmp - dot(tmp, cyl.axis) * cyl.axis));
 
-	return true;
+	float h =  2. * (abs(dot(cyl.axis, tmp) / length(cyl.axis)));
+	return h < (.5 * cyl.height);
 }
 
 
