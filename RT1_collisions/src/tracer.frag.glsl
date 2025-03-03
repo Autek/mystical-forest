@@ -242,6 +242,7 @@ bool ray_cylinder_intersection(
 	}
 
 	// Check passing through top
+	bool in_hit = false;
 	if (nb_sols == 2) {
 		// Both intersections are behind so exit out
 		if (sol[0] < 0. && sol[1] < 0.) {
@@ -274,6 +275,9 @@ bool ray_cylinder_intersection(
 			// break if hit
 			if (h_i < cyl.height) {
 				hit = true;
+				if (i == 1) {
+					in_hit = true;
+				}
 				t = tmp[i];
 				break;
 			}
@@ -289,9 +293,10 @@ bool ray_cylinder_intersection(
 	vec3 tmp = intersection_point - cyl.center;
 	
 	normal = normalize(tmp);
-	if (t > length( cyl.center - ray_origin)) {
+	if (in_hit) {
 		normal = - normalize(tmp);
 	}
+
 	return true;
 }
 
