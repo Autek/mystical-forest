@@ -228,10 +228,12 @@ bool ray_cylinder_intersection(
 	int nb_sols = solve_quadratic(
 		dot(v, v), 2. * dot(u, v), dot(u, u) - cyl.radius * cyl.radius, sol);
 
+	// If no solutions, no hit, return immeadiately
 	if (nb_sols == 0) {
 		return false;
 	}
-	
+
+	// One solution check if intersection is behind
 	if (nb_sols == 1) {
 		t = sol[0];
 		if (t < 0.) {
@@ -239,33 +241,64 @@ bool ray_cylinder_intersection(
 		}
 	}
 
+	// Check passing through top
 	if (nb_sols == 2) {
-		float t0 = sol[0], t1 = sol[1];
-		if (t0 > t1) {
-			float temp = t0;
-			t0 = t1;
-			t1 = temp;
-		}
-		
-		if (t0 > 0.) {
-			t = t0;
-		} else if (t1 > 0.) {
-			t = t1;
-		} else {
+		// Both intersections are behind so exit out
+		if (sol[0] < 0. && sol[1] < 0.) {
 			return false;
-		}	
+		}
+
+		// Order sol within t at least 1 t is positifs
+		vec2 tmp;
+		if (sol[0] < sol[1]) {
+			tmp[0] = sol[0];
+			tmp[1] = sol[1];
+		} else {
+			tmp[0] = sol[1];
+			tmp[1] = sol[0];
+		}
+
+		bool hit = false;
+		for (int i = 0; i < 2; i++){
+			// check if t is negative
+			if (tmp[i] < 0.) {
+				continue;
+			}
+
+			// check if height hit valid
+			vec3 x_i = ray_origin + ray_direction * tmp[i];
+			vec3 xc_i = x_i - cyl.center;
+
+			float h_i = 2. * (abs(dot(cyl.axis, xc_i)) / length(cyl.axis));
+
+			// break if hit
+			if (h_i < cyl.height) {
+				hit = true;
+				t = tmp[i];
+				break;
+			}
+		}
+
+		if (!hit) {
+			return false;
+		}
 	}
 
 	vec3 intersection_point = ray_origin + ray_direction * t;
 
 	vec3 tmp = intersection_point - cyl.center;
-	normal = normalize((tmp - dot(tmp, cyl.axis) * cyl.axis));
-
-	float h =  2. * (abs(dot(cyl.axis, tmp) / length(cyl.axis)));
-	return h < (.5 * cyl.height);
+	
+	normal = normalize(tmp);
+	if (t > length( cyl.center - ray_origin)) {
+		normal = - normalize(tmp);
+	}
+	return true;
 }
 
 
+/*
+	Check for intersection of the ray with any object in the scene.
+*/
 /*
 	Check for intersection of the ray with any object in the scene.
 */
