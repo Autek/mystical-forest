@@ -250,33 +250,30 @@ bool ray_cylinder_intersection(
 		}
 
 		// Order sol within t at least 1 t is positifs
-		vec2 tmp;
-		if (sol[0] < sol[1]) {
-			tmp[0] = sol[0];
-			tmp[1] = sol[1];
-		} else {
-			tmp[0] = sol[1];
-			tmp[1] = sol[0];
+		if (sol[0] > sol[1]) {
+			float temp = sol[0];
+			sol[0] = sol[1];
+			sol[1] = temp;
 		}
 
 		bool hit = false;
 		for (int i = 0; i < 2; i++){
 			// check if t is negative
-			if (tmp[i] < 0.) {
+			if (sol[i] < 0.) {
 				continue;
 			}
 
 			// check if height hit valid
-			vec3 x_i = ray_origin + ray_direction * tmp[i];
+			vec3 x_i = ray_origin + ray_direction * sol[i];
 			vec3 xc_i = x_i - cyl.center;
 
 			float h_i = 2. * (abs(dot(cyl.axis, xc_i)) / length(cyl.axis));
 
 			// break if hit
-			if (h_i < cyl.height) {
+			if (h_i <= cyl.height) {
 				hit = true;			// hit cylinder
-				in_hit = (i == 1);	// hit if inside cylinder
-				t = tmp[i];
+				in_hit = (i != 0);
+				t = sol[i];
 				break;
 			}
 		}
@@ -287,13 +284,11 @@ bool ray_cylinder_intersection(
 	}
 
 	vec3 intersection_point = ray_origin + ray_direction * t;
-
 	vec3 tmp = intersection_point - cyl.center;
+
+	float rem = dot(cyl.axis, tmp) / dot(cyl.axis, cyl.axis);
 	
-	normal = normalize(tmp);
-	if (in_hit) {
-		normal = - normalize(tmp);
-	}
+	normal = (in_hit)? - tmp + rem * cyl.axis: tmp - rem * cyl.axis;
 
 	return true;
 }
