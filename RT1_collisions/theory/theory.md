@@ -59,6 +59,31 @@ t = \frac{-2\mathbf{U}^T\mathbf{U} \pm \sqrt{\Delta}}{2\mathbf{V}^T\mathbf{V}}\q
 \end{align*}
 $$
 
-The point of intersection is therefore $\mathbf{i} = \mathbf{o} + t\mathbf{d}$.
+The point of intersection with the infinite height cylinder is therefore $\mathbf{i} = \mathbf{o} + t\mathbf{d}$.
 
 <!-- @alonso do your thing -->
+<!-- Thank you @charlie -->
+
+To verify that this point of intersection is within the bounds of the height of the actual cylinder. Therefore we search for the height of the intersection in relation to the center of the cylinder. Which would be the length of the projection of the vector going from the center to the point of intersection to the cylinder's axis.
+
+We must by calculate the vector from the center and the intersection, $i_c$.
+$$
+\begin{align*}
+\mathbf{i_c} = \mathbf{i} - \mathbf{c};\;\;\mathbf{i} = \mathbf{o} + t\mathbf{d}
+\end{align*}
+$$
+Then calculate the projection, $i_p$, of $\mathbf{i_c}$ to the cylinder's axis $\mathbf{a}$.
+$$
+\begin{align*}
+\mathbf{i_p} = proj_{\mathbf{a}} \mathbf{i_c}\\
+\mathbf{i_p} = \frac{<\mathbf{a}, \mathbf{i_c}>}{<\mathbf{a}, \mathbf{a}>} \mathbf{a}
+\end{align*}
+$$
+Therefore we must check that the length of the vector is less than half the height.
+$$
+\begin{align*}
+2\|\mathbf{i_p}\| \leq \mathbf{h}
+\end{align*}
+$$
+
+Since $\mathbf{t}$ could have mutliple solutions, we much choose the smallest positif t such that the height requirement is met.
