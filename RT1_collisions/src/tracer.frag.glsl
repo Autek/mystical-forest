@@ -289,6 +289,7 @@ bool ray_cylinder_intersection(
 	float rem = dot(cyl.axis, tmp) / dot(cyl.axis, cyl.axis);
 	
 	normal = (in_hit)? - tmp + rem * cyl.axis: tmp - rem * cyl.axis;
+	normal = normalize(normal);
 
 	return true;
 }
