@@ -38,12 +38,10 @@
             <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
           </ul>-->
           <ul>
-          <li><a href="#theory-exercise-homework-1-rt1"
-          id="toc-theory-exercise-homework-1-rt1">Theory Exercise
+          <li><a href="#theory-exercise-homework-1-rt1">Theory Exercise
           Homework 1 (RT1)</a>
           <ul>
-          <li><a href="#ray-cylinder-intersection"
-          id="toc-ray-cylinder-intersection">Ray-Cylinder
+          <li><a href="#ray-cylinder-intersection">Ray-Cylinder
           Intersection</a></li>
           </ul></li>
           </ul>
@@ -67,38 +65,38 @@ how to compute the parameter <span
 class="math inline"><em>t</em></span>, which solution to pick in case
 multiple exist, and how to define the cylinder normal.</strong></p>
 <p>The implicit representation of an infinite cylinder is: <span
-class="math display">∥(<strong>x</strong> − <strong>c</strong>) × <strong>a</strong>∥ = <em>r</em></span>
+class="math display">∥(<strong>x</strong>−<strong>c</strong>) × <strong>a</strong>∥ = <em>r</em></span>
 with <span class="math inline"><strong>x</strong></span> a position in
 3D space, <span class="math inline"><strong>c</strong></span> the center
 of the cylinder, <span class="math inline"><strong>a</strong></span> the
 central axis of the cylinder and <span
 class="math inline"><em>r</em></span> the radius of the cylinder.</p>
 <p>We plug in <span
-class="math inline"><strong>x</strong> = (<strong>o</strong> + <em>t</em><strong>d</strong>)</span>,
+class="math inline"><strong>x</strong> = (<strong>o</strong>+<em>t</em><strong>d</strong>)</span>,
 distribute out the central axis and group terms in <span
 class="math inline"><em>t</em></span> and terms not in <span
 class="math inline"><em>t</em></span>: <span
-class="math display">∥((<strong>o</strong> + <em>t</em><strong>d</strong>) − <strong>c</strong>) × <strong>a</strong>∥ = <em>r</em></span><br />
+class="math display">∥((<strong>o</strong>+<em>t</em><strong>d</strong>)−<strong>c</strong>) × <strong>a</strong>∥ = <em>r</em></span><br />
 <span
-class="math display">∥((<strong>o</strong> − <strong>c</strong>) + <em>t</em><strong>d</strong>) × <strong>a</strong>∥ = <em>r</em></span><br />
+class="math display">∥((<strong>o</strong>−<strong>c</strong>)+<em>t</em><strong>d</strong>) × <strong>a</strong>∥ = <em>r</em></span><br />
 <span
-class="math display">∥(<strong>o</strong> − <strong>c</strong>) × <strong>a</strong> + <em>t</em><strong>d</strong> × <strong>a</strong>∥ = <em>r</em></span></p>
+class="math display">∥(<strong>o</strong>−<strong>c</strong>) × <strong>a</strong> + <em>t</em><strong>d</strong> × <strong>a</strong>∥ = <em>r</em></span></p>
 <p>To simplify the notation, we substitute <span
-class="math inline"><strong>U</strong> = (<strong>o</strong> − <strong>c</strong>) × <strong>a</strong></span>
+class="math inline"><strong>U</strong> = (<strong>o</strong>−<strong>c</strong>) × <strong>a</strong></span>
 and <span
 class="math inline"><strong>V</strong> = <strong>d</strong> × <strong>a</strong></span>.
 We get: <span
 class="math display">∥<strong>U</strong> + <em>t</em><strong>V</strong>∥ = <em>r</em></span></p>
 <p>We then develop the norm and group like terms: <span
-class="math display"><em>r</em><sup>2</sup> = (<em>U</em><sub><em>x</em></sub> + <em>V</em><sub><em>x</em></sub><em>t</em>)<sup>2</sup> + (<em>U</em><sub><em>y</em></sub> + <em>V</em><sub><em>y</em></sub><em>t</em>)<sup>2</sup> + (<em>U</em><sub><em>z</em></sub> + <em>V</em><sub><em>z</em></sub><em>t</em>)<sup>2</sup></span><br />
+class="math display"><em>r</em><sup>2</sup> = (<em>U</em><sub><em>x</em></sub>+<em>V</em><sub><em>x</em></sub><em>t</em>)<sup>2</sup> + (<em>U</em><sub><em>y</em></sub>+<em>V</em><sub><em>y</em></sub><em>t</em>)<sup>2</sup> + (<em>U</em><sub><em>z</em></sub>+<em>V</em><sub><em>z</em></sub><em>t</em>)<sup>2</sup></span><br />
 <span
-class="math display"> = (<em>U</em><sub><em>x</em></sub><sup>2</sup> + <em>V</em><sub><em>x</em></sub><sup>2</sup><em>t</em><sup>2</sup> + 2<em>U</em><sub><em>x</em></sub><em>V</em><sub><em>x</em></sub><em>t</em>)</span><br />
+class="math display"> = (<em>U</em><sub><em>x</em></sub><sup>2</sup>+<em>V</em><sub><em>x</em></sub><sup>2</sup><em>t</em><sup>2</sup>+2<em>U</em><sub><em>x</em></sub><em>V</em><sub><em>x</em></sub><em>t</em>)</span><br />
 <span
-class="math display">+(<em>U</em><sub><em>y</em></sub><sup>2</sup> + <em>V</em><sub><em>y</em></sub><sup>2</sup><em>t</em><sup>2</sup> + 2<em>U</em><sub><em>y</em></sub><em>V</em><sub><em>y</em></sub><em>t</em>)</span><br />
+class="math display"> + (<em>U</em><sub><em>y</em></sub><sup>2</sup>+<em>V</em><sub><em>y</em></sub><sup>2</sup><em>t</em><sup>2</sup>+2<em>U</em><sub><em>y</em></sub><em>V</em><sub><em>y</em></sub><em>t</em>)</span><br />
 <span
-class="math display">+(<em>U</em><sub><em>z</em></sub><sup>2</sup> + <em>V</em><sub><em>z</em></sub><sup>2</sup><em>t</em><sup>2</sup> + 2<em>U</em><sub><em>z</em></sub><em>V</em><sub><em>z</em></sub><em>t</em>)</span><br />
+class="math display"> + (<em>U</em><sub><em>z</em></sub><sup>2</sup>+<em>V</em><sub><em>z</em></sub><sup>2</sup><em>t</em><sup>2</sup>+2<em>U</em><sub><em>z</em></sub><em>V</em><sub><em>z</em></sub><em>t</em>)</span><br />
 <span
-class="math display"> = (<em>V</em><sub><em>x</em></sub><sup>2</sup> + <em>V</em><sub><em>y</em></sub><sup>2</sup> + <em>V</em><sub><em>z</em></sub><sup>2</sup>)<em>t</em><sup>2</sup> + 2(<em>U</em><sub><em>x</em></sub><em>V</em><sub><em>x</em></sub> + <em>U</em><sub><em>y</em></sub><em>V</em><sub><em>y</em></sub> + <em>U</em><sub><em>z</em></sub><em>V</em><sub><em>z</em></sub>)<em>t</em> + (<em>U</em><sub><em>x</em></sub><sup>2</sup> + <em>U</em><sub><em>y</em></sub><sup>2</sup> + <em>U</em><sub><em>z</em></sub><sup>2</sup>)</span></p>
+class="math display"> = (<em>V</em><sub><em>x</em></sub><sup>2</sup>+<em>V</em><sub><em>y</em></sub><sup>2</sup>+<em>V</em><sub><em>z</em></sub><sup>2</sup>)<em>t</em><sup>2</sup> + 2(<em>U</em><sub><em>x</em></sub><em>V</em><sub><em>x</em></sub>+<em>U</em><sub><em>y</em></sub><em>V</em><sub><em>y</em></sub>+<em>U</em><sub><em>z</em></sub><em>V</em><sub><em>z</em></sub>)<em>t</em> + (<em>U</em><sub><em>x</em></sub><sup>2</sup>+<em>U</em><sub><em>y</em></sub><sup>2</sup>+<em>U</em><sub><em>z</em></sub><sup>2</sup>)</span></p>
 <p>We recognize the dot products so we simplify the expression according
 to their rewrite, and transform it to a quadratic: <span
 class="math display"><strong>V</strong><sup><em>T</em></sup><strong>V</strong><em>t</em><sup>2</sup> + 2<strong>U</strong><sup><em>T</em></sup><strong>V</strong><em>t</em> + <strong>U</strong><sup><em>T</em></sup><strong>U</strong> = <em>r</em><sup>2</sup></span><br />
@@ -142,6 +140,31 @@ class="math display">2∥<strong>i</strong><sub><strong>p</strong></sub>∥ �
 <p>Since <span class="math inline"><strong>t</strong></span> could have
 mutliple solutions, we much choose the smallest positif t such that the
 height requirement is met.</p>
+<p>The cylinder’s normal, <span
+class="math inline"><strong>n</strong></span>, at an intersecting point,
+<span class="math inline"><strong>i</strong></span>, should be defined
+as the normal of the plane of the cylinder that is facing the camera. We
+can define it as the normalized vector from the cylinder’s axis <span
+class="math inline"><strong>c</strong></span> to the intersection point
+<span class="math inline"><strong>i</strong></span> without a component
+of the cylinder’s axis.</p>
+<p>We have already calculated the vector from the center to the
+intersection point, <span
+class="math inline"><strong>i</strong><sub><strong>c</strong></sub></span>,
+all we have to do is remove its projection to the axis, <span
+class="math inline"><strong>a</strong></span>. <span
+class="math display">$$
+\mathbf{n} = norm(\mathbf{i_c} - \{\frac{&lt;\mathbf{i_c},
+\mathbf{a}&gt;}{\|\mathbf{a}\|^2}\}\mathbf{a})
+$$</span></p>
+<p>Unfortunately, this normal points outwards from the center and does
+not face the camera. Therefore to fix this we can the conditions. <span
+class="math display">$$
+\mathbf{n_c} = \begin{cases}
+      n &amp; \text{if }&lt;\mathbf{n}, \mathbf{r}&gt; \leq 0\\
+      -n &amp; \text{otherwise}
+    \end{cases}
+$$</span></p>
         </div>
       </div>
     </div>
