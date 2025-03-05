@@ -98,7 +98,7 @@ $$
 Unfortunately, this normal points outwards from the center and does not face the camera. Therefore to fix this we can the conditions.
 $$
 \mathbf{n_c} = \begin{cases}
-      <\mathbf{n}, \mathbf{r}> \leq 0 & -n\\
-      else & n
+      n & \text{if }<\mathbf{n}, \mathbf{r}> \leq 0\\
+      -n & \text{otherwise}
     \end{cases} 
 $$
