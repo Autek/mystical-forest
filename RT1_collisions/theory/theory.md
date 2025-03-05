@@ -98,7 +98,7 @@ $$
 Unfortunately, this normal points outwards from the center and does not face the camera. Therefore to fix this we can the conditions.
 $$
 \mathbf{n_c} = \begin{cases}
-      <\mathbf{n}, \mathbf{r}> \leq 0 & \text{if bank $i$ issues ABs at time $t$}\\
-      else & \text{if bank $i$ issues CBs at time $t$}
+      <\mathbf{n}, \mathbf{r}> \leq 0 & -n\\
+      else & n
     \end{cases} 
 $$
