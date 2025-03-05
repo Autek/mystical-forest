@@ -87,3 +87,18 @@ $$
 $$
 
 Since $\mathbf{t}$ could have mutliple solutions, we much choose the smallest positif t such that the height requirement is met.
+
+The cylinder's normal, $\mathbf{n}$, at an intersecting point, $\mathbf{i}$, should be defined as the normal of the plane of the cylinder that is facing the camera. We can define it as the normalized vector from the cylinder's axis $\mathbf{c}$ to the intersection point $\mathbf{i}$ without a component of the cylinder's axis.
+
+We have already calculated the vector from the center to the intersection point, $\mathbf{i_c}$, all we have to do is remove its projection to the axis, $\mathbf{a}$.
+$$
+\mathbf{n} = norm(\mathbf{i_c} - \{\frac{<\mathbf{i_c}, \mathbf{a}>}{\|\mathbf{a}\|^2}\}\mathbf{a})
+$$
+
+Unfortunately, this normal points outwards from the center and does not face the camera. Therefore to fix this we can the conditions.
+$$
+\mathbf{n_c} = \begin{cases}
+      <\mathbf{n}, \mathbf{r}> \leq 0 & \text{if bank $i$ issues ABs at time $t$}\\
+      else & \text{if bank $i$ issues CBs at time $t$}
+    \end{cases} 
+$$
