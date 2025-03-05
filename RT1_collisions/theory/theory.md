@@ -21,11 +21,13 @@ with $\mathbf{x}$ a position in 3D space, $\mathbf{c}$ the center of the cylinde
 
 We plug in $\mathbf{x} = (\mathbf{o}+t\mathbf{d})$, distribute out the central axis and group terms in $t$ and terms not in $t$:
 $$
-\begin{align*}
-\|((\mathbf{o}+t\mathbf{d})-\mathbf{c}) \times \mathbf{a}\| &= r \\
-\|((\mathbf{o}-\mathbf{c})+t\mathbf{d}) \times \mathbf{a}\| &= r \\
-\|(\mathbf{o}-\mathbf{c}) \times \mathbf{a} + t\mathbf{d} \times \mathbf{a}\| &= r
-\end{align*}
+\|((\mathbf{o}+t\mathbf{d})-\mathbf{c}) \times \mathbf{a}\| = r
+$$\
+$$
+\|((\mathbf{o}-\mathbf{c})+t\mathbf{d}) \times \mathbf{a}\| = r
+$$\
+$$
+\|(\mathbf{o}-\mathbf{c}) \times \mathbf{a} + t\mathbf{d} \times \mathbf{a}\| = r
 $$
 
 To simplify the notation, we substitute $\mathbf{U} = (\mathbf{o}-\mathbf{c}) \times \mathbf{a}$ and $\mathbf{V} = \mathbf{d} \times \mathbf{a}$. We get:
@@ -35,28 +37,38 @@ $$
 
 We then develop the norm and group like terms:
 $$
-\begin{align*}
-r^2 &= (U_x + V_xt)^2 + (U_y + V_yt)^2 + (U_z + V_zt)^2 \\
-&= (U_x^2 + V_x^2t^2 + 2U_xV_xt) \\ 
-&\qquad+ (U_y^2 + V_y^2t^2 + 2U_yV_yt) \\
-&\qquad+ (U_z^2 + V_z^2t^2 + 2U_zV_zt) \\
-&= (V_x^2 + V_y^2 + V_z^2)t^2 + 2(U_xV_x + U_yV_y + U_zV_z)t + (U_x^2 + U_y^2 + U_z^2)
-\end{align*}
+r^2 = (U_x + V_xt)^2 + (U_y + V_yt)^2 + (U_z + V_zt)^2
+$$\
+$$
+= (U_x^2 + V_x^2t^2 + 2U_xV_xt) 
+$$\
+$$
++ (U_y^2 + V_y^2t^2 + 2U_yV_yt)
+$$\
+$$
++ (U_z^2 + V_z^2t^2 + 2U_zV_zt)
+$$\
+$$
+= (V_x^2 + V_y^2 + V_z^2)t^2 + 2(U_xV_x + U_yV_y + U_zV_z)t + (U_x^2 + U_y^2 + U_z^2)
 $$
 
 We recognize the dot products so we simplify the expression according to their rewrite, and transform it to a quadratic:
 $$
-\begin{align*}
-\mathbf{V}^T\mathbf{V}t^2 + 2\mathbf{U}^T\mathbf{V}t + \mathbf{U}^T\mathbf{U} &= r^2 \\
-\mathbf{V}^T\mathbf{V}t^2 + 2\mathbf{U}^T\mathbf{V}t + \mathbf{U}^T\mathbf{U} - r^2 &= 0 
-\end{align*}
+\mathbf{V}^T\mathbf{V}t^2 + 2\mathbf{U}^T\mathbf{V}t + \mathbf{U}^T\mathbf{U} = r^2
+$$\
 $$
+\mathbf{V}^T\mathbf{V}t^2 + 2\mathbf{U}^T\mathbf{V}t + \mathbf{U}^T\mathbf{U} - r^2 = 0 
+$$
+
+![](images/1.jpg)
+![](images/2.jpg)
+![](images/3.jpg)
+![](images/4.jpg)
+
 
 We can solve this form for $t$, finally getting:
 $$
-\begin{align*}
-t = \frac{-2\mathbf{U}^T\mathbf{U} \pm \sqrt{\Delta}}{2\mathbf{V}^T\mathbf{V}}\quad \text{with}\ \Delta = (2\mathbf{U}^T\mathbf{V})^2 - 4\mathbf{V}^T\mathbf{V}(\mathbf{U}^T\mathbf{U} - r^2) 
-\end{align*}
+t = \frac{-2\mathbf{U}^T\mathbf{U} \sqrt{\Delta}}{2\mathbf{V}^T\mathbf{V}} \ \Delta = (2\mathbf{U}^T\mathbf{V})^2 - 4\mathbf{V}^T\mathbf{V}(\mathbf{U}^T\mathbf{U} - r^2) 
 $$
 
 The point of intersection with the infinite height cylinder is therefore $\mathbf{i} = \mathbf{o} + t\mathbf{d}$.
@@ -68,22 +80,18 @@ To verify that this point of intersection is within the bounds of the height of 
 
 We must by calculate the vector from the center and the intersection, $i_c$.
 $$
-\begin{align*}
 \mathbf{i_c} = \mathbf{i} - \mathbf{c};\;\;\mathbf{i} = \mathbf{o} + t\mathbf{d}
-\end{align*}
 $$
 Then calculate the projection, $i_p$, of $\mathbf{i_c}$ to the cylinder's axis $\mathbf{a}$.
 $$
-\begin{align*}
-\mathbf{i_p} = proj_{\mathbf{a}} \mathbf{i_c}\\
+\mathbf{i_p} = proj_{\mathbf{a}} \mathbf{i_c}
+$$\
+$$
 \mathbf{i_p} = \frac{<\mathbf{a}, \mathbf{i_c}>}{<\mathbf{a}, \mathbf{a}>} \mathbf{a}
-\end{align*}
 $$
 Therefore we must check that the length of the vector is less than half the height.
 $$
-\begin{align*}
 2\|\mathbf{i_p}\| \leq \mathbf{h}
-\end{align*}
 $$
 
 Since $\mathbf{t}$ could have mutliple solutions, we much choose the smallest positif t such that the height requirement is met.

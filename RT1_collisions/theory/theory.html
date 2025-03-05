@@ -54,7 +54,7 @@
 (RT1)</h1>
 <h2 id="ray-cylinder-intersection">Ray-Cylinder Intersection</h2>
 <figure>
-<img src="images/cyl_diagram.png" width="300"
+<img src="images/cyl_diagram.png"
 alt="A cylinder with axis \mathbf{a}, center \mathbf{c}, radius r, and height h" />
 <figcaption aria-hidden="true">A cylinder with axis <span
 class="math inline"><strong>a</strong></span>, center <span
@@ -62,15 +62,86 @@ class="math inline"><strong>c</strong></span>, radius <span
 class="math inline"><em>r</em></span>, and height <span
 class="math inline"><em>h</em></span></figcaption>
 </figure>
-<p>This is an inline LaTeX formula: <span
-class="math inline"><em>a</em><em>t</em><sup>2</sup> + <em>b</em><em>t</em> + <em>c</em> = 0</span>.
-You can use inline formulas to write mathematical expressions in the
-text.</p>
-<p>If you want to write a formula in a separate line, you can use the
-following syntax:</p>
-<p><span
-class="math display"><em>a</em><em>t</em><sup>2</sup> + <em>b</em><em>t</em> + <em>c</em> = 0.</span></p>
-<p>Please replace these lines with your solution.</p>
+<p><strong>Derive the intersection between a ray and a cylinder. Discuss
+how to compute the parameter <span
+class="math inline"><em>t</em></span>, which solution to pick in case
+multiple exist, and how to define the cylinder normal.</strong></p>
+<p>The implicit representation of an infinite cylinder is: <span
+class="math display">∥(<strong>x</strong> − <strong>c</strong>) × <strong>a</strong>∥ = <em>r</em></span>
+with <span class="math inline"><strong>x</strong></span> a position in
+3D space, <span class="math inline"><strong>c</strong></span> the center
+of the cylinder, <span class="math inline"><strong>a</strong></span> the
+central axis of the cylinder and <span
+class="math inline"><em>r</em></span> the radius of the cylinder.</p>
+<p>We plug in <span
+class="math inline"><strong>x</strong> = (<strong>o</strong> + <em>t</em><strong>d</strong>)</span>,
+distribute out the central axis and group terms in <span
+class="math inline"><em>t</em></span> and terms not in <span
+class="math inline"><em>t</em></span>: <span
+class="math display">∥((<strong>o</strong> + <em>t</em><strong>d</strong>) − <strong>c</strong>) × <strong>a</strong>∥ = <em>r</em></span><br />
+<span
+class="math display">∥((<strong>o</strong> − <strong>c</strong>) + <em>t</em><strong>d</strong>) × <strong>a</strong>∥ = <em>r</em></span><br />
+<span
+class="math display">∥(<strong>o</strong> − <strong>c</strong>) × <strong>a</strong> + <em>t</em><strong>d</strong> × <strong>a</strong>∥ = <em>r</em></span></p>
+<p>To simplify the notation, we substitute <span
+class="math inline"><strong>U</strong> = (<strong>o</strong> − <strong>c</strong>) × <strong>a</strong></span>
+and <span
+class="math inline"><strong>V</strong> = <strong>d</strong> × <strong>a</strong></span>.
+We get: <span
+class="math display">∥<strong>U</strong> + <em>t</em><strong>V</strong>∥ = <em>r</em></span></p>
+<p>We then develop the norm and group like terms: <span
+class="math display"><em>r</em><sup>2</sup> = (<em>U</em><sub><em>x</em></sub> + <em>V</em><sub><em>x</em></sub><em>t</em>)<sup>2</sup> + (<em>U</em><sub><em>y</em></sub> + <em>V</em><sub><em>y</em></sub><em>t</em>)<sup>2</sup> + (<em>U</em><sub><em>z</em></sub> + <em>V</em><sub><em>z</em></sub><em>t</em>)<sup>2</sup></span><br />
+<span
+class="math display"> = (<em>U</em><sub><em>x</em></sub><sup>2</sup> + <em>V</em><sub><em>x</em></sub><sup>2</sup><em>t</em><sup>2</sup> + 2<em>U</em><sub><em>x</em></sub><em>V</em><sub><em>x</em></sub><em>t</em>)</span><br />
+<span
+class="math display">+(<em>U</em><sub><em>y</em></sub><sup>2</sup> + <em>V</em><sub><em>y</em></sub><sup>2</sup><em>t</em><sup>2</sup> + 2<em>U</em><sub><em>y</em></sub><em>V</em><sub><em>y</em></sub><em>t</em>)</span><br />
+<span
+class="math display">+(<em>U</em><sub><em>z</em></sub><sup>2</sup> + <em>V</em><sub><em>z</em></sub><sup>2</sup><em>t</em><sup>2</sup> + 2<em>U</em><sub><em>z</em></sub><em>V</em><sub><em>z</em></sub><em>t</em>)</span><br />
+<span
+class="math display"> = (<em>V</em><sub><em>x</em></sub><sup>2</sup> + <em>V</em><sub><em>y</em></sub><sup>2</sup> + <em>V</em><sub><em>z</em></sub><sup>2</sup>)<em>t</em><sup>2</sup> + 2(<em>U</em><sub><em>x</em></sub><em>V</em><sub><em>x</em></sub> + <em>U</em><sub><em>y</em></sub><em>V</em><sub><em>y</em></sub> + <em>U</em><sub><em>z</em></sub><em>V</em><sub><em>z</em></sub>)<em>t</em> + (<em>U</em><sub><em>x</em></sub><sup>2</sup> + <em>U</em><sub><em>y</em></sub><sup>2</sup> + <em>U</em><sub><em>z</em></sub><sup>2</sup>)</span></p>
+<p>We recognize the dot products so we simplify the expression according
+to their rewrite, and transform it to a quadratic: <span
+class="math display"><strong>V</strong><sup><em>T</em></sup><strong>V</strong><em>t</em><sup>2</sup> + 2<strong>U</strong><sup><em>T</em></sup><strong>V</strong><em>t</em> + <strong>U</strong><sup><em>T</em></sup><strong>U</strong> = <em>r</em><sup>2</sup></span><br />
+<span
+class="math display"><strong>V</strong><sup><em>T</em></sup><strong>V</strong><em>t</em><sup>2</sup> + 2<strong>U</strong><sup><em>T</em></sup><strong>V</strong><em>t</em> + <strong>U</strong><sup><em>T</em></sup><strong>U</strong> − <em>r</em><sup>2</sup> = 0</span></p>
+<p><img src="images/1.jpg" /> <img src="images/2.jpg" /> <img
+src="images/3.jpg" /> <img src="images/4.jpg" /></p>
+<p>We can solve this form for <span
+class="math inline"><em>t</em></span>, finally getting: <span
+class="math display">$$
+t = \frac{-2\mathbf{U}^T\mathbf{U}
+\sqrt{\Delta}}{2\mathbf{V}^T\mathbf{V}} \ \Delta =
+(2\mathbf{U}^T\mathbf{V})^2 -
+4\mathbf{V}^T\mathbf{V}(\mathbf{U}^T\mathbf{U} - r^2)
+$$</span></p>
+<p>The point of intersection with the infinite height cylinder is
+therefore <span
+class="math inline"><strong>i</strong> = <strong>o</strong> + <em>t</em><strong>d</strong></span>.</p>
+<!-- @alonso do your thing -->
+<!-- Thank you @charlie -->
+<p>To verify that this point of intersection is within the bounds of the
+height of the actual cylinder. Therefore we search for the height of the
+intersection in relation to the center of the cylinder. Which would be
+the length of the projection of the vector going from the center to the
+point of intersection to the cylinder’s axis.</p>
+<p>We must by calculate the vector from the center and the intersection,
+<span class="math inline"><em>i</em><sub><em>c</em></sub></span>. <span
+class="math display"><strong>i</strong><sub><strong>c</strong></sub> = <strong>i</strong> − <strong>c</strong>;  <strong>i</strong> = <strong>o</strong> + <em>t</em><strong>d</strong></span>
+Then calculate the projection, <span
+class="math inline"><em>i</em><sub><em>p</em></sub></span>, of <span
+class="math inline"><strong>i</strong><sub><strong>c</strong></sub></span>
+to the cylinder’s axis <span
+class="math inline"><strong>a</strong></span>. <span
+class="math display"><strong>i</strong><sub><strong>p</strong></sub> = <em>p</em><em>r</em><em>o</em><em>j</em><sub><strong>a</strong></sub><strong>i</strong><sub><strong>c</strong></sub></span><br />
+<span class="math display">$$
+\mathbf{i_p} = \frac{&lt;\mathbf{a}, \mathbf{i_c}&gt;}{&lt;\mathbf{a},
+\mathbf{a}&gt;} \mathbf{a}
+$$</span> Therefore we must check that the length of the vector is less
+than half the height. <span
+class="math display">2∥<strong>i</strong><sub><strong>p</strong></sub>∥ ≤ <strong>h</strong></span></p>
+<p>Since <span class="math inline"><strong>t</strong></span> could have
+mutliple solutions, we much choose the smallest positif t such that the
+height requirement is met.</p>
         </div>
       </div>
     </div>
