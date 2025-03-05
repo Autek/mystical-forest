@@ -31,26 +31,26 @@ $$
 $$
 
 $$
-
 \|(\mathbf{o}-\mathbf{c}) \times \mathbf{a} + t\mathbf{d} \times \mathbf{a}\| = r
-
 $$
 
 To simplify the notation, we substitute $\mathbf{U} = (\mathbf{o}-\mathbf{c}) \times \mathbf{a}$ and $\mathbf{V} = \mathbf{d} \times \mathbf{a}$. We get:
+
 $$
-
 \|\mathbf{U} + t\mathbf{V}\| = r
-
 $$
 
 We then develop the norm and group like terms:
+
 $$
 r^2 = (U_x + V_xt)^2 + (U_y + V_yt)^2 + (U_z + V_zt)^2
 $$
+
 $$
 r^2 = (U_x^2 + V_x^2t^2 + 2U_xV_xt) + (U_y^2 + V_y^2t^2 + 2U_yV_yt)
 + (U_z^2 + V_z^2t^2 + 2U_zV_zt)
 $$
+
 $$
 r^2 = (V_x^2 + V_y^2 + V_z^2)t^2 + 2(U_xV_x + U_yV_y + U_zV_z)t + (U_x^2 + U_y^2 + U_z^2)
 $$
@@ -75,13 +75,10 @@ The point of intersection with the infinite height cylinder is therefore $\mathb
 
 **Which solutions to pick**
 
-We now need to verify that this point of intersection is within the bounds of the height of the actual cylinder. Therefore we search for the height of the intersection in relation to the center of the cylinder. This is the length of the projection of the vector going from the center to the point of intersection to the cylinder's axis. We denote that vector $i_c$.
-
+We now need to verify that this point of intersection is within the bounds of the height of the actual cylinder. Therefore we search for the height of the intersection in relation to the center of the cylinder. This is the length of the projection of the vector going from the center to the point of intersection to the cylinder's axis. We denote that vector $i_c$:
 
 $$
-
 \mathbf{i_c} = \mathbf{i} - \mathbf{c}
-
 $$
 
 We then compute $\mathbf{i_p}$, the projection of $\mathbf{i_c}$ on the cylinder's axis $\mathbf{a}$.
@@ -89,11 +86,11 @@ We then compute $\mathbf{i_p}$, the projection of $\mathbf{i_c}$ on the cylinder
 ![](images/2.jpg)
 
 Finally, we check that the length of the vector is less than half the height using:
-$$
 
+$$
 2\|\mathbf{i_p}\| \leq \mathbf{h}
-
 $$
+
 If so, it means that we are indeed intersecting with the cyclinder.
 
 Since $t$ could have multiple solutions, we choose the smallest positive $t$ such that the height requirement is met.

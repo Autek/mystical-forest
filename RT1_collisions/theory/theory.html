@@ -38,10 +38,12 @@
             <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
           </ul>-->
           <ul>
-          <li><a href="#theory-exercise-homework-1-rt1">Theory Exercise
+          <li><a href="#theory-exercise-homework-1-rt1"
+          id="toc-theory-exercise-homework-1-rt1">Theory Exercise
           Homework 1 (RT1)</a>
           <ul>
-          <li><a href="#ray-cylinder-intersection">Ray-Cylinder
+          <li><a href="#ray-cylinder-intersection"
+          id="toc-ray-cylinder-intersection">Ray-Cylinder
           Intersection</a></li>
           </ul></li>
           </ul>
@@ -76,7 +78,7 @@ class="math inline"><strong>a</strong></span> the central axis of the
 cylinder and <span class="math inline"><em>r</em></span> the radius of
 the cylinder.</p>
 <p>We plug in <span
-class="math inline"><strong>x</strong> = (<strong>o</strong>+<em>t</em><strong>d</strong>)</span>,
+class="math inline"><strong>x</strong> = (<strong>o</strong> + <em>t</em><strong>d</strong>)</span>,
 distribute out the central axis and group terms in <span
 class="math inline"><em>t</em></span> and terms not in <span
 class="math inline"><em>t</em></span>:</p>
@@ -84,21 +86,21 @@ class="math inline"><em>t</em></span>:</p>
 class="math display">∥((<strong>o</strong> + <em>t</em><strong>d</strong>) − <strong>c</strong>) × <strong>a</strong>∥ = <em>r</em></span></p>
 <p><span
 class="math display">∥((<strong>o</strong> − <strong>c</strong>) + <em>t</em><strong>d</strong>) × <strong>a</strong>∥ = <em>r</em></span></p>
-<p>$$</p>
-<p>|(-) + t | = r</p>
-<p>$$</p>
+<p><span
+class="math display">∥(<strong>o</strong> − <strong>c</strong>) × <strong>a</strong> + <em>t</em><strong>d</strong> × <strong>a</strong>∥ = <em>r</em></span></p>
 <p>To simplify the notation, we substitute <span
-class="math inline"><strong>U</strong> = (<strong>o</strong>−<strong>c</strong>) × <strong>a</strong></span>
+class="math inline"><strong>U</strong> = (<strong>o</strong> − <strong>c</strong>) × <strong>a</strong></span>
 and <span
 class="math inline"><strong>V</strong> = <strong>d</strong> × <strong>a</strong></span>.
-We get: $$</p>
-<p>| + t| = r</p>
-<p>$$</p>
-<p>We then develop the norm and group like terms: <span
-class="math display"><em>r</em><sup>2</sup> = (<em>U</em><sub><em>x</em></sub> + <em>V</em><sub><em>x</em></sub><em>t</em>)<sup>2</sup> + (<em>U</em><sub><em>y</em></sub> + <em>V</em><sub><em>y</em></sub><em>t</em>)<sup>2</sup> + (<em>U</em><sub><em>z</em></sub> + <em>V</em><sub><em>z</em></sub><em>t</em>)<sup>2</sup></span>
-<span
-class="math display"><em>r</em><sup>2</sup> = (<em>U</em><sub><em>x</em></sub><sup>2</sup> + <em>V</em><sub><em>x</em></sub><sup>2</sup><em>t</em><sup>2</sup> + 2<em>U</em><sub><em>x</em></sub><em>V</em><sub><em>x</em></sub><em>t</em>) + (<em>U</em><sub><em>y</em></sub><sup>2</sup> + <em>V</em><sub><em>y</em></sub><sup>2</sup><em>t</em><sup>2</sup> + 2<em>U</em><sub><em>y</em></sub><em>V</em><sub><em>y</em></sub><em>t</em>) + (<em>U</em><sub><em>z</em></sub><sup>2</sup> + <em>V</em><sub><em>z</em></sub><sup>2</sup><em>t</em><sup>2</sup> + 2<em>U</em><sub><em>z</em></sub><em>V</em><sub><em>z</em></sub><em>t</em>)</span>
-<span
+We get:</p>
+<p><span
+class="math display">∥<strong>U</strong> + <em>t</em><strong>V</strong>∥ = <em>r</em></span></p>
+<p>We then develop the norm and group like terms:</p>
+<p><span
+class="math display"><em>r</em><sup>2</sup> = (<em>U</em><sub><em>x</em></sub> + <em>V</em><sub><em>x</em></sub><em>t</em>)<sup>2</sup> + (<em>U</em><sub><em>y</em></sub> + <em>V</em><sub><em>y</em></sub><em>t</em>)<sup>2</sup> + (<em>U</em><sub><em>z</em></sub> + <em>V</em><sub><em>z</em></sub><em>t</em>)<sup>2</sup></span></p>
+<p><span
+class="math display"><em>r</em><sup>2</sup> = (<em>U</em><sub><em>x</em></sub><sup>2</sup> + <em>V</em><sub><em>x</em></sub><sup>2</sup><em>t</em><sup>2</sup> + 2<em>U</em><sub><em>x</em></sub><em>V</em><sub><em>x</em></sub><em>t</em>) + (<em>U</em><sub><em>y</em></sub><sup>2</sup> + <em>V</em><sub><em>y</em></sub><sup>2</sup><em>t</em><sup>2</sup> + 2<em>U</em><sub><em>y</em></sub><em>V</em><sub><em>y</em></sub><em>t</em>) + (<em>U</em><sub><em>z</em></sub><sup>2</sup> + <em>V</em><sub><em>z</em></sub><sup>2</sup><em>t</em><sup>2</sup> + 2<em>U</em><sub><em>z</em></sub><em>V</em><sub><em>z</em></sub><em>t</em>)</span></p>
+<p><span
 class="math display"><em>r</em><sup>2</sup> = (<em>V</em><sub><em>x</em></sub><sup>2</sup> + <em>V</em><sub><em>y</em></sub><sup>2</sup> + <em>V</em><sub><em>z</em></sub><sup>2</sup>)<em>t</em><sup>2</sup> + 2(<em>U</em><sub><em>x</em></sub><em>V</em><sub><em>x</em></sub> + <em>U</em><sub><em>y</em></sub><em>V</em><sub><em>y</em></sub> + <em>U</em><sub><em>z</em></sub><em>V</em><sub><em>z</em></sub>)<em>t</em> + (<em>U</em><sub><em>x</em></sub><sup>2</sup> + <em>U</em><sub><em>y</em></sub><sup>2</sup> + <em>U</em><sub><em>z</em></sub><sup>2</sup>)</span></p>
 <p>We recognize the dot products so we simplify the expression according
 to their rewrite, and transform it to a quadratic:</p>
@@ -121,10 +123,9 @@ height of the intersection in relation to the center of the cylinder.
 This is the length of the projection of the vector going from the center
 to the point of intersection to the cylinder’s axis. We denote that
 vector <span
-class="math inline"><em>i</em><sub><em>c</em></sub></span>.</p>
-<p>$$</p>
-<p> = - </p>
-<p>$$</p>
+class="math inline"><em>i</em><sub><em>c</em></sub></span>:</p>
+<p><span
+class="math display"><strong>i</strong><sub><strong>c</strong></sub> = <strong>i</strong> − <strong>c</strong></span></p>
 <p>We then compute <span
 class="math inline"><strong>i</strong><sub><strong>p</strong></sub></span>,
 the projection of <span
@@ -133,9 +134,10 @@ on the cylinder’s axis <span
 class="math inline"><strong>a</strong></span>.</p>
 <p><img src="images/2.jpg" /></p>
 <p>Finally, we check that the length of the vector is less than half the
-height using: $$</p>
-<p>2|| </p>
-<p>$$ If so, it means that we are indeed intersecting with the
+height using:</p>
+<p><span
+class="math display">2∥<strong>i</strong><sub><strong>p</strong></sub>∥ ≤ <strong>h</strong></span></p>
+<p>If so, it means that we are indeed intersecting with the
 cyclinder.</p>
 <p>Since <span class="math inline"><em>t</em></span> could have multiple
 solutions, we choose the smallest positive <span
