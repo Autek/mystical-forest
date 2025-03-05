@@ -8,105 +8,103 @@ title: Theory Exercise RT1 – Ray-Cylinder Intersection
 
 ![A cylinder with axis $\mathbf{a}$, center $\mathbf{c}$, radius $r$, and height $h$](images/cyl_diagram.png)
 
-
-
 **Derive the intersection between a ray and a cylinder. Discuss how to compute the parameter $t$, which solution to pick in case multiple exist, and how to define the cylinder normal.**
 
+**How to compute the parameter $t$**
 
 The implicit representation of an infinite cylinder is:
+
 $$
 \|(\mathbf{x} - \mathbf{c}) \times \mathbf{a}\| = r
 $$
+
 with $\mathbf{x}$ a position in 3D space, $\mathbf{c}$ the center of the cylinder, $\mathbf{a}$ the central axis of the cylinder and $r$ the radius of the cylinder.
 
 We plug in $\mathbf{x} = (\mathbf{o}+t\mathbf{d})$, distribute out the central axis and group terms in $t$ and terms not in $t$:
+
 $$
 \|((\mathbf{o}+t\mathbf{d})-\mathbf{c}) \times \mathbf{a}\| = r
-$$\
+$$
+
 $$
 \|((\mathbf{o}-\mathbf{c})+t\mathbf{d}) \times \mathbf{a}\| = r
-$$\
+$$
+
 $$
 \|(\mathbf{o}-\mathbf{c}) \times \mathbf{a} + t\mathbf{d} \times \mathbf{a}\| = r
 $$
 
 To simplify the notation, we substitute $\mathbf{U} = (\mathbf{o}-\mathbf{c}) \times \mathbf{a}$ and $\mathbf{V} = \mathbf{d} \times \mathbf{a}$. We get:
+
 $$
 \|\mathbf{U} + t\mathbf{V}\| = r
 $$
 
 We then develop the norm and group like terms:
+
 $$
 r^2 = (U_x + V_xt)^2 + (U_y + V_yt)^2 + (U_z + V_zt)^2
-$$\
 $$
-= (U_x^2 + V_x^2t^2 + 2U_xV_xt) 
-$$\
+
 $$
-+ (U_y^2 + V_y^2t^2 + 2U_yV_yt)
-$$\
-$$
+r^2 = (U_x^2 + V_x^2t^2 + 2U_xV_xt) + (U_y^2 + V_y^2t^2 + 2U_yV_yt)
 + (U_z^2 + V_z^2t^2 + 2U_zV_zt)
-$$\
 $$
-= (V_x^2 + V_y^2 + V_z^2)t^2 + 2(U_xV_x + U_yV_y + U_zV_z)t + (U_x^2 + U_y^2 + U_z^2)
+
+$$
+r^2 = (V_x^2 + V_y^2 + V_z^2)t^2 + 2(U_xV_x + U_yV_y + U_zV_z)t + (U_x^2 + U_y^2 + U_z^2)
 $$
 
 We recognize the dot products so we simplify the expression according to their rewrite, and transform it to a quadratic:
+
 $$
 \mathbf{V}^T\mathbf{V}t^2 + 2\mathbf{U}^T\mathbf{V}t + \mathbf{U}^T\mathbf{U} = r^2
-$$\
-$$
-\mathbf{V}^T\mathbf{V}t^2 + 2\mathbf{U}^T\mathbf{V}t + \mathbf{U}^T\mathbf{U} - r^2 = 0 
 $$
 
-![](images/1.jpg)
-![](images/2.jpg)
-![](images/3.jpg)
-![](images/4.jpg)
-
+$$
+\mathbf{V}^T\mathbf{V}t^2 + 2\mathbf{U}^T\mathbf{V}t + \mathbf{U}^T\mathbf{U} - r^2 = 0
+$$
 
 We can solve this form for $t$, finally getting:
-$$
-t = \frac{-2\mathbf{U}^T\mathbf{U} \sqrt{\Delta}}{2\mathbf{V}^T\mathbf{V}} \ \Delta = (2\mathbf{U}^T\mathbf{V})^2 - 4\mathbf{V}^T\mathbf{V}(\mathbf{U}^T\mathbf{U} - r^2) 
-$$
+![](images/1.jpg)
 
 The point of intersection with the infinite height cylinder is therefore $\mathbf{i} = \mathbf{o} + t\mathbf{d}$.
 
 <!-- @alonso do your thing -->
 <!-- Thank you @charlie -->
 
-To verify that this point of intersection is within the bounds of the height of the actual cylinder. Therefore we search for the height of the intersection in relation to the center of the cylinder. Which would be the length of the projection of the vector going from the center to the point of intersection to the cylinder's axis.
+**Which solutions to pick**
 
-We must by calculate the vector from the center and the intersection, $i_c$.
+We now need to verify that this point of intersection is within the bounds of the height of the actual cylinder. Therefore we search for the height of the intersection in relation to the center of the cylinder. This is the length of the projection of the vector going from the center to the point of intersection to the cylinder's axis. We denote that vector $i_c$:
+
 $$
-\mathbf{i_c} = \mathbf{i} - \mathbf{c};\;\;\mathbf{i} = \mathbf{o} + t\mathbf{d}
+\mathbf{i_c} = \mathbf{i} - \mathbf{c}
 $$
-Then calculate the projection, $i_p$, of $\mathbf{i_c}$ to the cylinder's axis $\mathbf{a}$.
-$$
-\mathbf{i_p} = proj_{\mathbf{a}} \mathbf{i_c}
-$$\
-$$
-\mathbf{i_p} = \frac{<\mathbf{a}, \mathbf{i_c}>}{<\mathbf{a}, \mathbf{a}>} \mathbf{a}
-$$
-Therefore we must check that the length of the vector is less than half the height.
+
+We then compute $\mathbf{i_p}$, the projection of $\mathbf{i_c}$ on the cylinder's axis $\mathbf{a}$.
+
+![](images/2.jpg)
+
+Finally, we check that the length of the vector is less than half the height using:
+
 $$
 2\|\mathbf{i_p}\| \leq \mathbf{h}
 $$
 
-Since $\mathbf{t}$ could have mutliple solutions, we much choose the smallest positif t such that the height requirement is met.
+If so, it means that we are indeed intersecting with the cyclinder.
 
-The cylinder's normal, $\mathbf{n}$, at an intersecting point, $\mathbf{i}$, should be defined as the normal of the plane of the cylinder that is facing the camera. We can define it as the normalized vector from the cylinder's axis $\mathbf{c}$ to the intersection point $\mathbf{i}$ without a component of the cylinder's axis.
+Since $t$ could have multiple solutions, we choose the smallest positive $t$ such that the height requirement is met.
 
-We have already calculated the vector from the center to the intersection point, $\mathbf{i_c}$, all we have to do is remove its projection to the axis, $\mathbf{a}$.
-$$
-\mathbf{n} = norm(\mathbf{i_c} - \{\frac{<\mathbf{i_c}, \mathbf{a}>}{\|\mathbf{a}\|^2}\}\mathbf{a})
-$$
+**How to compute the cylinder normal**
 
-Unfortunately, this normal points outwards from the center and does not face the camera. Therefore to fix this we can the conditions.
-$$
-\mathbf{n_c} = \begin{cases}
-      n & \text{if }<\mathbf{n}, \mathbf{r}> \leq 0\\
-      -n & \text{otherwise}
-    \end{cases} 
-$$
+The cylinder's normal $\mathbf{n}$ at intersecting point $\mathbf{i}$ should be defined as the normal to the part of the cylinder that is facing the camera. We can define it as the normalized vector from the cylinder's axis $\mathbf{c}$ to the intersection point $\mathbf{i}$ without a component of the cylinder's axis.
+
+We have already computed the vector from the center to the intersection point, $\mathbf{i_c}$, so all we have to do is remove its projection to the axis $\mathbf{a}$:
+
+![](images/3.jpg)
+
+
+This normal points outwards from the center of the cylinder. This is fine most of the time, but we need to take into account the case where we are looking at the inside of the cylinder. Indeed, the normal would point outwards and away from the camera. In this case, we reverse the direction of the vector. The conditions for this are given by:
+
+![](images/4.jpg)
+
