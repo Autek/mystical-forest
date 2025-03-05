@@ -173,11 +173,35 @@ bool ray_plane_intersection(
 		vec3 plane_normal, float plane_offset, 
 		out float t, out vec3 normal) 
 {
+	/** #TODO RT1.1:
+	The plane is described by its normal vec3(nx, ny, nz) and an offset b.
+	Point x belongs to the plane iff `dot(normal, x) = b`.
+
+	- Compute the intersection between the ray and the plane
+		- If the ray and the plane are parallel there is no intersection
+		- Otherwise, compute intersection data and store it in `normal`, and `t` (distance along ray until intersection).
+	- Return whether there is an intersection in front of the viewer (t > 0)
+	*/
+
 	// can use the plane center if you need it
 	vec3 plane_center = plane_normal * plane_offset;
-	t = MAX_RANGE + 10.;  // corresponds to no intersection, to be updated if one is found
-	//normal = ...;
-	return false;
+
+	float temp = dot(plane_normal, ray_direction);
+	// if (temp < 1e-6) {
+	// 	return false; // parallel
+	// }
+
+	t = dot(plane_normal, plane_center - ray_origin) / temp;
+ 	vec3 x = ray_origin + t * ray_direction;
+	// if ( dot(plane_normal, x) - plane_offset < 1e-6) {
+	// 	return false; // x not in the plane
+	// }
+
+	normal = plane_normal;
+	if (dot(ray_direction, plane_normal) > 0.) {
+		normal = -normal;
+	}
+	return t > 0.; // in front of the viewer
 }
 
 /*
@@ -188,10 +212,86 @@ bool ray_cylinder_intersection(
 		Cylinder cyl,
 		out float t, out vec3 normal) 
 {
-	vec3 intersection_point;
-	t = MAX_RANGE + 10.;
+		/** #TODO RT1.2.2: 
+	- Compute the first valid intersection between the ray and the cylinder
+		(valid means in front of the viewer: t > 0)
+	- Store the intersection point in `intersection_point`
+	- Store the ray parameter in `t`
+	- Store the normal at intersection_point in `normal`
+	- Return whether there is an intersection with t > 0
+	*/
 
+	vec3 u = cross(ray_origin - cyl.center, cyl.axis);
+	vec3 v = cross(ray_direction, cyl.axis);
+
+	vec2 sol;
+	int nb_sols = solve_quadratic(
+		dot(v, v), 2. * dot(u, v), dot(u, u) - cyl.radius * cyl.radius, sol);
+
+	// If no solutions, no hit, return immeadiately
+	if (nb_sols == 0) {
+		return false;
+	}
+
+	// One solution check if intersection is behind
+	if (nb_sols == 1) {
+		t = sol[0];
+		if (t < 0.) {
+			return false;	
+		}
+	}
+
+	// Check passing through top
+	bool in_hit = false;
+	if (nb_sols == 2) {
+		// Both intersections are behind so exit out
+		if (sol[0] < 0. && sol[1] < 0.) {
 	return false;
+}
+
+		// Order sol within t at least 1 t is positifs
+		if (sol[0] > sol[1]) {
+			float temp = sol[0];
+			sol[0] = sol[1];
+			sol[1] = temp;
+		}
+
+		bool hit = false;
+		for (int i = 0; i < 2; i++){
+			// check if t is negative
+			if (sol[i] < 0.) {
+				continue;
+			}
+
+			// check if height hit valid
+			vec3 x_i = ray_origin + ray_direction * sol[i];
+			vec3 xc_i = x_i - cyl.center;
+
+			float h_i = 2. * (abs(dot(cyl.axis, xc_i)) / length(cyl.axis));
+
+			// break if hit
+			if (h_i <= cyl.height) {
+				hit = true;			// hit cylinder
+				in_hit = (i != 0);
+				t = sol[i];
+				break;
+			}
+		}
+
+		if (!hit) {
+			return false;
+		}
+	}
+
+	vec3 intersection_point = ray_origin + ray_direction * t;
+	vec3 tmp = intersection_point - cyl.center;
+
+	float rem = dot(cyl.axis, tmp) / dot(cyl.axis, cyl.axis);
+	
+	normal = (in_hit)? - tmp + rem * cyl.axis: tmp - rem * cyl.axis;
+	normal = normalize(normal);
+
+	return true;
 }
 
 
