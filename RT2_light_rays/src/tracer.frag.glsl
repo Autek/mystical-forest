@@ -281,6 +281,13 @@ vec3 lighting(
 		vec3 object_point, vec3 object_normal, vec3 direction_to_camera, 
 		Light light, Material mat) {
 
+	/** #TODO RT2.2: 
+	- shoot a shadow ray from the intersection point to the light
+	- check whether it intersects an object from the scene
+	- update the lighting accordingly
+	*/
+	// set to 0 if object in path
+
 	/** #TODO RT2.1: 
 	- compute the diffuse component
 	- make sure that the light is located in the correct side of the object
@@ -291,18 +298,12 @@ vec3 lighting(
 	You can use existing methods for `vec3` objects such as `reflect`, `dot`, `normalize` and `length`.
 	*/
 
-	/** #TODO RT2.2: 
-	- shoot a shadow ray from the intersection point to the light
-	- check whether it intersects an object from the scene
-	- update the lighting accordingly
-	*/
-
-
 	#if SHADING_MODE == SHADING_MODE_PHONG
 	#endif
 
 	#if SHADING_MODE == SHADING_MODE_BLINN_PHONG
 	#endif
+
 
 	return mat.color;
 }
