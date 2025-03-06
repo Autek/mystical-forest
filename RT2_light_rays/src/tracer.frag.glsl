@@ -246,8 +246,8 @@ bool ray_cylinder_intersection(
 	if (nb_sols == 2) {
 		// Both intersections are behind so exit out
 		if (sol[0] < 0. && sol[1] < 0.) {
-	return false;
-}
+			return false;
+		}
 
 		// Order sol within t at least 1 t is positifs
 		if (sol[0] > sol[1]) {
@@ -479,11 +479,11 @@ vec3 render_light(vec3 ray_origin, vec3 ray_direction) {
 		pix_color = I;
 
 		#if NUM_LIGHTS != 0
-		    for(int i_light = 0; i_light < NUM_LIGHTS; i_light++) {
-				vec3 col_pos = col_distance * ray_direction + ray_origin;
-				vec3 direction_to_camera = -ray_direction;
-				pix_color += lighting(col_pos, col_normal, direction_to_camera, lights[i_light], m);
-		    }
+		for(int i_light = 0; i_light < NUM_LIGHTS; i_light++) {
+			vec3 col_pos = col_distance * ray_direction + ray_origin;
+			vec3 direction_to_camera = -ray_direction;
+			pix_color += lighting(col_pos, col_normal, direction_to_camera, lights[i_light], m);
+		}
 		#endif
 	}
 
