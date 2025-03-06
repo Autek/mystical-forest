@@ -386,7 +386,27 @@ vec3 lighting(
 	- check whether it intersects an object from the scene
 	- update the lighting accordingly
 	*/
-	// set to 0 if object in path
+	// vect from intersection point to light
+	// TODO: change name once slides become readable again
+	vec3 to_light_dir = light.position - object_point;
+	float to_light_dist = length(to_light_dir);
+	to_light_dir = normalize(to_light_dir);
+
+	float col_distance = -1.;
+	vec3 col_normal = vec3(-1.);
+	int material_id = -1;
+
+	bool is_shadowed = ray_intersection(
+		object_point + to_light_dir * 0.001, 
+		to_light_dir, 
+		col_distance, 
+		col_normal, 
+		material_id
+	);
+	// if intersection and is not behind light
+	if (is_shadowed && col_distance < to_light_dist) {
+		return vec3(0.);
+	}
 
 	/** #TODO RT2.1: 
 	- compute the diffuse component
