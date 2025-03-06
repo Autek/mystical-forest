@@ -397,13 +397,33 @@ vec3 lighting(
 
 	You can use existing methods for `vec3` objects such as `reflect`, `dot`, `normalize` and `length`.
 	*/
+	vec3 diffuse = vec3(0.);
+	vec3 specular = vec3(0.);
+
+	vec3 l = normalize(light.position - object_point);
+	float cos = dot(object_normal, l);
+
+	if (cos < 0.) {
+		return vec3(0.);
+	}
+
+	vec3 md = mat.diffuse * mat.color;
+	diffuse = md * cos;
 
 	#if SHADING_MODE == SHADING_MODE_PHONG
+		vec3 r = 2. * object_normal * dot(object_normal, l) - l;
+		cos = dot(r, direction_to_camera);
 	#endif
-
 	#if SHADING_MODE == SHADING_MODE_BLINN_PHONG
+		vec3 h = normalize(direction_to_camera + l);
+		cos = dot(h, object_normal);
 	#endif
+	if (cos >= 0.) {
+		vec3 ms = mat.specular * mat.color;
+		specular = ms * pow(cos, mat.shininess);
+	}
 
+	mat.color = light.color * (diffuse + specular);
 
 	return mat.color;
 }
@@ -454,12 +474,16 @@ vec3 render_light(vec3 ray_origin, vec3 ray_direction) {
 	int mat_id = 0;
 	if(ray_intersection(ray_origin, ray_direction, col_distance, col_normal, mat_id)) {
 		Material m = get_material(mat_id);
-		pix_color = m.color;
+		vec3 ma = m.color * m.ambient;
+		vec3 I = ma * light_color_ambient;
+		pix_color = I;
 
 		#if NUM_LIGHTS != 0
-		// for(int i_light = 0; i_light < NUM_LIGHTS; i_light++) {
-		// // do something for each light lights[i_light]
-		// }
+		    for(int i_light = 0; i_light < NUM_LIGHTS; i_light++) {
+				vec3 col_pos = col_distance * ray_direction + ray_origin;
+				vec3 direction_to_camera = -ray_direction;
+				pix_color += lighting(col_pos, col_normal, direction_to_camera, lights[i_light], m);
+		    }
 		#endif
 	}
 
