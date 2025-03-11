@@ -535,7 +535,6 @@ vec3 render_light(vec3 ray_origin, vec3 ray_direction) {
 		#if NUM_LIGHTS != 0
 		for (int i_light = 0; i_light < NUM_LIGHTS; i_light++) {
 			vec3 col_pos = col_distance * direction + origin;
-			vec3 direction_to_origin = - direction;
 			local_light += lighting(col_pos, col_normal, -direction, lights[i_light], m);
 		}
 		#endif
@@ -549,9 +548,6 @@ vec3 render_light(vec3 ray_origin, vec3 ray_direction) {
 		direction = normalize(direction - 2. * (dot(normalize(col_normal), direction) * normalize(col_normal)));
 	}
 	
-
-	
-
 	return pix_color;
 }
 
