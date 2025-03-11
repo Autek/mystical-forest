@@ -487,25 +487,70 @@ vec3 render_light(vec3 ray_origin, vec3 ray_direction) {
 	}
 	*/
 
+	
+	
+	// vec3 pix_color = vec3(0.);
+	// float col_distance;
+	// vec3 col_normal = vec3(0.);
+	// int mat_id = 0;
+	// if(ray_intersection(ray_origin, ray_direction, col_distance, col_normal, mat_id)) {
+	// 	Material m = get_material(mat_id);
+	// 	vec3 ma = m.color * m.ambient;
+	// 	vec3 I = ma * light_color_ambient;
+	// 	pix_color = I;
+
+	// 	#if NUM_LIGHTS != 0
+	// 	for(int i_light = 0; i_light < NUM_LIGHTS; i_light++) {
+	// 		vec3 col_pos = col_distance * ray_direction + ray_origin;
+	// 		vec3 direction_to_camera = -ray_direction;
+	// 		pix_color += lighting(col_pos, col_normal, direction_to_camera, lights[i_light], m);
+	// 	}
+	// 	#endif
+	// }
+	
 	vec3 pix_color = vec3(0.);
 
+	// Ray vars
+	vec3 origin = ray_origin;
+	vec3 direction = normalize(ray_direction);
+
+	// Intersection vars
 	float col_distance;
 	vec3 col_normal = vec3(0.);
 	int mat_id = 0;
-	if(ray_intersection(ray_origin, ray_direction, col_distance, col_normal, mat_id)) {
+
+	// Reflection vars
+	float mul_alpha = 1.;
+	
+	for (int r = 0; r < NUM_REFLECTIONS+1; r++) {
+		if(!ray_intersection(origin, direction, col_distance, col_normal, mat_id)){
+			break;
+		}
+
+		// Color calc
 		Material m = get_material(mat_id);
-		vec3 ma = m.color * m.ambient;
-		vec3 I = ma * light_color_ambient;
-		pix_color = I;
+		vec3 m_ambient = m.color * m.ambient;
+		vec3 local_light = m_ambient * light_color_ambient;
 
 		#if NUM_LIGHTS != 0
-		for(int i_light = 0; i_light < NUM_LIGHTS; i_light++) {
-			vec3 col_pos = col_distance * ray_direction + ray_origin;
-			vec3 direction_to_camera = -ray_direction;
-			pix_color += lighting(col_pos, col_normal, direction_to_camera, lights[i_light], m);
+		for (int i_light = 0; i_light < NUM_LIGHTS; i_light++) {
+			vec3 col_pos = col_distance * direction + origin;
+			vec3 direction_to_origin = - direction;
+			local_light += lighting(col_pos, col_normal, -direction, lights[i_light], m);
 		}
 		#endif
+
+		// Reflection Calculations + Accumulations
+		pix_color += (1. - m.mirror) * mul_alpha * local_light;
+		mul_alpha = mul_alpha * m.mirror;
+
+		// Next-Ray
+		origin = origin + direction * col_distance;
+		direction = normalize(direction - 2. * (dot(normalize(col_normal), direction) * normalize(col_normal)));
 	}
+	
+
+	
 
 	return pix_color;
 }
