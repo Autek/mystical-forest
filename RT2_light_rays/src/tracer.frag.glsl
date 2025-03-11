@@ -370,7 +370,7 @@ bool ray_intersection(
 	}
 	#endif
 
-	return col_distance < MAX_RANGE;
+	return col_distance <= MAX_RANGE;
 }
 
 /*
@@ -486,28 +486,6 @@ vec3 render_light(vec3 ray_origin, vec3 ray_direction) {
 		}
 	}
 	*/
-
-	
-	
-	// vec3 pix_color = vec3(0.);
-	// float col_distance;
-	// vec3 col_normal = vec3(0.);
-	// int mat_id = 0;
-	// if(ray_intersection(ray_origin, ray_direction, col_distance, col_normal, mat_id)) {
-	// 	Material m = get_material(mat_id);
-	// 	vec3 ma = m.color * m.ambient;
-	// 	vec3 I = ma * light_color_ambient;
-	// 	pix_color = I;
-
-	// 	#if NUM_LIGHTS != 0
-	// 	for(int i_light = 0; i_light < NUM_LIGHTS; i_light++) {
-	// 		vec3 col_pos = col_distance * ray_direction + ray_origin;
-	// 		vec3 direction_to_camera = -ray_direction;
-	// 		pix_color += lighting(col_pos, col_normal, direction_to_camera, lights[i_light], m);
-	// 	}
-	// 	#endif
-	// }
-	
 	vec3 pix_color = vec3(0.);
 
 	// Ray vars
@@ -523,7 +501,7 @@ vec3 render_light(vec3 ray_origin, vec3 ray_direction) {
 	float mul_alpha = 1.;
 	
 	for (int r = 0; r < NUM_REFLECTIONS+1; r++) {
-		if(!ray_intersection(origin, direction, col_distance, col_normal, mat_id)){
+		if(!ray_intersection(origin + direction * 0.001, direction, col_distance, col_normal, mat_id)){
 			break;
 		}
 
