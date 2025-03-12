@@ -1,10 +1,10 @@
 
-import {createREGL} from "../lib/regljs_2.1.0/regl.module.js"
+import { createREGL } from "../lib/regljs_2.1.0/regl.module.js"
 
-import {vec2, vec3, vec4, mat3, mat4} from "../lib/gl-matrix_3.3.0/esm/index.js"
+import { mat4 } from "../lib/gl-matrix_3.3.0/esm/index.js"
 
-import {DOM_loaded_promise} from "./icg_web.js"
-import {deg_to_rad, mat4_to_string, vec_to_string, mat4_matmul_many} from "./icg_math.js"
+import { vec_to_string } from "./icg_math.js"
+import { DOM_loaded_promise } from "./icg_web.js"
 
 
 async function main() {
@@ -41,15 +41,17 @@ async function main() {
 		// Vertex attributes
 		attributes: {
 			// 3 vertices with 2 coordinates each
+			// [x,y] format
 			position: [
-				[0, 0.2],
-				[-0.2, -0.2],
-				[0.2, -0.2],
+				[0, 0.2],			// vertex 0
+				[-0.2, -0.2],	// vertex 1
+				[0.2, -0.2], 	// vertex 2
 			],
 		},
 		// Triangles (faces), as triplets of vertex indices
 		elements: [
-			[0, 1, 2],
+			[0, 1, 2],	// refers to vertices defined above
+			// here 3 vertices to form a triangle
 		],
 
 		// Uniforms: global data available to the shader
@@ -62,39 +64,31 @@ async function main() {
 			*/
 			mouse_offset: regl.prop('mouse_offset'),
 			color: regl.prop('color'),
-		},	
+		},
 
 		/* 
 		Vertex shader program
 		Given vertex attributes, it calculates the position of the vertex on screen
 		and intermediate data ("varying") passed on to the fragment shader
 		*/
-		vert: /*glsl*/`
-		// Vertex attributes, specified in the "attributes" entry of the pipeline
-		attribute vec2 position;
-				
-		// Global variables specified in "uniforms" entry of the pipeline
-		uniform vec2 mouse_offset;
+		// moved to ./shaders/vertex.glsl -- see tutorial
+		// i prefer cause syntax highlighting
+		vert: /*glsl*/
+			await (
+				await fetch('./src/shaders/vertex.glsl')
+			).text(),
 
-		void main() {
-			// #TODO GL1.1.1.1 Edit the vertex shader to apply mouse_offset translation to the vertex position.
-			// We have to return a vec4, because homogenous coordinates are being used.
-			gl_Position = vec4(position, 0, 1);
-		}`,
-			
 		/* 
 		Fragment shader program
 		Calculates the color of each pixel covered by the mesh.
 		The "varying" values are interpolated between the values given by the vertex shader on the vertices of the current triangle.
 		*/
-		frag: /*glsl*/`
-		precision mediump float;
-		
-		uniform vec3 color;
-
-		void main() {
-			gl_FragColor = vec4(color, 1.); // output: RGBA in 0..1 range
-		}`,
+		// moved to ./shaders/fragment.glsl -- see tutorial
+		// i prefer cause syntax highlighting
+		frag: /*glsl*/
+			await (
+				await fetch('./src/shaders/fragment.glsl')
+			).text(),
 	})
 
 	// Define the GPU pipeline used to draw a triangle, a transformation matrix is applied to the vertex positions.
@@ -124,7 +118,7 @@ async function main() {
 			// #TODO GL1.1.2.1 Edit the vertex shader to apply mat_transform to the vertex position.
 			gl_Position = vec4(position, 0, 1);
 		}`,
-		
+
 		frag: /*glsl*/`
 		precision mediump float;
 		
@@ -138,7 +132,7 @@ async function main() {
 		uniforms: {
 			mat_transform: regl.prop('mat_transform'),
 			color: regl.prop('color'),
-		},	
+		},
 	})
 
 	/*---------------------------------------------------------------
@@ -186,14 +180,14 @@ async function main() {
 		const sim_time = frame.time;
 
 		// Set the whole image to black
-		regl.clear({color: [0, 0, 0, 1]})
+		regl.clear({ color: [0, 0, 0, 1] })
 
 
 		// #TODO GL1.1.1.2 Draw the blue triangle translated by mouse_offset
-		
+
 		draw_triangle_with_offset({
-			mouse_offset: [0, 0],
-			color: [0.5, 0.5, 0.5],
+			mouse_offset: mouse_offset,
+			color: [.063, .477, .688], // #107ab0 a nice blue not that horrible #0000ff
 		});
 
 		/*
@@ -201,7 +195,7 @@ async function main() {
 			Construct a translation matrix for vector [0.5, 0, 0], 
 			and a rotation around Z for angle (time * 30 deg). 
 			Multiply the matrices in appropriate order and call the pipeline to obtain:
-    			* a green triangle orbiting the center point
+					* a green triangle orbiting the center point
 				* a red triangle spinning at [0.5, 0, 0]
 			You do not have to apply the mouse_offset to them.
 		*/
