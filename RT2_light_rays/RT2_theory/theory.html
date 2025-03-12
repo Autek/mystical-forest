@@ -49,9 +49,6 @@
           <ul>
           <li><a href="#derivation-of-the-iterative-formula">Derivation
           of the Iterative Formula</a></li>
-          <li><a href="#simplification-for-n-reflections">Simplification
-          for <span class="math inline">\(N\)</span>
-          Reflections</a></li>
           </ul></li>
           </ul></li>
           </ul>
@@ -63,32 +60,40 @@
 <h2 id="lighting-and-light-rays">Lighting and Light Rays</h2>
 <h3 id="derivation-of-the-iterative-formula">Derivation of the Iterative
 Formula</h3>
-<p>We have established that the iterative formulas as such.<br />
+<p>Given the recursive relationship<br />
 <span class="math inline">\(c_b = (1 - \alpha_0)c_0 + \alpha_0
-c^1\)</span> <span class="math inline">\(c^i = (1 - \alpha_i)c_i +
-\alpha_i c^{i+1}\)</span></p>
-<p>If we develop out <span class="math inline">\(c_0\)</span> and <span
-class="math inline">\(c_1\)</span> :<br />
-<span class="math inline">\(c_b = (1 - \alpha_0)c_0 + \alpha_0 (1 -
-\alpha_1)c_1 + \alpha_0\alpha_1 c^2\)</span><br />
+c^1\)</span><br />
+<span class="math inline">\(c^i = (1 - \alpha_i)c_i + \alpha_i
+c^{i+1}\)</span><br />
 </p>
-<p><span class="math inline">\(c_b = (1 - \alpha_0)c_0 + \alpha_0 (1 -
-\alpha_1)c_1 + \alpha_0\alpha_1(1 - \alpha_2)c_2 +
-\alpha_0\alpha_1\alpha_2 c^3\)</span></p>
-<p>We can observe that <span class="math inline">\(c_b\)</span> is the
-sum of <span class="math inline">\(c_i\)</span> multiplied by a series
-of coefficients. can observe that <span
-class="math inline">\(c_i\)</span> is multiplied by:<br />
-</p>
-<p><span class="math inline">\((1 - \alpha_i)(\prod_{k = 0}^{i -1}
-a_k)\)</span><br />
-</p>
-<p>Therefore we can calculate:<br />
+<p>We must show that:<br />
 <span class="math inline">\(c_b = \Sigma_{i = 0}^{+\infty}(1 -
 \alpha_i)(\prod_{k = 0}^{i -1} a_k) c_i\)</span><br />
 </p>
-<h3 id="simplification-for-n-reflections">Simplification for <span
-class="math inline">\(N\)</span> Reflections</h3>
+<p>If we take the iterative formula and take out its first element out
+of the sum we can reformulate:<br />
+<span class="math inline">\(c_b = (1 - \alpha_0)c_0 + \Sigma_{i =
+1}^{+\infty}(1 - \alpha_i)(\prod_{k = 0}^{i -1} a_k) c_i\)</span><br />
+<span class="math inline">\(c_b = (1 - \alpha_0)c_0 + \alpha_0(\Sigma_{i
+= 1}^{+\infty}(1 - \alpha_i)(\prod_{k = 1}^{i -1} a_k)
+c_i)\)</span><br />
+</p>
+<p>We can observe that <span class="math inline">\(c_b\)</span> contains
+the next reflections pixel iterative formula, to clairify this we can
+rename it to <span class="math inline">\(c^0\)</span><br />
+<span class="math inline">\(c^0 = (1 - \alpha_0)c_0 + \alpha_0(\Sigma_{i
+= 1}^{+\infty}(1 - \alpha_i)(\prod_{k = 1}^{i -1} a_k)
+c_i)\)</span><br />
+</p>
+<p>Since the sum within <span class="math inline">\(c^0\)</span> is the
+formula if we were observing the reflection from the first intersection
+therefore we can replace the sum with <span
+class="math inline">\(c^1\)</span> <span class="math inline">\(c^0 = (1
+- \alpha_0)c_0 + \alpha_0 c^1\)</span><br />
+</p>
+<p>Therefore we have obtained the recursive relationship from the
+iterative formula thus showing equivalent. ### Simplification for <span
+class="math inline">\(N\)</span> Reflections</p>
 <p>For N reflections, we can limit our formula to sum up to <span
 class="math inline">\(c_n\)</span>, since <span
 class="math inline">\(c_i\)</span> is the color of the i-th reflected
