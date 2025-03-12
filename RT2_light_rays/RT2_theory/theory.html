@@ -27,6 +27,9 @@
     <style type="text/css">code{white-space: pre;}</style>
     <style type="text/css">.sidebar ul{padding-left: 10px;}</style>
     <link rel="stylesheet" href="icg_report.css" />
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+  type="text/javascript"></script>
   </head>
 
   <body>
@@ -38,19 +41,16 @@
             <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
           </ul>-->
           <ul>
-          <li><a href="#theory-exercise-homework-2-rt2"
-          id="toc-theory-exercise-homework-2-rt2">Theory Exercise
+          <li><a href="#theory-exercise-homework-2-rt2">Theory Exercise
           Homework 2 (RT2)</a>
           <ul>
-          <li><a href="#lighting-and-light-rays"
-          id="toc-lighting-and-light-rays">Lighting and Light Rays</a>
+          <li><a href="#lighting-and-light-rays">Lighting and Light
+          Rays</a>
           <ul>
-          <li><a href="#derivation-of-the-iterative-formula"
-          id="toc-derivation-of-the-iterative-formula">Derivation of the
-          Iterative Formula</a></li>
-          <li><a href="#simplification-for-n-reflections"
-          id="toc-simplification-for-n-reflections">Simplification for
-          <span class="math inline"><em>N</em></span>
+          <li><a href="#derivation-of-the-iterative-formula">Derivation
+          of the Iterative Formula</a></li>
+          <li><a href="#simplification-for-n-reflections">Simplification
+          for <span class="math inline">\(N\)</span>
           Reflections</a></li>
           </ul></li>
           </ul></li>
@@ -63,10 +63,40 @@
 <h2 id="lighting-and-light-rays">Lighting and Light Rays</h2>
 <h3 id="derivation-of-the-iterative-formula">Derivation of the Iterative
 Formula</h3>
-<p>Write your solution here.</p>
+<p>We have established that the iterative formulas as such.<br />
+<span class="math inline">\(c_b = (1 - \alpha_0)c_0 + \alpha_0
+c^1\)</span> <span class="math inline">\(c^i = (1 - \alpha_i)c_i +
+\alpha_i c^{i+1}\)</span></p>
+<p>If we develop out <span class="math inline">\(c_0\)</span> and <span
+class="math inline">\(c_1\)</span> :<br />
+<span class="math inline">\(c_b = (1 - \alpha_0)c_0 + \alpha_0 (1 -
+\alpha_1)c_1 + \alpha_0\alpha_1 c^2\)</span><br />
+</p>
+<p><span class="math inline">\(c_b = (1 - \alpha_0)c_0 + \alpha_0 (1 -
+\alpha_1)c_1 + \alpha_0\alpha_1(1 - \alpha_2)c_2 +
+\alpha_0\alpha_1\alpha_2 c^3\)</span></p>
+<p>We can observe that <span class="math inline">\(c_b\)</span> is the
+sum of <span class="math inline">\(c_i\)</span> multiplied by a series
+of coefficients. can observe that <span
+class="math inline">\(c_i\)</span> is multiplied by:<br />
+</p>
+<p><span class="math inline">\((1 - \alpha_i)(\prod_{k = 0}^{i -1}
+a_k)\)</span><br />
+</p>
+<p>Therefore we can calculate:<br />
+<span class="math inline">\(c_b = \Sigma_{i = 0}^{+\infty}(1 -
+\alpha_i)(\prod_{k = 0}^{i -1} a_k) c_i\)</span><br />
+</p>
 <h3 id="simplification-for-n-reflections">Simplification for <span
-class="math inline"><em>N</em></span> Reflections</h3>
-<p>Write your solution here.</p>
+class="math inline">\(N\)</span> Reflections</h3>
+<p>For N reflections, we can limit our formula to sum up to <span
+class="math inline">\(c_n\)</span>, since <span
+class="math inline">\(c_i\)</span> is the color of the i-th reflected
+pixel giving us.<br />
+</p>
+<p>Therefore we should calculate for N reflections:<br />
+<span class="math inline">\(c_{bn} = \Sigma_{i = 0}^{n}(1 -
+\alpha_i)(\prod_{k = 0}^{i -1} a_k) c_i\)</span></p>
         </div>
       </div>
     </div>
