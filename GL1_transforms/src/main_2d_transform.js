@@ -71,11 +71,11 @@ async function main() {
 		Given vertex attributes, it calculates the position of the vertex on screen
 		and intermediate data ("varying") passed on to the fragment shader
 		*/
-		// moved to ./shaders/vertex.glsl -- see tutorial
+		// moved to ./shaders/GL111_vertex.glsl -- see tutorial
 		// i prefer cause syntax highlighting
 		vert: /*glsl*/
 			await (
-				await fetch('./src/shaders/vertex.glsl')
+				await fetch('./src/shaders/GL111_vertex.glsl')
 			).text(),
 
 		/* 
@@ -83,11 +83,11 @@ async function main() {
 		Calculates the color of each pixel covered by the mesh.
 		The "varying" values are interpolated between the values given by the vertex shader on the vertices of the current triangle.
 		*/
-		// moved to ./shaders/fragment.glsl -- see tutorial
+		// moved to ./shaders/GL111_fragment.glsl -- see tutorial
 		// i prefer cause syntax highlighting
 		frag: /*glsl*/
 			await (
-				await fetch('./src/shaders/fragment.glsl')
+				await fetch('./src/shaders/GL111_fragment.glsl')
 			).text(),
 	})
 
@@ -107,26 +107,15 @@ async function main() {
 			[0, 1, 2],
 		],
 
-		vert: /*glsl*/`
-		// Vertex attributes, specified in the "attributes" entry of the pipeline
-		attribute vec2 position;
-				
-		// Global variables specified in "uniforms" entry of the pipeline
-		uniform mat4 mat_transform;
+		vert: /*glsl*/
+			await(
+				await fetch('./src/shaders/GL112_vertex.glsl')
+			).text(),
 
-		void main() {
-			// #TODO GL1.1.2.1 Edit the vertex shader to apply mat_transform to the vertex position.
-			gl_Position = vec4(position, 0, 1);
-		}`,
-
-		frag: /*glsl*/`
-		precision mediump float;
-		
-		uniform vec3 color;
-
-		void main() {
-			gl_FragColor = vec4(color, 1.); // output: RGBA in 0..1 range
-		}`,
+		frag: /*glsl*/
+			await(
+				await fetch('./src/shaders/GL112_fragment.glsl')
+			).text(),
 
 		// Uniforms: global data available to the shader
 		uniforms: {
@@ -184,10 +173,9 @@ async function main() {
 
 
 		// #TODO GL1.1.1.2 Draw the blue triangle translated by mouse_offset
-
 		draw_triangle_with_offset({
 			mouse_offset: mouse_offset,
-			color: [.063, .477, .688], // #107ab0 a nice blue not that horrible #0000ff
+			color: [0,0,1],
 		});
 
 		/*
@@ -199,15 +187,23 @@ async function main() {
 				* a red triangle spinning at [0.5, 0, 0]
 			You do not have to apply the mouse_offset to them.
 		*/
-		//draw_triangle_with_transform({
-		//	mat_transform: mat_transform,
-		//	color: [0.5, 0.5, 0.5],
-		//});
-
-		//draw_triangle_with_transform({
-		//	mat_transform: mat_transform,
-		//	color: [0.5, 0.5, 0.5],
-		//});
+		
+		mat4.fromTranslation(mat_translation, [0.5, 0, 0])
+		mat4.fromZRotation(mat_rotation, sim_time * 30 * Math.PI / 180)
+		
+		// green orbiting triangle
+		mat4.multiply(mat_transform, mat_rotation, mat_translation)
+		draw_triangle_with_transform({
+			mat_transform: mat_transform,
+			color: [0,1,0],
+		});
+		
+		// red spinning triangle, offset from origin
+		mat4.multiply(mat_transform, mat_translation, mat_rotation)
+		draw_triangle_with_transform({
+			mat_transform: mat_transform,
+			color: [1,0,0],
+		});
 
 		// You can write whatever you need in the debug box
 		debug_text.textContent = `
