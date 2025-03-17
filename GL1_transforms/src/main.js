@@ -9,6 +9,7 @@ import {SystemRenderGrid} from "./icg_grid.js"
 import {SystemRenderFrame} from "./icg_frame.js"
 
 import {create_scene_content, SysOrbitalMovement, SysRenderPlanetsUnshaded} from "./planets.js"
+import { lookAt } from "../lib/gl-matrix_3.3.0/esm/mat4.js"
 
 
 async function load_resources(regl) {
@@ -134,15 +135,21 @@ async function main() {
 		* cam_angle_y - camera ray's angle around the Y axis
 		*/
 
+		const dist = cam_distance_base * cam_distance_factor
 		// Example camera matrix, looking along forward-X, edit this
-		const look_at = mat4.lookAt(mat4.create(), 
-			[-5, 0, 0], // camera position in world coord
+		const not_rotated = mat4.create()
+		const look_at = mat4.lookAt(not_rotated, 
+			[dist, 0, 0], // camera position in world coord
 			[0, 0, 0], // view target point
 			[0, 0, 1], // up vector
-		)
+		) 
+		const yRotation = mat4.create()
+		mat4.fromYRotation(yRotation, -cam_angle_y)
+		const zRotation = mat4.create()
+		mat4.fromZRotation(zRotation, cam_angle_z)
 		// Define proper rotation matrices to compute the final camera position.
 		// Store the transform in mat_turntable.
-		// frame_info.mat_turntable = A * B * ...  // Note: you can use mat4_matmul_many
+		mat4_matmul_many(frame_info.mat_turntable, look_at, yRotation, zRotation)
 	}
 
 	update_cam_transform(frame_info)
