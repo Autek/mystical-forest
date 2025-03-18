@@ -1,4 +1,5 @@
 import {vec2, vec3, vec4, mat3, mat4} from "../lib/gl-matrix_3.3.0/esm/index.js"
+import { fromTranslation } from "../lib/gl-matrix_3.3.0/esm/mat2d.js"
 import {mat4_matmul_many} from "./icg_math.js"
 
 /*
@@ -110,19 +111,46 @@ export class SysOrbitalMovement {
 			scale = actor.size
 			mat4.fromScaling takes a 3D vector!
 		*/
+		
+		/* Transforms for actor */
+		const M_orbit	= mat4.create();
+		const M_local	= mat4.create();
 
-		//const M_orbit = mat4.create();
+		const M_rot		= mat4.create();
+		const M_scale	= mat4.create();
 
+		// Rotation
 		if(actor.orbit !== null) {
 			// Parent's translation
 			const parent = actors_by_name[actor.orbit]
 			const parent_translation_v = mat4.getTranslation([0, 0, 0], parent.mat_model_to_world)
 
-			// Orbit around the parent
+			//Orbit
+			mat4_matmul_many(
+				M_orbit,
+				mat4.fromTranslation(
+					mat4.create(), 
+					parent_translation_v
+				),
+				mat4.fromZRotation(
+					mat4.create(), 
+					sim_time * actor.orbit_speed + actor.orbit_phase
+				),
+				mat4.fromTranslation(
+					mat4.create(), 
+					[actor.orbit_radius, 0., 0.]
+				),
+			)
 		} 
+
+		// Self Rotation
+		mat4.fromZRotation(M_rot, actor.rotation_speed * sim_time)
+
+		// Scale
+		mat4.fromScaling(M_scale, [actor.size, actor.size, actor.size])
 		
-		// Store the combined transform in actor.mat_model_to_world
-		//mat4_matmul_many(actor.mat_model_to_world, ...);
+		// Store the combined transform i-n actor.mat_model_to_world
+		mat4_matmul_many(actor.mat_model_to_world, M_orbit, M_rot, M_scale);
 	}
 
 	simulate(scene_info) {
