@@ -139,12 +139,12 @@ async function main() {
 		// Example camera matrix, looking along forward-X, edit this
 		const not_rotated = mat4.create()
 		const look_at = mat4.lookAt(not_rotated, 
-			[dist, 0, 0], // camera position in world coord
+			[-dist, 0, 0], // camera position in world coord
 			[0, 0, 0], // view target point
 			[0, 0, 1], // up vector
 		) 
 		const yRotation = mat4.create()
-		mat4.fromYRotation(yRotation, -cam_angle_y)
+		mat4.fromYRotation(yRotation, cam_angle_y)
 		const zRotation = mat4.create()
 		mat4.fromZRotation(zRotation, cam_angle_z)
 		// Define proper rotation matrices to compute the final camera position.
