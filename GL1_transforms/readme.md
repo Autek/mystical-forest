@@ -1,8 +1,8 @@
 # Solution Description
 
-To solve those exercises we chose first to split them into 3 equivalent sequential parts.
+To solve these exercises we first chose to split them into 3 equivalent parts.
 At first one of us woked early in the week to finish the first part.
-It took some time to get used with the template and the tutorial,
+It took some time to get used to the template and the tutorial,
 then the tasks where done without issues.
 Later one of the group did the middle part of the tasks.
 Once again, getting used to the template and tuto took some time,
@@ -15,6 +15,6 @@ template, tutorial and course.
 
 Marius Lhôte (346838): 1/3
 
-Name2 Surname2 (000002): 1/3
+Eva Mangano (345375): 1/3
 
 Name3 Surname3 (000003): 1/3
