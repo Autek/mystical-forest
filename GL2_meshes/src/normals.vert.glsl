@@ -14,6 +14,8 @@ uniform mat4 mat_mvp;
 uniform mat4 mat_model_view;
 uniform mat3 mat_normals_to_view;
 
+varying vec3 normal;
+
 void main() {
 
 	/* #TODO GL2.2.1 
@@ -23,5 +25,6 @@ void main() {
 		Transform the normals to camera space.
 	*/
 
+	normal = normalize(mat_normals_to_view * vertex_normal);
 	gl_Position = mat_mvp * vec4(vertex_position, 1);
 }
