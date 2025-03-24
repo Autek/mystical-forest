@@ -6,9 +6,9 @@ precision mediump float;
 	* lighting vector: direction to light
 	* view vector: direction to camera
 */
-//varying ...
-//varying ...
-//varying ...
+varying vec3 normal;
+varying vec3 light;
+varying vec3 view;
 
 uniform vec3 material_color;
 uniform float material_shininess;
