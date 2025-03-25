@@ -22,24 +22,22 @@ function compute_triangle_normals_and_angle_weights(mesh) {
 	const tri_normals   = []
 	const angle_weights = []
 	for(let i_face = 0; i_face < num_faces; i_face++) {
-		const vert1 = get_vert(mesh, mesh.faces[3*i_face + 0])
-		const vert2 = get_vert(mesh, mesh.faces[3*i_face + 1])
-		const vert3 = get_vert(mesh, mesh.faces[3*i_face + 2])
-		
-		// Modify the way triangle normals and angle_weights are computed
-		const e1 = vec3.create();
-		const e2 = vec3.create();
-		const e3 = vec3.create();
-		vec3.sub(e1, vert2, vert1);
-		vec3.sub(e2, vert3, vert1);
-		vec3.sub(e3, vert3, vert2);
-		const a1 = vec3.angle(e1, e2)
-		const a2 = vec3.angle(e2, e3)
-		const a3 = Math.PI - a1 - a2
-		const normal = vec3.create()
-		vec3.cross(normal, e1, e2)
+		const v1 = get_vert(mesh, mesh.faces[3*i_face + 0])
+		const v2 = get_vert(mesh, mesh.faces[3*i_face + 1])
+		const v3 = get_vert(mesh, mesh.faces[3*i_face + 2])
+
+		const e12 = vec3.sub(vec3.create(), v2, v1)
+		const e13 = vec3.sub(vec3.create(), v3, v1)
+		const e23 = vec3.sub(vec3.create(), v3, v2)
+
+		const normal = vec3.cross(vec3.create(), e12, e13)
 		vec3.normalize(normal, normal)
 		tri_normals.push(normal)
+
+		const a1 = vec3.angle(e12, e13)
+		const a2 = vec3.angle(e23, vec3.negate(vec3.create(), e12))
+		const a3 = vec3.angle(e13, e23)
+
 		angle_weights.push([a1, a2, a3])
 	}
 	return [tri_normals, angle_weights]
