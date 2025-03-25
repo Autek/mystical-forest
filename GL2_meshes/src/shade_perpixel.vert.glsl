@@ -40,11 +40,11 @@ void main() {
 	// transform normal to camera coordinates
 	//v2f_normal = normal; // TODO apply normal transformation
 
-	vec4 pos = mat_model_view * vec4(vertex_position, 1.);
+	vec4 pos = - mat_model_view * vec4(vertex_position, 1.);
 
 	normal = normalize(mat_normals_to_view * vertex_normal);
-	light = normalize(light_position - pos.xyz);
-	view = normalize(-pos.xyz);
+	light = normalize(light_position + pos.xyz);
+	view = normalize(pos.xyz);
 
 
 	gl_Position = mat_mvp * vec4(vertex_position, 1.0);

@@ -1,4 +1,4 @@
-precision mediump float;
+precision highp float;
 
 /* #TODO GL2.4
 	Setup the varying values needed to compue the Phong shader:
@@ -16,7 +16,7 @@ uniform vec3 light_color;
 
 void main()
 {
-	float material_ambient = 0.1;
+	float material_ambient = 0.2;
 
 	/*
 	/* #TODO GL2.4: Apply the Blinn-Phong lighting model
@@ -28,18 +28,24 @@ void main()
 	*/
 
 	// Ambient
-	vec3 ambient = light_color * (material_color * material_ambient);
+	vec3 ambient = light_color * material_color * material_ambient;
 
 	// Diffusion
-	float d = max(dot(normal, light) , 0.);
-	vec3 diffuse = light_color * material_color * d;
+	vec3 diffuse = vec3(0.);
+	float dot_diffuse = dot(normal, light);
+	if (dot_diffuse > 0.) {
+		diffuse = light_color * material_color * dot_diffuse;
+	}
 
 	// Specular light
 	vec3 half_v = normalize(light + view);
-	float s = pow(max(dot(normal, half_v), 0.), material_shininess);
-	vec3 specular = light_color * material_color * s;
+	vec3 specular = vec3(0.);
+	float dot_spec = dot(normal, half_v);
+	if (dot_diffuse > 0. && dot_spec > 0.) {
+		specular = light_color * material_color * pow(dot_spec, material_shininess);
+	}
 
-	vec3 color = ambient + diffuse + specular;
+	vec3 color = diffuse + ambient + specular;
 	
 	gl_FragColor = vec4(color, 1.); // output: RGBA in 0..1 range
 }
