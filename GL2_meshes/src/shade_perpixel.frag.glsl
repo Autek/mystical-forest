@@ -16,7 +16,7 @@ uniform vec3 light_color;
 
 void main()
 {
-	float material_ambient = 0.2;
+	float material_ambient = 0.1;
 
 	/*
 	/* #TODO GL2.4: Apply the Blinn-Phong lighting model
