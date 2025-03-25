@@ -1,4 +1,4 @@
-precision highp float;
+precision mediump float;
 
 /* #TODO GL2.4
 	Setup the varying values needed to compue the Phong shader:
@@ -26,26 +26,22 @@ void main()
 
 	Make sure to normalize values which may have been affected by interpolation!
 	*/
+	vec3 normal = normalize(normal);
+	vec3 light = normalize(light);
+	vec3 view = normalize(view);
 
-	// Ambient
-	vec3 ambient = light_color * material_color * material_ambient;
-
-	// Diffusion
-	vec3 diffuse = vec3(0.);
-	float dot_diffuse = dot(normal, light);
-	if (dot_diffuse > 0.) {
-		diffuse = light_color * material_color * dot_diffuse;
-	}
-
-	// Specular light
-	vec3 half_v = normalize(light + view);
-	vec3 specular = vec3(0.);
-	float dot_spec = dot(normal, half_v);
-	if (dot_diffuse > 0. && dot_spec > 0.) {
-		specular = light_color * material_color * pow(dot_spec, material_shininess);
-	}
-
-	vec3 color = diffuse + ambient + specular;
+	vec3 half_vector = normalize(light + view); // halfway vector light/view dir
+	
+	vec3 ambient = light_color * (material_color * material_ambient);
+	
+	float diff = max(dot(normal, light), 0.0);
+	vec3 diffuse = light_color * material_color * diff;
+	
+	float spec = pow(max(dot(normal, half_vector), 0.0), material_shininess);
+	spec *= step(0.0, diff);	// only if positive
+	vec3 specular = light_color * material_color * spec;
+	
+	vec3 color = ambient + diffuse + specular;
 	
 	gl_FragColor = vec4(color, 1.); // output: RGBA in 0..1 range
 }
