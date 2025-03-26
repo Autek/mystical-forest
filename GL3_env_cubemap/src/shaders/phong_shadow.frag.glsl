@@ -51,25 +51,32 @@ void main() {
 
 	Make sure to normalize values which may have been affected by interpolation!
 	*/
-	vec3 normal = normalize(normal);
 
-	vec3 not_normalised_light = light_position - position.xyz;
-
-	vec3 light = normalize(not_normalised_light);
-	vec3 view = normalize(- position.xyz);
-
-	vec3 half_vector = normalize(light + view); // halfway vector light/view dir
+	vec3 not_normalized_light = light_position - position.xyz;
 	
 	vec3 ambient = light_color * (material_color * material_ambient);
+	vec3 color = ambient;	
 	
-	float diff = max(dot(normal, light), 0.0);
+	float closest_dist = textureCube(cube_shadowmap, -not_normalized_light).r;
+	float squared_dist = dot(not_normalized_light, not_normalized_light);
+	//shadowed
+	if (squared_dist > closest_dist * closest_dist * 1.0201) {
+		gl_FragColor = vec4(color, 1.);
+		return;
+	}
+
+	vec3 normalized_normal = normalize(normal);
+	vec3 light = normalize(not_normalized_light);
+	float diff = max(dot(normalized_normal, light), 0.0);
 	vec3 diffuse = light_color * material_color * diff;
 	
-	float spec = pow(max(dot(normal, half_vector), 0.0), material_shininess);
+	vec3 view = normalize(-position.xyz);
+	vec3 half_vector = normalize(light + view); // halfway vector light/view dir
+	float spec = pow(max(dot(normalized_normal, half_vector), 0.0), material_shininess);
 	spec *= step(0.0, diff);	// only if positive
 	vec3 specular = light_color * material_color * spec;
-	
-	float inv_dist = 1.0 / dot(not_normalised_light, not_normalised_light);
-	vec3 color = ambient + (diffuse + specular) * inv_dist;
-	gl_FragColor = vec4(color, 1.); // output: RGBA in 0..1 range
+
+	float inv_squared_dist = 1.0 / squared_dist;
+	color += (diffuse + specular) * inv_squared_dist;
+	gl_FragColor = vec4(color, 1.);
 }
