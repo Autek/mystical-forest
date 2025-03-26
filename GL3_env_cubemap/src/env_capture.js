@@ -113,13 +113,14 @@ export class EnvironmentCapture {
 		and when `side_idx = 5`, we should return the -z one.
 	*/
 
+	// computed to be "up" from its corresponding CUBE_FACE_DIR coordinate
 	static CUBE_FACE_UP = [
+		[0, -1, 0],
+		[0, -1, 0],
 		[0, 0, 1],
-		[0, 0, 1],
-		[0, 0, 1],
-		[0, 0, 1],
-		[0, 0, 1],
-		[0, 0, 1],
+		[0, 0, -1],
+		[0, -1, 0],
+		[0, -1, 0],
 	]
 
 	cube_camera_view(side_idx, center, mat_view_camera) {
