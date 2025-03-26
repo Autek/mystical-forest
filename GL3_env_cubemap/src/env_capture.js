@@ -83,7 +83,13 @@ export class EnvironmentCapture {
 			Note: this is the same for all point lights/cube faces!
 		*/
 		// please use mat4.perspective(mat4.create(), fovy, aspect, near, far);
-		this.cube_camera_projection = mat4.create()
+		var fovy = Math.PI/2;	// 90 degrees
+		var aspect = 1.;	// square
+		var near = .1;
+		var far = 200.;
+		this.cube_camera_projection = mat4.perspective(
+			mat4.create(), fovy, aspect, near, far
+		)
 
 		this.run_with_output_framebuffer = regl({
 			framebuffer: regl.prop('out_buffer'),
