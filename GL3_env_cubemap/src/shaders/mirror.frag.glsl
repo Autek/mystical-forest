@@ -17,8 +17,6 @@ void main()
 	Calculate the reflected ray direction R and use it to sample the environment map.
 	Pass the resulting color as output.
 	*/
-	
-	//vec4 alt = textureCube(cube_env_map, v2f_dir_to_cam);
 
 	vec3 space= v2f_dir_to_camera - dot(v2f_dir_to_camera, v2f_normal) * v2f_normal;
 	vec3 reflect = normalize(v2f_dir_to_camera - 2. * space);
