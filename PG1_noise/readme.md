@@ -4,8 +4,8 @@ TODO: add a brief description (approximately 10 to 20 lines) of how you solved t
 
 # Contributions
 
-Name1 Surname1 (000001): 1/3
+Marius Lhôte (346838): 1/3
 
-Name2 Surname2 (000002): 1/3
+Eva Mangano (345375): 1/3
 
-Name3 Surname3 (000003): 1/3
+Alonso Coaguila (339718): 1/3
