@@ -1,6 +1,8 @@
 # Solution Description
 
-TODO: add a brief description (approximately 10 to 20 lines) of how you solved the proposed exercises
+Task 2.1: Implemented 1D Perlin noise by looking up gradients in hash table at neighboring grid points, evaluating their contributions, and interpolating smoothly using a blending polynomial.
+
+Task 3.1: Implemented 1D fBm by summing multiple octaves of Perlin noise at increasing frequencies and decreasing amplitudes to create layered, natural-looking noise.
 
 # Contributions
 
