@@ -109,15 +109,22 @@ async function main() {
 		* cam_target - the point we orbit around
 		*/
 
-		// Example camera matrix, looking along forward-X, edit this
-		const look_at = mat4.lookAt(mat4.create(),
-			[-5, 0, 0], // camera position in world coord
+		/* TODO GL3.0
+		Copy turntable camera from GL2
+		*/
+
+		const dist = cam_distance_base * cam_distance_factor
+		const not_rotated = mat4.create()
+		const look_at = mat4.lookAt(not_rotated, 
+			[-dist, 0, 0], // camera position in world coord
 			[0, 0, 0], // view target point
 			[0, 0, 1], // up vector
-		)
-		// Store the combined transform in mat_turntable
-		// mat_turntable = A * B * ...
-		mat4_matmul_many(mat_turntable, look_at) // edit this
+		) 
+		const yRotation = mat4.create()
+		mat4.fromYRotation(yRotation, cam_angle_y)
+		const zRotation = mat4.create()
+		mat4.fromZRotation(zRotation, cam_angle_z)
+		mat4_matmul_many(mat_turntable, look_at, yRotation, zRotation)
 	}
 
 	update_cam_transform()
