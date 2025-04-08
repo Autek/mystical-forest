@@ -167,10 +167,10 @@ float perlin_noise(vec2 point) {
 		}
 	}
 
-	float st = mix(sutv[0], sutv[2], blending_weight_poly(point.x));
-	float uv = mix(sutv[1], sutv[3], blending_weight_poly(point.x));
+	float st = mix(sutv[0], sutv[2], blending_weight_poly(point.x - floor_corn.x));
+	float uv = mix(sutv[1], sutv[3], blending_weight_poly(point.x - floor_corn.x));
 
-	float noise = mix(st, uv, blending_weight_poly(point.y));
+	float noise = mix(st, uv, blending_weight_poly(point.y - floor_corn.y));
 
 	return noise;
 }
