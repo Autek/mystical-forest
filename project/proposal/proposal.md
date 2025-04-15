@@ -12,7 +12,7 @@ title: Project Proposal CS-341 2025
 TODO
 
 
-## Featuress
+## Features
 
 | Feature          | Points | Adapted Points |
 |------------------|--------|----------------|
