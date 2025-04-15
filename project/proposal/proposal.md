@@ -14,7 +14,7 @@ In Mystical Forest, we aim to create a foggy, enchanted forest with a calming fi
 We will add fire particles, procedural textures for various assets, and a bloom effect. We want to achieve convincing fog, integrate multiple effects, and maintaining performance.
 
 
-## Featuress
+## Features
 
 | Feature                              | Points | Adapted Points |
 |--------------------------------------|--------|----------------|
@@ -54,9 +54,9 @@ As we are above the points limit (55pts), we might let go of the bloom task if w
 	</tr>
 	<tr>
 		<td>Week 3</td>
-		<td>Scene<br> Particle effects for fire</td>	<!-- marius -->
+		<td>Particle effects for fire<br> (Scene)</td>	<!-- marius -->
 		<td>Scene<br> Fog</td>	<!-- alonso -->
-		<td>Scene<br> Ambient occlusion</td>	<!-- charlie -->
+		<td>Ambient occlusion<br> (Scene)</td>	<!-- charlie -->
 	</tr>
 	<tr>
 		<td>Week 4</td>
