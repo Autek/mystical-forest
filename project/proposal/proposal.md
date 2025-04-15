@@ -4,14 +4,14 @@ title: Project Proposal CS-341 2025
 
 # Mystical Forest
 
-![A representative image](images/general_idea.png){width="300px"}
+![Mystical Forest with fog, fireflies, fire and trees](images/general_idea.png){width="500px"}
 
 
 ## Abstract
 
-In Mystical Forest, we aim to create a foggy, enchanted forest with a calming fire. Our goal is to reproduce visual effects like dynamic fog, glowing fire particles, ambient occlusion, and trees using L-Systems for Procedural Scene Generation.
+In Mystical Forest, we aim to create a foggy, enchanted forest with a calming fire. Our goal is to reproduce visual effects like fog, glowing fire particles, ambient occlusion, and trees.
 
-We will add fire particles, L-Systems for Procedural Scene Generation for trees, and a bloom effect. We want to achieve convincing fog, integrate multiple effects, and maintaining performance.
+We will add particles effects and bloom for fire and firelights, L-systems generation for trees, fog and ambient occlusion. 
 
 
 ## Features
@@ -26,9 +26,9 @@ We will add fire particles, L-Systems for Procedural Scene Generation for trees,
 
 
 ## Schedule
-We decided to split the work by tasks. Each task is assigned to only one member of the team. This doesn't exclude the possibility of reworking this schedule if our time estimates are wrong (or if we decide to change the tasks we are implementing).  
+We decided to split the work by tasks. Each task is assigned to only one member of the team. This doesn't exclude the possibility of reworking this schedule if our time estimates are wrong.  
 We want to have finished **crafting the scene**, applied the **basic effects from earlier homeworks** and finished the **fog** by the end of week 4, for the milestone submission.  
-As we are above the points limit (55pts), we might let go of the bloom task if we see that we are running out of time, so as to redispatch the workload.
+As we are above the points limit (60pts), we might let go of the bloom task if we see that we are running out of time, so as to redispatch the workload and the points.
 
 <table>
 	<tr>
@@ -54,14 +54,14 @@ As we are above the points limit (55pts), we might let go of the bloom task if w
 	</tr>
 	<tr>
 		<td>Week 3</td>
-		<td>Particle effects for fire<br> (Scene)</td>	<!-- marius -->
-		<td>Scene<br> Fog</td>	<!-- alonso -->
-		<td>Ambient occlusion<br> (Scene)</td>	<!-- charlie -->
+		<td>Particle effects for fire</td>	<!-- marius -->
+		<td>Fog</td>	<!-- alonso -->
+		<td>Ambient occlusion</td>	<!-- charlie -->
 	</tr>
 	<tr>
 		<td>Week 4</td>
 		<td>Particle effects <i>(cont'd)</i><br> Milestone report</td>	<!-- marius -->
-		<td>Fog <i>(cont'd)</i><br> Procedural textures for bark<br> Milestone report</td>	<!-- alonso -->
+		<td>Fog <i>(cont'd)</i><br> L-Systems for trees<br> Milestone report</td>	<!-- alonso -->
 		<td>Ambient occlusion <i>(cont'd)</i><br> Milestone report</td>	<!-- charlie -->
 	</tr>
 	<tr style="background-color: #f9f9f9;">
@@ -70,13 +70,13 @@ As we are above the points limit (55pts), we might let go of the bloom task if w
 	<tr>
 		<td>Week 5</td>
 		<td>Particle effects <i>(cont'd)</i></td>	<!-- marius -->
-		<td>Procedural textures for bark <i>(cont'd)</i></td>	<!-- alonso -->
+		<td>L-Systems for trees <i>(cont'd)</i></td>	<!-- alonso -->
 		<td>Ambient occlusion <i>(cont'd)</i></td>	<!-- charlie -->
 	</tr>
 	<tr>
 		<td>Week 6</td>
 		<td>Particle effects <i>(cont'd)</i></td>	<!-- marius -->
-		<td>Bloom for firelights and fire</td>	<!-- alonso -->
+		<td>L-Systems for trees <i>(cont'd)</i><br> Bloom for firelights and fire</td>	<!-- alonso -->
 		<td>Ambient occlusion <i>(cont'd)</i></td>	<!-- charlie -->
 	</tr>
 	<tr>
