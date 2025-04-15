@@ -4,23 +4,25 @@ title: Project Proposal CS-341 2025
 
 # Mystical Forest
 
-![A representative image](images/demo.jpg){width="300px"}
+![A representative image](images/general_idea.png){width="300px"}
 
 
 ## Abstract
 
-TODO
+In Mystical Forest, we aim to create a foggy, enchanted forest with a calming fire. Our goal is to reproduce visual effects like dynamic fog, glowing fire particles, ambient occlusion, and procedurally generated textures.
+
+We will add fire particles, procedural textures for various assets, and a bloom effect. We want to achieve convincing fog, integrate multiple effects, and maintaining performance.
 
 
 ## Featuress
 
-| Feature          | Points | Adapted Points |
-|------------------|--------|----------------|
-| Feature 1        | 5      | 5              |
-| Feature 2        | 10     | 5              |
-| Feature 3        | 10     | 10             |
-| Feature 4        | 20     | 10             |
-| Feature 5        | 20     | 20             |
+| Feature                              | Points | Adapted Points |
+|--------------------------------------|--------|----------------|
+| Ambient Occlusion                    | 20     | 17             |
+| Particle Effects                     | 20     | 17             |
+| Fog                                  | 5      | 4              |
+| Procedural Texture Generation        | 10     | 8              |
+| Bloom                                | 5      | 4              |
 
 
 ## Schedule
