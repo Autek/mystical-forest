@@ -38,13 +38,12 @@
             <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
           </ul>-->
           <ul>
-          <li><a href="#mystical-forest"
-          id="toc-mystical-forest">Mystical Forest</a>
+          <li><a href="#mystical-forest">Mystical Forest</a>
           <ul>
-          <li><a href="#abstract" id="toc-abstract">Abstract</a></li>
-          <li><a href="#features" id="toc-features">Features</a></li>
-          <li><a href="#schedule" id="toc-schedule">Schedule</a></li>
-          <li><a href="#resources" id="toc-resources">Resources</a></li>
+          <li><a href="#abstract">Abstract</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#schedule">Schedule</a></li>
+          <li><a href="#resources">Resources</a></li>
           </ul></li>
           </ul>
         </div>
@@ -52,18 +51,17 @@
         
 <h1 id="mystical-forest">Mystical Forest</h1>
 <figure>
-<img src="images/general_idea.png" width="300"
-alt="A representative image" />
-<figcaption aria-hidden="true">A representative image</figcaption>
+<img src="images/general_idea.png" width="500"
+alt="Mystical Forest with fog, fireflies, fire and trees" />
+<figcaption aria-hidden="true">Mystical Forest with fog, fireflies, fire
+and trees</figcaption>
 </figure>
 <h2 id="abstract">Abstract</h2>
 <p>In Mystical Forest, we aim to create a foggy, enchanted forest with a
-calming fire. Our goal is to reproduce visual effects like dynamic fog,
-glowing fire particles, ambient occlusion, and trees using L-Systems for
-Procedural Scene Generation.</p>
-<p>We will add fire particles, L-Systems for Procedural Scene Generation
-for trees, and a bloom effect. We want to achieve convincing fog,
-integrate multiple effects, and maintaining performance.</p>
+calming fire. Our goal is to reproduce visual effects like fog, glowing
+fire particles, ambient occlusion, and trees.</p>
+<p>We will add particles effects and bloom for fire and firelights,
+L-systems generation for trees, fog and ambient occlusion.</p>
 <h2 id="features">Features</h2>
 <table>
 <colgroup>
@@ -109,15 +107,14 @@ integrate multiple effects, and maintaining performance.</p>
 <h2 id="schedule">Schedule</h2>
 <p>We decided to split the work by tasks. Each task is assigned to only
 one member of the team. This doesn’t exclude the possibility of
-reworking this schedule if our time estimates are wrong (or if we decide
-to change the tasks we are implementing).<br />
+reworking this schedule if our time estimates are wrong.<br />
 We want to have finished <strong>crafting the scene</strong>, applied
 the <strong>basic effects from earlier homeworks</strong> and finished
 the <strong>fog</strong> by the end of week 4, for the milestone
 submission.<br />
-As we are above the points limit (55pts), we might let go of the bloom
+As we are above the points limit (60pts), we might let go of the bloom
 task if we see that we are running out of time, so as to redispatch the
-workload.</p>
+workload and the points.</p>
 <table>
 <tr>
 <th style="width: 11%">
@@ -176,15 +173,15 @@ Week 2
 Week 3
 </td>
 <td>
-Particle effects for fire<br> (Scene)
+Particle effects for fire
 </td>
 <!-- marius -->
 <td>
-Scene<br> Fog
+Fog
 </td>
 <!-- alonso -->
 <td>
-Ambient occlusion<br> (Scene)
+Ambient occlusion
 </td>
 <!-- charlie -->
 </tr>
@@ -197,8 +194,7 @@ Particle effects <i>(cont’d)</i><br> Milestone report
 </td>
 <!-- marius -->
 <td>
-Fog <i>(cont’d)</i><br> Procedural textures for bark<br> Milestone
-report
+Fog <i>(cont’d)</i><br> L-Systems for trees<br> Milestone report
 </td>
 <!-- alonso -->
 <td>
@@ -220,7 +216,7 @@ Particle effects <i>(cont’d)</i>
 </td>
 <!-- marius -->
 <td>
-Procedural textures for bark <i>(cont’d)</i>
+L-Systems for trees <i>(cont’d)</i>
 </td>
 <!-- alonso -->
 <td>
@@ -237,7 +233,7 @@ Particle effects <i>(cont’d)</i>
 </td>
 <!-- marius -->
 <td>
-Bloom for firelights and fire
+L-Systems for trees <i>(cont’d)</i><br> Bloom for firelights and fire
 </td>
 <!-- alonso -->
 <td>
@@ -269,7 +265,56 @@ Video and Report
 </tr>
 </table>
 <h2 id="resources">Resources</h2>
-<p>TODO</p>
+<h4 id="screen-space-ambient-occlusion">Screen-Space Ambient
+Occlusion</h4>
+<ul>
+<li><a href="https://learnopengl.com/Advanced-Lighting/SSAO">Joey
+DeVries (2015) <em>Advanced Lighting: SSAO</em></a></li>
+<li><a
+href="https://medium.com/better-programming/depth-only-ssao-for-forward-renderers-1a3dcfa1873a">Arijit
+Nandi (2023) <em>Depth-Only Screen Space Ambient Occlusion (SSAO) for
+Forward Renderers</em></a></li>
+<li><a
+href="https://www.researchgate.net/publication/228576448_Screen_Space_Ambient_Occlusion">Bavoil,
+L. Sainz, M (2008) <em>Screen Space Ambient Occlusion</em></a></li>
+</ul>
+<h4 id="particle-effects">Particle Effects</h4>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=5k-8ltGNUXk">MographPlus
+(2017) <em>Tutorial No.62 : Rendering realistic Explosion and Smoke in
+Arnold for 3ds Max (Arnold Volume)</em></a></li>
+<li><a href="https://www.youtube.com/watch?v=pzAZ0xjWDv8">OGLDEV (2025)
+Particle System Using The Compute Shader // Intermediate OpenGL
+Series</a></li>
+</ul>
+<h4 id="fog">Fog</h4>
+<ul>
+<li><a href="https://youtu.be/BYbIs1C7rkM?feature=shared">OGLDEV (2022)
+<em>Mastering Fog Rendering in OpenGL: Adding Depth and Atmosphere to
+Your Graphics (part 2/2)</em></a></li>
+<li><a href="https://dl.acm.org/doi/pdf/10.1145/280953.282233">Legakis,
+J. (1998) <em>Fast Multi Layer Fog</em> (SIGGRAPH ’98: ACM SIGGRAPH
+98)</a></li>
+</ul>
+<h4 id="l-systems-for-procedural-scene-generation">L-Systems for
+Procedural Scene Generation</h4>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=feNVBEPXAcE">SimonDev
+(2020) <em>Procedural Plant Generation with L-Systems</em></a></li>
+<li><a
+href="https://algorithmicbotany.org/papers/modeling-plant-development-with-l-systems.pdf">P.
+Prusinkiewicz, M. Cieslak, P. Ferraro, J. Hanan (2018) <em>Modeling
+Plant Development with L-Systems</em></a></li>
+</ul>
+<h4 id="bloom">Bloom</h4>
+<ul>
+<li><a href="https://learnopengl.com/Advanced-Lighting/Bloom">Joey
+DeVries (2015) <em>Advanced Lighting: Bloom</em></a></li>
+<li><a href="https://www.youtube.com/watch?v=SqvPzbvfZEs">3Angle (2024)
+<em>WebGL Game Part 19 - Bloom Effect</em></a></li>
+<li><a href="https://www.youtube.com/watch?v=tI70-HIc5ro">The Cherno
+(2021) <em>Bloom.</em></a></li>
+</ul>
         </div>
       </div>
     </div>

@@ -4,14 +4,14 @@ title: Project Proposal CS-341 2025
 
 # Mystical Forest
 
-![A representative image](images/general_idea.png){width="300px"}
+![Mystical Forest with fog, fireflies, fire and trees](images/general_idea.png){width="500px"}
 
 
 ## Abstract
 
-In Mystical Forest, we aim to create a foggy, enchanted forest with a calming fire. Our goal is to reproduce visual effects like dynamic fog, glowing fire particles, ambient occlusion, and trees using L-Systems for Procedural Scene Generation.
+In Mystical Forest, we aim to create a foggy, enchanted forest with a calming fire. Our goal is to reproduce visual effects like fog, glowing fire particles, ambient occlusion, and trees.
 
-We will add fire particles, L-Systems for Procedural Scene Generation for trees, and a bloom effect. We want to achieve convincing fog, integrate multiple effects, and maintaining performance.
+We will add particles effects and bloom for fire and firelights, L-systems generation for trees, fog and ambient occlusion. 
 
 
 ## Features
@@ -26,9 +26,9 @@ We will add fire particles, L-Systems for Procedural Scene Generation for trees,
 
 
 ## Schedule
-We decided to split the work by tasks. Each task is assigned to only one member of the team. This doesn't exclude the possibility of reworking this schedule if our time estimates are wrong (or if we decide to change the tasks we are implementing).  
+We decided to split the work by tasks. Each task is assigned to only one member of the team. This doesn't exclude the possibility of reworking this schedule if our time estimates are wrong.  
 We want to have finished **crafting the scene**, applied the **basic effects from earlier homeworks** and finished the **fog** by the end of week 4, for the milestone submission.  
-As we are above the points limit (55pts), we might let go of the bloom task if we see that we are running out of time, so as to redispatch the workload.
+As we are above the points limit (60pts), we might let go of the bloom task if we see that we are running out of time, so as to redispatch the workload and the points.
 
 <table>
 	<tr>
@@ -54,14 +54,14 @@ As we are above the points limit (55pts), we might let go of the bloom task if w
 	</tr>
 	<tr>
 		<td>Week 3</td>
-		<td>Particle effects for fire<br> (Scene)</td>	<!-- marius -->
-		<td>Scene<br> Fog</td>	<!-- alonso -->
-		<td>Ambient occlusion<br> (Scene)</td>	<!-- charlie -->
+		<td>Particle effects for fire</td>	<!-- marius -->
+		<td>Fog</td>	<!-- alonso -->
+		<td>Ambient occlusion</td>	<!-- charlie -->
 	</tr>
 	<tr>
 		<td>Week 4</td>
 		<td>Particle effects <i>(cont'd)</i><br> Milestone report</td>	<!-- marius -->
-		<td>Fog <i>(cont'd)</i><br> Procedural textures for bark<br> Milestone report</td>	<!-- alonso -->
+		<td>Fog <i>(cont'd)</i><br> L-Systems for trees<br> Milestone report</td>	<!-- alonso -->
 		<td>Ambient occlusion <i>(cont'd)</i><br> Milestone report</td>	<!-- charlie -->
 	</tr>
 	<tr style="background-color: #f9f9f9;">
@@ -70,13 +70,13 @@ As we are above the points limit (55pts), we might let go of the bloom task if w
 	<tr>
 		<td>Week 5</td>
 		<td>Particle effects <i>(cont'd)</i></td>	<!-- marius -->
-		<td>Procedural textures for bark <i>(cont'd)</i></td>	<!-- alonso -->
+		<td>L-Systems for trees <i>(cont'd)</i></td>	<!-- alonso -->
 		<td>Ambient occlusion <i>(cont'd)</i></td>	<!-- charlie -->
 	</tr>
 	<tr>
 		<td>Week 6</td>
 		<td>Particle effects <i>(cont'd)</i></td>	<!-- marius -->
-		<td>Bloom for firelights and fire</td>	<!-- alonso -->
+		<td>L-Systems for trees <i>(cont'd)</i><br> Bloom for firelights and fire</td>	<!-- alonso -->
 		<td>Ambient occlusion <i>(cont'd)</i></td>	<!-- charlie -->
 	</tr>
 	<tr>
@@ -93,5 +93,24 @@ As we are above the points limit (55pts), we might let go of the bloom task if w
 
 ## Resources
 
-TODO
+#### Screen-Space Ambient Occlusion
+- [Joey DeVries (2015) *Advanced Lighting: SSAO*](https://learnopengl.com/Advanced-Lighting/SSAO)
+- [Arijit Nandi (2023) *Depth-Only Screen Space Ambient Occlusion (SSAO) for Forward Renderers*](https://medium.com/better-programming/depth-only-ssao-for-forward-renderers-1a3dcfa1873a)
+- [Bavoil, L. Sainz, M (2008) *Screen Space Ambient Occlusion*](https://www.researchgate.net/publication/228576448_Screen_Space_Ambient_Occlusion)
 
+#### Particle Effects
+- [MographPlus (2017) *Tutorial No.62 : Rendering realistic Explosion and Smoke in Arnold for 3ds Max (Arnold Volume)*](https://www.youtube.com/watch?v=5k-8ltGNUXk)
+- [OGLDEV (2025) Particle System Using The Compute Shader // Intermediate OpenGL Series](https://www.youtube.com/watch?v=pzAZ0xjWDv8)
+
+#### Fog
+- [OGLDEV (2022) *Mastering Fog Rendering in OpenGL: Adding Depth and Atmosphere to Your Graphics (part 2/2)*](https://youtu.be/BYbIs1C7rkM?feature=shared)
+- [Legakis, J. (1998) *Fast Multi Layer Fog* (SIGGRAPH '98: ACM SIGGRAPH 98)](https://dl.acm.org/doi/pdf/10.1145/280953.282233)
+
+#### L-Systems for Procedural Scene Generation
+- [SimonDev (2020) *Procedural Plant Generation with L-Systems*](https://www.youtube.com/watch?v=feNVBEPXAcE)
+- [P. Prusinkiewicz, M. Cieslak, P. Ferraro, J. Hanan (2018) *Modeling Plant Development with L-Systems*](https://algorithmicbotany.org/papers/modeling-plant-development-with-l-systems.pdf)
+
+#### Bloom
+- [Joey DeVries (2015) *Advanced Lighting: Bloom*](https://learnopengl.com/Advanced-Lighting/Bloom)
+- [3Angle (2024) *WebGL Game Part 19 - Bloom Effect*](https://www.youtube.com/watch?v=SqvPzbvfZEs)
+- [The Cherno (2021) *Bloom.*](https://www.youtube.com/watch?v=tI70-HIc5ro)
