@@ -31,12 +31,33 @@ export class TutorialScene extends Scene {
    */
   initialize_scene(){
 
-    // TODO
+    const suzanne = {
+      translation: [0, 0, 0], 
+      scale: [1., 1., 1.], 
+      mesh_reference: 'suzanne.obj', 
+      material: MATERIALS.mirror
+    };
+    this.objects.push(suzanne);
+    this.actors['suzanne'] = suzanne;
 
+    const sphere_env_map = {
+      translation: [0, 0, 0],
+      scale: [80., 80., 80.],
+      mesh_reference: 'mesh_sphere_env_map', 
+      material: MATERIALS.sunset_sky
+    };
+    this.resource_manager.add_procedural_mesh("mesh_sphere_env_map", cg_mesh_make_uv_sphere(16))
+    this.objects.push(sphere_env_map);
+    
     this.lights.push({
-      position : [0.0 , -2.0, 2.5],
+      position : [0.0 , -2.0, 2.0], // [left/right, front/back up/down]
       color: [1.0, 1.0, 0.9]
     });
+
+    // this.lights.push({
+    //   position : [0.0 , -2.0, 2.5],
+    //   color: [1.0, 1.0, 0.9]
+    // });
 
   }
 
@@ -45,7 +66,18 @@ export class TutorialScene extends Scene {
    */
   initialize_actor_actions(){
 
-    // TODO
+    const suzanne = this.actors['suzanne'];
+    this.phase = 0;
+
+    suzanne.evolve = (dt) => {
+      const f = 2;
+      this.phase += dt * Math.PI * 2 * f;
+      this.phase %= 2 * Math.PI;
+
+      const grow = 1;
+      const new_scale = 1 + Math.cos(this.phase) * grow;
+      suzanne.scale = [new_scale, new_scale, new_scale];
+    }
 
   }
 
