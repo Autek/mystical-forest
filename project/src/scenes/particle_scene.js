@@ -29,9 +29,9 @@ export class ParticleScene extends Scene {
 
     const fireEmitter = new ParticleEmitter({
       position: [0., 0., 0.], 
-      maxParticles: 500,
+      maxParticles: 50000,
       color: [1.0, 0.5, 0.0, 1.0],
-      emissionRate: 30, // per second
+      emissionRate: 3000, // per second
     });
     this.particle_emitters.push(fireEmitter);
     this.actors["fire"] = fireEmitter;

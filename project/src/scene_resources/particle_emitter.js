@@ -59,15 +59,15 @@ export class ParticleEmitter {
     // Add randomness to position for a volume effect
     p.position = [
       this.position[0] + (Math.random() - 0.5) * 2.0,  // Increased horizontal spread
+      this.position[2] + (Math.random() - 0.5) * 2.0,   // Increased depth spread
       this.position[1],
-      this.position[2] + (Math.random() - 0.5) * 2.0   // Increased depth spread
     ];
 
     // More varied velocities
     p.velocity = [
       (Math.random() - 0.5) * 1.0,   // Wider lateral motion
+      (Math.random() - 0.5) * 1.0,    // Wider depth motion
       Math.random() * 2.0 + 1.0,     // Stronger upward motion
-      (Math.random() - 0.5) * 1.0    // Wider depth motion
     ];
     
     const t = Math.random();
@@ -75,13 +75,13 @@ export class ParticleEmitter {
     // Varied colors for a more realistic fire
     p.color = [
       1.0,                      // red stays max
-      0.3 + 0.7 * (1 - t),      // varied green
+      0.3 + 0.7 * t,            // varied green
       0.0,                      // no blue for fire
       1.0                       // start fully opaque
     ];
 
     // Varied sizes
-    p.size = Math.random() * 1.5 + 0.5;
+    p.size = Math.random() * 0.15 + 0.05;
     
     // Random life duration between 1.5 and 3.0 seconds
     p.life = Math.random() * 1.5 + 1.5;

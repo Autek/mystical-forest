@@ -1,13 +1,6 @@
 import { ShaderRenderer } from "./shader_renderer.js";
 
-
 export class ParticleShaderRenderer extends ShaderRenderer {
-
-    /**
-     * Its render function is used to render particles
-     * @param {*} regl 
-     * @param {ResourceManager} resource_manager 
-     */
     constructor(regl, resource_manager){
         super(
             regl, 
@@ -16,7 +9,7 @@ export class ParticleShaderRenderer extends ShaderRenderer {
             `particles.frag.glsl`
         );
 
-        this.maxParticles = 1000;
+        this.maxParticles = 50000;
 
         this.quadBuffer = regl.buffer([
             [-0.5, -0.5],
@@ -54,50 +47,74 @@ export class ParticleShaderRenderer extends ShaderRenderer {
                 enable: true,
                 func: {
                     src: 'src alpha',
-                    dst: 'one'
+                    dst: 'one minus src alpha'
                 }
             }
         });
     }
 
-    /**
-     * Render all particles.
-     * @param {*} scene_state 
-     */
     render(scene_state) {
         const scene = scene_state.scene;
+        const camPos = scene.camera.position;
 
-        // Buffers to collect all particle data
-        const positions = new Float32Array(this.maxParticles * 4); // [x, y, z, size]
-        const colors = new Uint8Array(this.maxParticles * 4);      // [r, g, b, a]
+        const positions = new Float32Array(this.maxParticles * 4);
+        const colors = new Uint8Array(this.maxParticles * 4);
         let aliveCount = 0;
 
         for (const emitter of scene.particle_emitters) {
-            // Export particles from emitter directly into the buffers
-            aliveCount += emitter.exportParticles(positions, colors, aliveCount); 
+            aliveCount += emitter.exportParticles(positions, colors, aliveCount);
         }
 
-        // Push to GPU
+        // Create sortable particle records
+        const particles = [];
+        for (let i = 0; i < aliveCount; i++) {
+            const i4 = i * 4;
+            const x = positions[i4];
+            const y = positions[i4 + 1];
+            const z = positions[i4 + 2];
+            const size = positions[i4 + 3];
+            const r = colors[i4];
+            const g = colors[i4 + 1];
+            const b = colors[i4 + 2];
+            const a = colors[i4 + 3];
+
+            const dx = x - camPos[0];
+            const dy = y - camPos[1];
+            const dz = z - camPos[2];
+            const dist = dx * dx + dy * dy + dz * dz;
+
+            particles.push({ x, y, z, size, r, g, b, a, dist });
+        }
+
+        // Sort back-to-front
+        particles.sort((a, b) => b.dist - a.dist);
+
+        // Rebuild sorted buffers
+        for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+            const i4 = i * 4;
+            positions.set([p.x, p.y, p.z, p.size], i4);
+            colors.set([p.r, p.g, p.b, p.a], i4);
+        }
+
         this.positionBuffer.subdata(positions.subarray(0, aliveCount * 4));
         this.colorBuffer.subdata(colors.subarray(0, aliveCount * 4));
 
-        // Call the draw pipeline
         this.pipeline({
             particleCount: aliveCount,
             positionSize: this.positionBuffer,
             color: this.colorBuffer,
-            viewProjection: scene_state.scene.camera.mat.view_projection,
-            view: scene_state.scene.camera.mat.view,
+            viewProjection: scene.camera.mat.view_projection,
+            view: scene.camera.mat.view,
             time: scene_state.time
         });
     }
 
     uniforms(regl){
-        return{
-            viewProjection: regl.prop('viewProjection'),   // mat4
-            view: regl.prop('view'),   // mat4
-            time: regl.prop('time'),                       // float
+        return {
+            viewProjection: regl.prop('viewProjection'),
+            view: regl.prop('view'),
+            time: regl.prop('time'),
         };
     }
 }
-
