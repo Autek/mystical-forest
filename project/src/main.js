@@ -19,6 +19,7 @@ import { ProceduralTextureGenerator } from "./render/procedural_texture_generato
 // Scenes
 import { TutorialScene } from "./scenes/tutorial_scene.js";
 import { DemoScene } from "./scenes/demo_scene.js";
+import { ParticleScene } from "./scenes/particle_scene.js";
 // import { distance } from "../lib/gl-matrix_3.3.0/esm/vec3.js";
 
 DOM_loaded_promise.then(main)
@@ -34,7 +35,7 @@ async function main() {
     profile: true, // Can be useful to measure the size of buffers/textures in memory
     extensions: [  // Activate some WebGL extensions to access advanced features that are not part of the core WebGL specification
       'OES_texture_float', 'OES_texture_float_linear', 'WEBGL_color_buffer_float',
-      'OES_vertex_array_object', 'OES_element_index_uint', 'WEBGL_depth_texture'
+      'OES_vertex_array_object', 'OES_element_index_uint', 'WEBGL_depth_texture', 'angle_instanced_arrays'
     ],
   })
 
@@ -108,8 +109,9 @@ async function main() {
   // Instantiate scenes. Multiple different scenes can be set up here: 
   // which one is rendered depends on the value of the active_scene variable.
   const demo_scene = new DemoScene(resource_manager, procedural_texture_generator);
+  const particle_scene = new ParticleScene(resource_manager);
 
-  const active_scene = demo_scene;   // Assign the scene to be rendered to active_scene
+  const active_scene = particle_scene;   // Assign the scene to be rendered to active_scene
   
   /*---------------------------------------------------------------
     5. UI Instantiation
