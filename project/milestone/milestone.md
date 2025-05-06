@@ -11,6 +11,16 @@ title: Milestone Report CS-341 2025
 
 	Enter your features from the proposal in the table below. For each feature, indicate whether you completed the implementation, it is work in progress, or you have to start it.
 
+	| Feature                                       | Points | Adapted Points |
+	|-----------------------------------------------|--------|----------------|
+	| Ambient Occlusion                             | 20     | 17             |
+	| Particle Effects                              | 20     | 17             |
+	| Fog                                           | 5      | 4              |
+	| L-Systems for Procedural Scene Generation     | 10     | 8              |
+	| Bloom                                         | 5      | 4              |
+
+	<!-- work in progress: fff3cd, completed: d4edda, upcoming (= not started): cce5ff -->
+
 	<table>
 		<thead>
 			<tr>
@@ -21,31 +31,31 @@ title: Milestone Report CS-341 2025
 		</thead>
 		<tbody>
 			<tr>
-				<td>Feature 1</td>
-				<td>5</td>
-				<td style="background-color: #d4edda;">Completed</td>
-			</tr>
-			<tr>
-				<td>Feature 2</td>
-				<td>5</td>
+				<td>Ambient Occlusion</td>
+				<td>17</td>
 				<td style="background-color: #fff3cd;">Work in progress</td>
 			</tr>
 			<tr>
-				<td>Feature 3</td>
-				<td>10</td>
-				<td style="background-color: #d4edda;">Completed</td>
+				<td>Particle Effects</td>
+				<td>17</td>
+				<td style="background-color: #fff3cd;">Work in progress</td>
+			</tr>
+			<tr>
+				<td>Fog</td>
+				<td>4</td>
+				<td style="background-color: #d4edda;">TODO: state - also change color</td>
 			</tr>
 			<tr>
 				<tr>
-					<td>Feature 4</td>
+					<td>L-Systems for Procedural Scene Generation</td>
 					<td>10</td>
-					<td style="background-color: #cce5ff;">Upcoming</td>
+					<td style="background-color: #cce5ff;">TODO: state - also change color</td>
 				</tr>
 			</tr>
 			<tr>
-				<td>Feature 5</td>
-				<td>20</td>
-				<td style="background-color: #fff3cd;">Work in progress</td>
+				<td>Bloom</td>
+				<td>5</td>
+				<td style="background-color: #fff3cd;">TODO: state - also change color</td>
 			</tr>
 		</tbody>
 	</table>
@@ -56,31 +66,31 @@ title: Milestone Report CS-341 2025
 		<caption>Achieved Goals</caption>
 		<tr>
 			<th></th>
-			<th>Name 1</th>
-			<th>Name 2</th>
-			<th>Name 3</th>
+			<th>Charlie</th>
+			<th>Marius</th>
+			<th>Alonso</th>
 		</tr>
 		<tr>
 			<td>Week 1 (Proposal)</td>
-			<td></td>
+			<td>drafting and thinking about proposal</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr style="background-color: #f0f0f0;">
 			<td>Week 2 (Easter)</td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td>vacay</td>
+			<td>vacay</td>
+			<td>vacay</td>
 		</tr>
 		<tr>
 			<td>Week 3</td>
-			<td></td>
+			<td>started on tutorial, struggle with framework</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Week 4</td>
-			<td></td>
+			<td>started on SSAO, lots more struggle with framework</td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -95,7 +105,8 @@ title: Milestone Report CS-341 2025
 
 	Briefly describe the results you obtained until now and the overall state of the project.
 
-	TODO
+	For SSAO, we do not have a working implementation yet. We have shaders for both the G-Buffer and the SSAO pass, as well as tentative shader renderers for both, but we are struggling to get the G-Buffer to work properly. We couldn't render anything of SSAO for the milestone.
+	TODO marius alonso
 
 
 3. Optionally present the validation of any feature you have already implemented. This is not mandatory, but can help you get useful feedback for the final report: feature validation will be the main component determining your grade. 
@@ -119,31 +130,31 @@ title: Milestone Report CS-341 2025
 		<caption>Worked Hours</caption>
 		<tr>
 			<th></th>
-			<th>Name 1</th>
-			<th>Name 2</th>
-			<th>Name 3</th>
+			<th>Charlie</th>
+			<th>Marius</th>
+			<th>Alonso</th>
 		</tr>
 		<tr>
 			<td>Week 1 (Proposal)</td>
-			<td></td>
+			<td>2h</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr style="background-color: #f0f0f0;">
 			<td>Week 2 (Easter)</td>
-			<td></td>
+			<td>0h</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Week 3</td>
-			<td></td>
+			<td>8h</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Week 4</td>
-			<td></td>
+			<td>12h</td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -151,11 +162,19 @@ title: Milestone Report CS-341 2025
 
 5. Is the project progressing as expected? Was your workload estimate correct? Critically reflect on your work plan and assess if you are on track.
 
+	i think we should think about this as a group to have a cohesive paragraph, then personal paragraphs for each of us
+	
+	TODO general paragraph
+	
+	Charlie: I could not get as much done as I'd hoped, mostly because I am struggling with the framework and because of time consuming projects in other classes. I believe I will be able to finish the SSAO implementation in time though, as am not far off-track at all. 
+
 	TODO
 
 ## Schedule Update
 
 1. Acknowledge any delays or unexpected issues, and motivate proposed changes to the schedule, if needed.
+
+	The biggest delay is the unexpected time needed to get even a basic understanding of the framework. add whatever you want here.
 
 	TODO
 
@@ -165,25 +184,25 @@ title: Milestone Report CS-341 2025
 		<caption>Updated Schedule</caption>
 		<tr>
 			<th></th>
-			<th>Name 1</th>
-			<th>Name 2</th>
-			<th>Name 3</th>
+			<th>Charlie</th>
+			<th>Marius</th>
+			<th>Alonso</th>
 		</tr>
 		<tr>
 			<td>Week 5</td>
-			<td></td>
+			<td>SSAO</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Week 6</td>
-			<td></td>
+			<td>SSAO</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Week 7</td>
-			<td></td>
+			<td>SSAO</td>
 			<td></td>
 			<td></td>
 		</tr>
