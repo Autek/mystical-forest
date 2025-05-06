@@ -137,6 +137,7 @@ export class ResourceManager{
         return [
             'kloppenheim_07_puresky_blur.jpg',
             'pine.png',
+            'marble.png'
           ];
     }
 
@@ -152,6 +153,7 @@ export class ResourceManager{
             'noise.vert.glsl', 'noise.frag.glsl',
             `buffer_to_screen.vert.glsl`, `buffer_to_screen.frag.glsl`,
             'terrain.vert.glsl', 'terrain.frag.glsl',
+            'normals.vert.glsl', 'normals.frag.glsl'
           ];
     }
 

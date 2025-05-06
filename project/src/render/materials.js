@@ -53,8 +53,11 @@ class DiffuseMaterial extends Material {
 }
 
 class ReflectiveMaterial extends Material {
-    constructor(){
+    constructor({
+        texture
+    }) { 
         super()
+        this.texture = texture;
         this.properties.push("reflective");
     }
 }
@@ -113,4 +116,6 @@ export const terrain = new TerrainMaterial({
     peak_color: [0.8, 0.5, 0.4]
 });
 
-export const mirror = new ReflectiveMaterial();
+export const mirror = new ReflectiveMaterial({
+    texture: 'marble.png',
+});

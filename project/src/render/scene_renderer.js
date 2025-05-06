@@ -7,6 +7,7 @@ import { MapMixerShaderRenderer } from "./shader_renderers/map_mixer_sr.js"
 import { TerrainShaderRenderer } from "./shader_renderers/terrain_sr.js"
 import { PreprocessingShaderRenderer } from "./shader_renderers/pre_processing_sr.js"
 import { ResourceManager } from "../scene_resources/resource_manager.js"
+import { NormalsShaderRenderer } from "./shader_renderers/normals_sr.js"
 
 export class SceneRenderer {
 
@@ -31,6 +32,8 @@ export class SceneRenderer {
         this.mirror = new MirrorShaderRenderer(regl, resource_manager);
         this.shadows = new ShadowsShaderRenderer(regl, resource_manager);
         this.map_mixer = new MapMixerShaderRenderer(regl, resource_manager);
+
+        this.normals = new NormalsShaderRenderer(regl, resource_manager);
 
         // Create textures & buffer to save some intermediate renders into a texture
         this.create_texture_and_buffer("shadows", {}); 
@@ -111,22 +114,28 @@ export class SceneRenderer {
             // Prepare the z_buffer and object with default black color
             this.pre_processing.render(scene_state);
 
+            // normals
+            this.normals.render(scene_state);
+            
             // Render the background
             this.flat_color.render(scene_state);
-
+            
             // Render the terrain
             this.terrain.render(scene_state);
-
+            
             // Render shaded objects
             this.blinn_phong.render(scene_state);
-
+            
             // Render the reflection of mirror objects on top
-            this.mirror.render(scene_state, (s_s) => {
-                this.pre_processing.render(scene_state);
-                this.flat_color.render(s_s);
-                this.terrain.render(scene_state);
-                this.blinn_phong.render(s_s);
-            });
+            if (scene_state.ui_params.is_active_mirror) {
+                this.mirror.render(scene_state, (s_s) => {
+                    this.pre_processing.render(scene_state);
+                    this.normals.render(scene_state);
+                    this.flat_color.render(s_s);
+                    this.terrain.render(scene_state);
+                    this.blinn_phong.render(s_s);
+                });
+            }
         })
 
         /*---------------------------------------------------------------
@@ -150,9 +159,10 @@ export class SceneRenderer {
         // Mix the base color of the scene with the shadows information to create the final result
         this.map_mixer.render(scene_state, this.texture("shadows"), this.texture("base"));
 
+        // this.render_in_texture();
+        
         // Visualize cubemap
         // this.mirror.env_capture.visualize();
-
     }
 }
 
