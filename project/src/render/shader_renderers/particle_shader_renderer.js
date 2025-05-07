@@ -46,7 +46,7 @@ export class ParticleShaderRenderer extends ShaderRenderer {
             blend: {
                 enable: true,
                 func: {
-                    src: 'src alpha',
+                    src: 'one',
                     dst: 'one minus src alpha'
                 }
             }

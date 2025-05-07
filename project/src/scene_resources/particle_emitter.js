@@ -24,7 +24,7 @@ export class ParticleEmitter {
         p.position[2] += dt * p.velocity[2];
         
         // Fade out over time
-        p.color[3] = p.life; // Alpha based on remaining life
+        p.color[3] *= p.life / p.maxLife; // Alpha based on remaining life
       }
     }
 
@@ -51,6 +51,7 @@ export class ParticleEmitter {
       velocity: [0, 0, 0], // Initialize with zero velocity
       color: [...this.color],
       life: 0, // Start with zero life (inactive)
+      maxLife: 0,
       size: 1.0
     };
   }
@@ -85,6 +86,7 @@ export class ParticleEmitter {
     
     // Random life duration between 1.5 and 3.0 seconds
     p.life = Math.random() * 1.5 + 1.5;
+    p.maxLife = 3.;
   }
 
   getFreeParticle() {
