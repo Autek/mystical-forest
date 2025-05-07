@@ -11,14 +11,6 @@ title: Milestone Report CS-341 2025
 
 	Enter your features from the proposal in the table below. For each feature, indicate whether you completed the implementation, it is work in progress, or you have to start it.
 
-	| Feature                                       | Points | Adapted Points |
-	|-----------------------------------------------|--------|----------------|
-	| Ambient Occlusion                             | 20     | 17             |
-	| Particle Effects                              | 20     | 17             |
-	| Fog                                           | 5      | 4              |
-	| L-Systems for Procedural Scene Generation     | 10     | 8              |
-	| Bloom                                         | 5      | 4              |
-
 	<!-- work in progress: fff3cd, completed: d4edda, upcoming (= not started): cce5ff -->
 
 	<table>
