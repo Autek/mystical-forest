@@ -103,7 +103,7 @@ title: Milestone Report CS-341 2025
 
 	For the fog, we have simple linear fog shader implementation. We ran into some issues with the more complex inverse exponential fog. With more experience with the framework, this should be done quickly. The linear fog shader simply determines a fog factor for which it should mix in a fog-like color. The problem with this simple shader is that it goes opaque quickly and abruptly which isn't realistic. The exponential fog and the squared exponential fog tend to be smoother.  
 	
-	For the particle effects, TODO marius
+	For the particle effects, we have a simple particle system working and managed to get a fire-like rendering. This particle system uses GPU instancing. There are a lot of fixes to add: particles fade out, make particles look rounder, add texture/texture atlas to particles, change particles color with time, and add other particle systems like amber and smoke. If we have time, we may try compute shaders.
 
 	We have not yet merged any of the features together or designed a custom scene.
 
