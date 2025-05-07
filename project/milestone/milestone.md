@@ -2,14 +2,14 @@
 title: Milestone Report CS-341 2025
 ---
 
-# Project Title
+# Mystical Forest
 
 
 ## Progress Summary
 
-1. Summarize what you have accomplished so far.
+1. **Summarize what you have accomplished so far.**
 
-	Enter your features from the proposal in the table below. For each feature, indicate whether you completed the implementation, it is work in progress, or you have to start it.
+	**Enter your features from the proposal in the table below. For each feature, indicate whether you completed the implementation, it is work in progress, or you have to start it.**
 
 	<!-- work in progress: fff3cd, completed: d4edda, upcoming (= not started): cce5ff -->
 
@@ -35,24 +35,24 @@ title: Milestone Report CS-341 2025
 			<tr>
 				<td>Fog</td>
 				<td>4</td>
-				<td style="background-color: #d4edda;">TODO: state - also change color</td>
+				<td style="background-color: #fff3cd;">Work in progress</td>
 			</tr>
 			<tr>
 				<tr>
 					<td>L-Systems for Procedural Scene Generation</td>
 					<td>10</td>
-					<td style="background-color: #cce5ff;">TODO: state - also change color</td>
+					<td style="background-color: #cce5ff;">Upcoming</td>
 				</tr>
 			</tr>
 			<tr>
 				<td>Bloom</td>
 				<td>5</td>
-				<td style="background-color: #fff3cd;">TODO: state - also change color</td>
+				<td style="background-color: #cce5ff;">Upcoming</td>
 			</tr>
 		</tbody>
 	</table>
 
-	Add a brief summary of the goals achieved each week. A few words per cell are sufficient.
+	**Add a brief summary of the goals achieved each week. A few words per cell are sufficient.**
 
 	<table>
 		<caption>Achieved Goals</caption>
@@ -65,8 +65,8 @@ title: Milestone Report CS-341 2025
 		<tr>
 			<td>Week 1 (Proposal)</td>
 			<td>drafting and thinking about proposal</td>
-			<td></td>
-			<td>Doing research and finding papers on featurs</td>
+			<td>drafting and thinking about proposal</td>
+			<td>Doing research and finding papers on features</td>
 		</tr>
 		<tr style="background-color: #f0f0f0;">
 			<td>Week 2 (Easter)</td>
@@ -77,49 +77,38 @@ title: Milestone Report CS-341 2025
 		<tr>
 			<td>Week 3</td>
 			<td>started on tutorial, struggle with framework</td>
-			<td></td>
+			<td>start tutorial</td>
 			<td>Start tutorial</td>
 		</tr>
 		<tr>
 			<td>Week 4</td>
 			<td>started on SSAO, lots more struggle with framework</td>
-			<td></td>
+			<td>first version of particle generation</td>
 			<td>Finish tutorial and work on fog</td>
 		</tr>
 	</table>
 
 
-2. Show some preliminary results.
+2. **Show some preliminary results.**
 
-	![An image showing your progress.](images/demo.jpg){width="300px"}
+	**Briefly describe the results you obtained until now and the overall state of the project.**
 
-	![A video showing your progress.](videos/demo.mp4){width="500px"}
-
-	Briefly describe the results you obtained until now and the overall state of the project.
+	TODO images and vids
 
 	For SSAO, we do not have a working implementation yet. We have shaders for both the G-Buffer and the SSAO pass, as well as tentative shader renderers for both, but we are struggling to get the G-Buffer to work properly. We couldn't render anything of SSAO for the milestone.
 
-	TODO Alonso add FOG image
-	For the fog, we have simple linear fog shader implementation, the more complex inverse exponential fog ended running into issues. With more experience with the framework, this should be done quickly. The linear fog shader simply determines a fog factor for which it should mix in a fog like color. The problem with this simple shader is that it goes opaque quickly and abruptly which isnt realistic. The exponential fog and the squared exponential fog tends smoother.
-	TODO marius 
+	For the fog, we have simple linear fog shader implementation. We ran into some issues with the more complex inverse exponential fog. With more experience with the framework, this should be done quickly. The linear fog shader simply determines a fog factor for which it should mix in a fog-like color. The problem with this simple shader is that it goes opaque quickly and abruptly which isn't realistic. The exponential fog and the squared exponential fog tend to be smoother.  
+	
+	For the particle effects, TODO marius
+
+	We have not yet merged any of the features together or designed a custom scene.
+
+3. **Optionally present the validation of any feature you have already implemented. This is not mandatory, but can help you get useful feedback for the final report: feature validation will be the main component determining your grade.**
+
+	We are not presenting any feature for validation.
 
 
-3. Optionally present the validation of any feature you have already implemented. This is not mandatory, but can help you get useful feedback for the final report: feature validation will be the main component determining your grade. 
-
-	Follow the following template for each feature you want to validate.
-
-	- Feature Name
-
-		- Implementation
-
-			Briefly describe how you implemented the feature.
-
-		- Validation
-
-			Provide evidence (plots, screenshots, animations, etc.) that the feature works as expected.
-
-
-4. Report the number of hours each team member worked on the project.
+4. **Report the number of hours each team member worked on the project.**
 
 	<table>
 		<caption>Worked Hours</caption>
@@ -132,49 +121,42 @@ title: Milestone Report CS-341 2025
 		<tr>
 			<td>Week 1 (Proposal)</td>
 			<td>2h</td>
-			<td></td>
-			<td>0h</td>
+			<td>2h</td>
+			<td>3h</td>
 		</tr>
 		<tr style="background-color: #f0f0f0;">
 			<td>Week 2 (Easter)</td>
 			<td>0h</td>
-			<td></td>
+			<td>0h</td>
 			<td>2h</td>
 		</tr>
 		<tr>
 			<td>Week 3</td>
 			<td>8h</td>
-			<td></td>
+			<td>2h</td>
 			<td>4h</td>
 		</tr>
 		<tr>
 			<td>Week 4</td>
 			<td>12h</td>
-			<td></td>
+			<td>9h30</td>
 			<td>14h</td>
 		</tr>
 	</table>
 
-5. Is the project progressing as expected? Was your workload estimate correct? Critically reflect on your work plan and assess if you are on track.
+5. **Is the project progressing as expected? Was your workload estimate correct? Critically reflect on your work plan and assess if you are on track.**
 
-	i think we should think about this as a group to have a cohesive paragraph, then personal paragraphs for each of us
-	
-	TODO general paragraph
-	
-	Charlie: I could not get as much done as I'd hoped, mostly because I am struggling with the framework and because of time consuming projects in other classes. I believe I will be able to finish the SSAO implementation in time though, as am not far off-track at all. 
+	We think we are progressing nearly as expected, but we are a little bit behind on schedule for SSAO, as we would have liked to have a minimal viable product for the milestone. We are also behind on the fog and L-systems features, but not much. We believe our original scehdule to have been a little optimistic, as we did not expect the framework to be so difficult to work with, but we are confident that we will be able to catch up easily.
 
-	Alonso: +1
-	TODO
 
 ## Schedule Update
 
-1. Acknowledge any delays or unexpected issues, and motivate proposed changes to the schedule, if needed.
+1. **Acknowledge any delays or unexpected issues, and motivate proposed changes to the schedule, if needed.**
 
-	The biggest delay is the unexpected time needed to get even a basic understanding of the framework. add whatever you want here.
+	The biggest delay is the unexpected time needed to get even a basic understanding of the framework. We also struggled to get anything done due to other classes' projects and graded homeworks taking priority, as well as personal engagements.
+	
 
-	TODO
-
-2. Present the work plan for the remaining weeks.
+2. **Present the work plan for the remaining weeks.**
 
 	<table>
 		<caption>Updated Schedule</caption>
@@ -187,19 +169,19 @@ title: Milestone Report CS-341 2025
 		<tr>
 			<td>Week 5</td>
 			<td>SSAO</td>
-			<td></td>
+			<td>Particle Effect</td>
 			<td>Finish Fog + L-Systems</td>
 		</tr>
 		<tr>
 			<td>Week 6</td>
 			<td>SSAO</td>
-			<td></td>
+			<td>Particle Effect</td>
 			<td>L-Systems</td>
 		</tr>
 		<tr>
 			<td>Week 7</td>
 			<td>SSAO</td>
-			<td></td>
+			<td>Particle Effect</td>
 			<td>Bloom</td>
 		</tr>
 	</table>
