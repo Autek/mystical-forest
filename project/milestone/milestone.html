@@ -38,13 +38,10 @@
             <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
           </ul>-->
           <ul>
-          <li><a href="#mystical-forest"
-          id="toc-mystical-forest">Mystical Forest</a>
+          <li><a href="#mystical-forest">Mystical Forest</a>
           <ul>
-          <li><a href="#progress-summary"
-          id="toc-progress-summary">Progress Summary</a></li>
-          <li><a href="#schedule-update"
-          id="toc-schedule-update">Schedule Update</a></li>
+          <li><a href="#progress-summary">Progress Summary</a></li>
+          <li><a href="#schedule-update">Schedule Update</a></li>
           </ul></li>
           </ul>
         </div>
@@ -234,7 +231,12 @@ linear fog shader simply determines a fog factor for which it should mix
 in a fog-like color. The problem with this simple shader is that it goes
 opaque quickly and abruptly which isn’t realistic. The exponential fog
 and the squared exponential fog tend to be smoother.</p>
-<p>For the particle effects, TODO marius</p>
+<p>For the particle effects, we have a simple particle system working
+and managed to get a fire-like rendering. This particle system uses GPU
+instancing. There are a lot of fixes to add: particles fade out, make
+particles look rounder, add texture/texture atlas to particles, change
+particles color with time, and add other particle systems like amber and
+smoke. If we have time, we may try compute shaders.</p>
 <p>We have not yet merged any of the features together or designed a
 custom scene.</p></li>
 <li><p><strong>Optionally present the validation of any feature you have
