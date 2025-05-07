@@ -93,7 +93,11 @@ title: Milestone Report CS-341 2025
 
 	**Briefly describe the results you obtained until now and the overall state of the project.**
 
-	TODO images and vids
+	![basic particles](images/particles.png)  
+
+	![linear fog](images/fog.png)
+	
+	We did not manage to have the videos display. They are at `./videos/` and are called `particles_1.mp4` and `particles_2.mp4`. 
 
 	For SSAO, we do not have a working implementation yet. We have shaders for both the G-Buffer and the SSAO pass, as well as tentative shader renderers for both, but we are struggling to get the G-Buffer to work properly. We couldn't render anything of SSAO for the milestone.
 
