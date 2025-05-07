@@ -74,25 +74,25 @@ title: Milestone Report CS-341 2025
 			<td>Week 1 (Proposal)</td>
 			<td>drafting and thinking about proposal</td>
 			<td></td>
-			<td></td>
+			<td>Doing research and finding papers on featurs</td>
 		</tr>
 		<tr style="background-color: #f0f0f0;">
 			<td>Week 2 (Easter)</td>
 			<td>vacay</td>
 			<td>vacay</td>
-			<td>vacay</td>
+			<td>Reread my features</td>
 		</tr>
 		<tr>
 			<td>Week 3</td>
 			<td>started on tutorial, struggle with framework</td>
 			<td></td>
-			<td></td>
+			<td>Start tutorial</td>
 		</tr>
 		<tr>
 			<td>Week 4</td>
 			<td>started on SSAO, lots more struggle with framework</td>
 			<td></td>
-			<td></td>
+			<td>Finish tutorial and work on fog</td>
 		</tr>
 	</table>
 
@@ -106,7 +106,10 @@ title: Milestone Report CS-341 2025
 	Briefly describe the results you obtained until now and the overall state of the project.
 
 	For SSAO, we do not have a working implementation yet. We have shaders for both the G-Buffer and the SSAO pass, as well as tentative shader renderers for both, but we are struggling to get the G-Buffer to work properly. We couldn't render anything of SSAO for the milestone.
-	TODO marius alonso
+
+	TODO Alonso add FOG image
+	For the fog, we have simple linear fog shader implementation, the more complex inverse exponential fog ended running into issues. With more experience with the framework, this should be done quickly. The linear fog shader simply determines a fog factor for which it should mix in a fog like color. The problem with this simple shader is that it goes opaque quickly and abruptly which isnt realistic. The exponential fog and the squared exponential fog tends smoother.
+	TODO marius 
 
 
 3. Optionally present the validation of any feature you have already implemented. This is not mandatory, but can help you get useful feedback for the final report: feature validation will be the main component determining your grade. 
@@ -138,25 +141,25 @@ title: Milestone Report CS-341 2025
 			<td>Week 1 (Proposal)</td>
 			<td>2h</td>
 			<td></td>
-			<td></td>
+			<td>0h</td>
 		</tr>
 		<tr style="background-color: #f0f0f0;">
 			<td>Week 2 (Easter)</td>
 			<td>0h</td>
 			<td></td>
-			<td></td>
+			<td>2h</td>
 		</tr>
 		<tr>
 			<td>Week 3</td>
 			<td>8h</td>
 			<td></td>
-			<td></td>
+			<td>4h</td>
 		</tr>
 		<tr>
 			<td>Week 4</td>
 			<td>12h</td>
 			<td></td>
-			<td></td>
+			<td>14h</td>
 		</tr>
 	</table>
 
@@ -168,6 +171,7 @@ title: Milestone Report CS-341 2025
 	
 	Charlie: I could not get as much done as I'd hoped, mostly because I am struggling with the framework and because of time consuming projects in other classes. I believe I will be able to finish the SSAO implementation in time though, as am not far off-track at all. 
 
+	Alonso: +1
 	TODO
 
 ## Schedule Update
@@ -192,18 +196,18 @@ title: Milestone Report CS-341 2025
 			<td>Week 5</td>
 			<td>SSAO</td>
 			<td></td>
-			<td></td>
+			<td>Finish Fog + L-Systems</td>
 		</tr>
 		<tr>
 			<td>Week 6</td>
 			<td>SSAO</td>
 			<td></td>
-			<td></td>
+			<td>L-Systems</td>
 		</tr>
 		<tr>
 			<td>Week 7</td>
 			<td>SSAO</td>
 			<td></td>
-			<td></td>
+			<td>Bloom</td>
 		</tr>
 	</table>
