@@ -132,8 +132,8 @@ export class SSAOScene extends Scene {
     // Set preset view
     create_hotkey_action("Preset view", "1", () => {
       this.camera.set_preset_view({
-        distance_factor : 0.8,
-        angle_z : 2.440681469282041,
+        distance_factor : 0.5,
+        angle_z : -8.440681469282041,
         angle_y : -0.29240122440170113,
         look_at : [0, 0, 0]
       })

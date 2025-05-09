@@ -24,7 +24,9 @@ export class BlinnPhongShaderRenderer extends ShaderRenderer {
      * @param {*} scene_state 
      */
     render(scene_state, ssaoTex){
-        
+
+        console.log(scene_state.ui_params.is_active_ssao);
+
         const scene = scene_state.scene;
         const inputs = [];
 

@@ -45,7 +45,7 @@ void main()
     // ssao
     float ambient_occlusion = 1.0;
     if (is_active_ssao) {
-        ambient_occlusion = texture2D(ssao_texture, gl_FragCoord.xy).r;
+        ambient_occlusion = texture2D(ssao_texture, v2f_uv).r;
     }
     
     // Compute ambient
@@ -57,5 +57,5 @@ void main()
     // Compute pixel color
     vec3 color = ambient + (attenuation * light_color * material_color * (diffuse + specular));
 
-	gl_FragColor = vec4(color, 1.);; // output: RGBA in 0..1 range
+	gl_FragColor = vec4(color, 1.); // output: RGBA in 0..1 range
 }
