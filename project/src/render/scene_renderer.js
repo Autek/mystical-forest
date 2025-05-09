@@ -8,6 +8,8 @@ import { TerrainShaderRenderer } from "./shader_renderers/terrain_sr.js"
 import { PreprocessingShaderRenderer } from "./shader_renderers/pre_processing_sr.js"
 import { ResourceManager } from "../scene_resources/resource_manager.js"
 import { NormalsShaderRenderer } from "./shader_renderers/normals_sr.js"
+import { GBufferShaderRenderer } from "./shader_renderers/gbuffer_sr.js"
+import { SSAOShaderRenderer } from "./shader_renderers/ssao_sr.js"
 
 export class SceneRenderer {
 
@@ -37,6 +39,7 @@ export class SceneRenderer {
 
         // ssao stuff
         this.gbuffer = new GBufferShaderRenderer(regl, resource_manager);
+        this.ssao = new SSAOShaderRenderer(regl, resource_manager);
 
         // Create textures & buffer to save some intermediate renders into a texture
         this.create_texture_and_buffer("shadows", {}); 
@@ -45,6 +48,7 @@ export class SceneRenderer {
             [this.gbuffer.positionTex, this.gbuffer.normalsTex, this.gbuffer.albedoTex], 
             this.gbuffer.gbuffer
         ];  // equivalent to `create_texture_and_buffer` with 3 textures instead of 1
+        this.create_texture_and_buffer("ssao", {});
     }
 
     /**
@@ -123,12 +127,16 @@ export class SceneRenderer {
 
                 this.gbuffer.render(scene_state);
 
+                this.render_in_texture("ssao", () => {
+                    this.pre_processing.render(scene_state);
+                    this.ssao.render(scene_state, this.texture("gbuffer"));
+                })
             });
         }
 
 
         // Render call: the result will be stored in the texture "base"
-        this.render_in_texture("base", () =>{
+        this.render_in_texture("base", () => {
 
             // Prepare the z_buffer and object with default black color
             this.pre_processing.render(scene_state);
@@ -143,7 +151,7 @@ export class SceneRenderer {
             this.terrain.render(scene_state);
             
             // Render shaded objects
-            this.blinn_phong.render(scene_state);
+            this.blinn_phong.render(scene_state, this.texture("ssao")); // pass occlusion factor
             
             // Render the reflection of mirror objects on top
             if (scene_state.ui_params.is_active_mirror) {
@@ -152,7 +160,7 @@ export class SceneRenderer {
                     this.normals.render(scene_state);
                     this.flat_color.render(s_s);
                     this.terrain.render(scene_state);
-                    this.blinn_phong.render(s_s);
+                    this.blinn_phong.render(s_s, this.texture("ssao")); // same
                 });
             }
         })

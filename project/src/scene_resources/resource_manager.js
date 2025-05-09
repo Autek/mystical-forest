@@ -155,6 +155,7 @@ export class ResourceManager{
             'terrain.vert.glsl', 'terrain.frag.glsl',
             'normals.vert.glsl', 'normals.frag.glsl',
             'gbuffer.vert.glsl', 'gbuffer.frag.glsl',
+            'buffer_to_screen.vert.glsl', 'ssao.frag.glsl',
           ];
     }
 

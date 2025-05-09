@@ -23,8 +23,8 @@ export class BlinnPhongShaderRenderer extends ShaderRenderer {
      * Render the objects of the scene_state with its shader
      * @param {*} scene_state 
      */
-    render(scene_state){
-
+    render(scene_state, ssaoTex){
+        
         const scene = scene_state.scene;
         const inputs = [];
 
@@ -67,7 +67,11 @@ export class BlinnPhongShaderRenderer extends ShaderRenderer {
                     material_texture: texture,
                     is_textured: is_textured,
                     material_base_color: obj.material.color,
-                    material_shininess: obj.material.shininess
+                    material_shininess: obj.material.shininess,
+
+                    // ssao
+                    ssao_tex: ssaoTex,
+                    is_active_ssao: scene_state.ui_params.is_active_ssao,
                 });
 
             }
@@ -121,7 +125,11 @@ export class BlinnPhongShaderRenderer extends ShaderRenderer {
             material_texture: regl.prop('material_texture'),
             is_textured: regl.prop('is_textured'),
             material_base_color: regl.prop('material_base_color'),
-            material_shininess: regl.prop('material_shininess')
+            material_shininess: regl.prop('material_shininess'),
+
+            // ssao texture
+            ssao_texture: regl.prop('ssao_tex'),
+            is_active_ssao: regl.prop('is_active_ssao'),
         };
     }
 }

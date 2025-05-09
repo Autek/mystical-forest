@@ -14,6 +14,10 @@ uniform vec3 light_color;
 uniform vec3 light_position;
 uniform float ambient_factor;
 
+// ssao
+uniform sampler2D ssao_texture;
+uniform bool is_active_ssao;
+
 void main()
 {
     vec3 material_color = material_base_color;
@@ -38,8 +42,14 @@ void main()
     // Compute specular
     float specular = (diffuse > 0.0) ? pow(h_dot_n, material_shininess) : 0.0;
 
+    // ssao
+    float ambient_occlusion = 1.0;
+    if (is_active_ssao) {
+        ambient_occlusion = texture2D(ssao_texture, gl_FragCoord.xy).r;
+    }
+    
     // Compute ambient
-    vec3 ambient = ambient_factor * material_color * material_ambient;
+    vec3 ambient = ambient_factor * material_color * material_ambient * ambient_occlusion;
 
     float light_distance = length(light_position - v2f_frag_pos);
     float attenuation = 1.0 / pow(light_distance, 0.25);
