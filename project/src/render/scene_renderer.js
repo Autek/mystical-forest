@@ -35,9 +35,16 @@ export class SceneRenderer {
 
         this.normals = new NormalsShaderRenderer(regl, resource_manager);
 
+        // ssao stuff
+        this.gbuffer = new GBufferShaderRenderer(regl, resource_manager);
+
         // Create textures & buffer to save some intermediate renders into a texture
         this.create_texture_and_buffer("shadows", {}); 
         this.create_texture_and_buffer("base", {}); 
+        this.textures_and_buffers["gbuffer"] = [    
+            [this.gbuffer.positionTex, this.gbuffer.normalsTex, this.gbuffer.albedoTex], 
+            this.gbuffer.gbuffer
+        ];  // equivalent to `create_texture_and_buffer` with 3 textures instead of 1
     }
 
     /**
@@ -107,6 +114,18 @@ export class SceneRenderer {
         /*---------------------------------------------------------------
             1. Base Render Passes
         ---------------------------------------------------------------*/
+
+        // ssao texture computation
+        if (scene_state.ui_params.is_active_ssao) {
+            this.render_in_texture("gbuffer", () => {
+
+                this.pre_processing.render(scene_state);
+
+                this.gbuffer.render(scene_state);
+
+            });
+        }
+
 
         // Render call: the result will be stored in the texture "base"
         this.render_in_texture("base", () =>{

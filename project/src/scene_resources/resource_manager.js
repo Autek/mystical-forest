@@ -153,13 +153,14 @@ export class ResourceManager{
             'noise.vert.glsl', 'noise.frag.glsl',
             `buffer_to_screen.vert.glsl`, `buffer_to_screen.frag.glsl`,
             'terrain.vert.glsl', 'terrain.frag.glsl',
-            'normals.vert.glsl', 'normals.frag.glsl'
+            'normals.vert.glsl', 'normals.frag.glsl',
+            'gbuffer.vert.glsl', 'gbuffer.frag.glsl',
           ];
     }
 
     meshes_to_load() {
         return [
-        // "pine.obj",
+        "pine.obj",
         "suzanne.obj"
       ];
     }

@@ -19,6 +19,7 @@ import { ProceduralTextureGenerator } from "./render/procedural_texture_generato
 // Scenes
 import { TutorialScene } from "./scenes/tutorial_scene.js";
 import { DemoScene } from "./scenes/demo_scene.js";
+import { SSAOScene } from "./scenes/ssao_scene.js";
 // import { distance } from "../lib/gl-matrix_3.3.0/esm/vec3.js";
 
 DOM_loaded_promise.then(main)
@@ -34,7 +35,7 @@ async function main() {
     profile: true, // Can be useful to measure the size of buffers/textures in memory
     extensions: [  // Activate some WebGL extensions to access advanced features that are not part of the core WebGL specification
       'OES_texture_float', 'OES_texture_float_linear', 'WEBGL_color_buffer_float',
-      'OES_vertex_array_object', 'OES_element_index_uint', 'WEBGL_depth_texture'
+      'OES_vertex_array_object', 'OES_element_index_uint', 'WEBGL_depth_texture', 'WEBGL_draw_buffers'
     ],
   })
 
@@ -112,7 +113,10 @@ async function main() {
   // tuto scene
   const tutorial_scene = new TutorialScene(resource_manager);
 
-  const active_scene = tutorial_scene;   // Assign the scene to be rendered to active_scene
+  // ssao scene
+  const ssao_scene = new SSAOScene(resource_manager, procedural_texture_generator);
+
+  const active_scene = ssao_scene;   // Assign the scene to be rendered to active_scene
   
   /*---------------------------------------------------------------
     5. UI Instantiation
