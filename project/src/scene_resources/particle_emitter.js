@@ -24,8 +24,8 @@ export class ParticleEmitter {
       }
     }
 
-    // emit new ones
-    dt = Math.min(dt, 100);
+    // avoid emitting a lot of particles when loading the page
+    dt = Math.min(dt, 0.1);
     this.timeSinceLastEmission += dt;
     const toEmit = Math.floor(this.timeSinceLastEmission * this.emissionRate);
     if (this.emissionRate !== 0) {

@@ -113,7 +113,7 @@ export class ParticleScene extends Scene {
     });
 
     const min2= 0;
-    const max2 = 1000;
+    const max2 = 10000;
     create_slider("fire particle emission rate", [0, n_steps_slider], (i) => {
       this.ui_params.fire_part_emission_rate = min2 + i * (max2 - min2) / n_steps_slider;
     });
