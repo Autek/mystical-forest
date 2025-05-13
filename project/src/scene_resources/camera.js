@@ -1,74 +1,89 @@
-import { vec2, vec3, vec4, mat3, mat4 } from "../../lib/gl-matrix_3.3.0/esm/index.js"
+import { mat3, mat4 } from "../../lib/gl-matrix_3.3.0/esm/index.js"
 import { deg_to_rad, mat4_matmul_many } from "../cg_libraries/cg_math.js"
 
+/**
+ * Create a new turntable camera
+ */
 export class TurntableCamera {
+
     constructor() {
-        this.angle_z = Math.PI * 0.2;
-        this.angle_y = -Math.PI / 6;
+        this.angle_z = Math.PI * 0.2; // in radians!
+        this.angle_y = -Math.PI / 6; // in radians!
         this.distance_factor = 1.;
         this.distance_base = 15.;
         this.look_at = [0, 0, 0];
-
-        this.position = [0, 0, 0]; // Will be computed
-
+        
         this.mat = {
-            projection: mat4.create(),
-            view: mat4.create(),
+            projection : mat4.create(),
+            view : mat4.create(),
             view_projection: mat4.create()
-        };
+        }
 
         this.update_format_ratio(100, 100);
         this.update_cam_transform();
+        
     }
 
-    update_format_ratio(width, height) {
+    /**
+     * Recompute the camera perspective matrix based on the new ratio
+     * @param {*} width the width of the canvas
+     * @param {*} height the heigth of the canvas
+     */
+    update_format_ratio(width, height){
         mat4.perspective(this.mat.projection,
-            deg_to_rad * 60,
-            width / height,
-            0.01,
-            512
-        );
+            deg_to_rad * 60, // fov y
+            width / height, // aspect ratio
+            0.01, // near
+            512, // far
+        )
         this.update_cam_transform();
     }
 
+    /**
+     * Recompute the view matrix (mat.view)
+     */
     update_cam_transform() {
         const r = this.distance_base * this.distance_factor;
-        const rawPos = vec3.fromValues(-r, 0, 0);
 
-        // Apply rotations to raw camera position
-        const rotY = mat4.fromYRotation(mat4.create(), this.angle_y);
-        const rotZ = mat4.fromZRotation(mat4.create(), this.angle_z);
-        const totalRot = mat4_matmul_many(mat4.create(), rotY, rotZ);
-
-        vec3.transformMat4(this.position, rawPos, totalRot);
-        vec3.add(this.position, this.position, this.look_at); // move relative to look_at
-
-        // Recompute view matrix from camera position
         const M_look_forward_X = mat4.lookAt(mat4.create(),
-            [-r, 0, 0],
-            this.look_at,
-            [0, 0, 1]
-        );
-
+            [-r, 0, 0], // camera position in world coord
+            this.look_at, // view target point
+            [0, 0, 1], // up vector
+        )
+        
         const M_rot_y = mat4.fromYRotation(mat4.create(), this.angle_y)
         const M_rot_z = mat4.fromZRotation(mat4.create(), this.angle_z)
         mat4_matmul_many(this.mat.view, M_look_forward_X, M_rot_y, M_rot_z);
         mat4.multiply(this.mat.view_projection, this.mat.projection, this.mat.view);
     }
 
-    compute_objects_transformation_matrices(scene_objects) {
+    /**
+     * Compute all the objects transformation matrices and store them into the camera
+     * (For improved performance, objects' transformation matrices are computed once at the 
+     * beginning of every frame and are stored in the camera for shader_renderers to use)
+     * @param {*} scene_objects 
+     */
+    compute_objects_transformation_matrices(scene_objects){
         this.object_matrices = new Map();
 
+        // Compute and store the objects matrices
         for (const obj of scene_objects) {
             const transformation_matrices = this.compute_transformation_matrices(obj);
             this.object_matrices.set(obj, transformation_matrices);
         }
     }
 
+    /**
+     * Compute the transfortmation matrix of the object for this camera
+     * @param {*} object 
+     * @returns 
+     */
     compute_transformation_matrices(object) {
         const mat_projection = this.mat.projection;
         const mat_view = this.mat.view;
 
+        // Construct mat_model_to_world from translation and scale.
+        // If we wanted to have a rotation too, we could use mat4.fromRotationTranslationScale.
         const mat_model_to_world = mat4.create();
         mat4.fromTranslation(mat_model_to_world, object.translation);
         mat4.scale(mat_model_to_world, mat_model_to_world, object.scale);
@@ -76,19 +91,32 @@ export class TurntableCamera {
         const mat_model_view = mat4.create();
         const mat_model_view_projection = mat4.create();
         const mat_normals_model_view = mat3.create();
-
+        
+        // Compute mat_model_view, mat_model_view_projection, mat_normals_model_view.
         mat4_matmul_many(mat_model_view, mat_view, mat_model_to_world);
         mat4_matmul_many(mat_model_view_projection, mat_projection, mat_model_view);
 
+        // Recall that the transform matrix model_view for normal projection
+        // is the inverted transpose of the vertices model_view.
         mat3.identity(mat_normals_model_view);
         mat3.fromMat4(mat_normals_model_view, mat_model_view);
         mat3.invert(mat_normals_model_view, mat_normals_model_view);
         mat3.transpose(mat_normals_model_view, mat_normals_model_view);
 
-        return { mat_model_view, mat_model_view_projection, mat_normals_model_view };
+        // Note: to optimize we could compute mat_view_projection = mat_projection * mat_view 
+        // only once instead as for every object. This option is simpler, and the performance
+        // difference is negligible for a moderate number of objects.
+        // Consider optimizing this routine if you need to render thousands of distinct objects.
+        return { mat_model_view, mat_model_view_projection, mat_normals_model_view }
     }
 
-    set_preset_view(view) {
+    //// UI USEFUL FUNCTIONS
+
+    /**
+     * Place the camera in the defined view
+     * @param {{distance_factor, angle_z, angle_y, look_at}} view 
+     */
+    set_preset_view(view){
         this.distance_factor = view.distance_factor;
         this.angle_z = view.angle_z;
         this.angle_y = view.angle_y;
@@ -96,31 +124,51 @@ export class TurntableCamera {
         this.update_cam_transform();
     }
 
-    log_current_state() {
+    /**
+     * Helper function to get in the console the state of 
+     * the camera to define a preset view
+     */
+    log_current_state(){
         console.log(
-            "distance_factor:", this.distance_factor,
-            "angle_z:", this.angle_z,
-            "angle_y:", this.angle_y,
-            "look_at:", this.look_at
+            "distance_factor: " + this.distance_factor,
+            "angle_z: " + this.angle_z,
+            "angle_y: " + this.angle_y,
+            "look_at " + this.look_at,
         );
     }
 
-    zoom_action(deltaY) {
+    /**
+     * Update the camera distance_factor to produce a zoom in / zoom out effect
+     * @param {*} deltaY the variation
+     */
+    zoom_action(deltaY){
         const factor_mul_base = 1.18;
         const factor_mul = (deltaY > 0) ? factor_mul_base : 1. / factor_mul_base;
         this.distance_factor *= factor_mul;
         this.distance_factor = Math.max(0.02, Math.min(this.distance_factor, 4));
+
         this.update_cam_transform();
     }
 
-    rotate_action(movementX, movementY) {
+    /**
+     * Update the camera angle to make it rotate around its look_at point
+     * @param {*} movementX 
+     * @param {*} movementY 
+     */
+    rotate_action(movementX, movementY){
         this.angle_z += movementX * 0.003;
         this.angle_y += -movementY * 0.003;
+
         this.update_cam_transform();
     }
 
-    move_action(movementX, movementY) {
-        const scaleFactor = this.distance_base * this.distance_factor * 0.0005;
+    /**
+     * Moves the camera look_at point
+     * @param {*} movementX 
+     * @param {*} movementY 
+     */
+    move_action(movementX, movementY){
+        const scaleFactor = this.distance_base * this.distance_factor * 0.0005; // Adjust movement speed 
 
         const right = [
             Math.sin(this.angle_z),
