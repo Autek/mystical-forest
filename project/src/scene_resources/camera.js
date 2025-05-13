@@ -28,6 +28,7 @@ export class TurntableCamera {
             0.01,
             512
         );
+        this.update_cam_transform();
     }
 
     update_cam_transform() {
@@ -43,13 +44,15 @@ export class TurntableCamera {
         vec3.add(this.position, this.position, this.look_at); // move relative to look_at
 
         // Recompute view matrix from camera position
-        const M_look_forward = mat4.lookAt(mat4.create(),
-            this.position,
+        const M_look_forward_X = mat4.lookAt(mat4.create(),
+            [-r, 0, 0],
             this.look_at,
             [0, 0, 1]
         );
 
-        mat4_matmul_many(this.mat.view, M_look_forward);
+        const M_rot_y = mat4.fromYRotation(mat4.create(), this.angle_y)
+        const M_rot_z = mat4.fromZRotation(mat4.create(), this.angle_z)
+        mat4_matmul_many(this.mat.view, M_look_forward_X, M_rot_y, M_rot_z);
         mat4.multiply(this.mat.view_projection, this.mat.projection, this.mat.view);
     }
 

@@ -9,7 +9,7 @@ export class ParticleShaderRenderer extends ShaderRenderer {
             `particles.frag.glsl`
         );
 
-        this.maxParticles = 50000;
+        this.maxParticles = 100000;
 
         this.quadBuffer = regl.buffer([
             [-0.5, -0.5],
@@ -55,7 +55,6 @@ export class ParticleShaderRenderer extends ShaderRenderer {
 
     render(scene_state) {
         const scene = scene_state.scene;
-        const camPos = scene.camera.position;
 
         const positions = new Float32Array(this.maxParticles * 4);
         const colors = new Uint8Array(this.maxParticles * 4);
