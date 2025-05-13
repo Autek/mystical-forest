@@ -46,8 +46,8 @@ export class ParticleShaderRenderer extends ShaderRenderer {
             blend: {
                 enable: true,
                 func: {
-                    src: 'one',
-                    dst: 'one minus src alpha'
+                    src: 'src alpha',
+                    dst: 'one'
                 }
             }
         });
@@ -77,17 +77,17 @@ export class ParticleShaderRenderer extends ShaderRenderer {
             const g = colors[i4 + 1];
             const b = colors[i4 + 2];
             const a = colors[i4 + 3];
+            const viewMatrix = scene.camera.mat.view;
 
-            const dx = x - camPos[0];
-            const dy = y - camPos[1];
-            const dz = z - camPos[2];
-            const dist = dx * dx + dy * dy + dz * dz;
-
+            const dist = viewMatrix[2] * x +
+    viewMatrix[6] * y +
+    viewMatrix[10] * z +
+    viewMatrix[14]
             particles.push({ x, y, z, size, r, g, b, a, dist });
         }
 
         // Sort back-to-front
-        particles.sort((a, b) => b.dist - a.dist);
+        particles.sort((a, b) => a.dist - b.dist);
 
         // Rebuild sorted buffers
         for (let i = 0; i < particles.length; i++) {

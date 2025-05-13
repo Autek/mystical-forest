@@ -24,7 +24,9 @@ export class ParticleEmitter {
         p.position[2] += dt * p.velocity[2];
         
         // Fade out over time
-        p.color[3] *= p.life / p.maxLife; // Alpha based on remaining life
+        p.color[3] = p.life / p.maxLife; // Alpha based on remaining life
+        p.color[2] = (p.life / p.maxLife) * (p.life / p.maxLife) * (p.life / p.maxLife); // Alpha based on remaining life
+        p.color[1] = 0.3 + 0.7 * ( p.life / p.maxLife); // Alpha based on remaining life
       }
     }
 
@@ -58,10 +60,12 @@ export class ParticleEmitter {
 
   respawn(p) {
     // Add randomness to position for a volume effect
+    const angle = Math.random() * 2*Math.PI;
+    const radius = Math.random()
     p.position = [
-      this.position[0] + (Math.random() - 0.5) * 2.0,  // Increased horizontal spread
-      this.position[2] + (Math.random() - 0.5) * 2.0,   // Increased depth spread
-      this.position[1],
+      this.position[0] + radius * Math.sin(angle),  // Increased horizontal spread
+      this.position[1] + radius * Math.cos(angle),   // Increased depth spread
+      this.position[2] + (Math.random() - 0.5) * 0.1,
     ];
 
     // More varied velocities
@@ -71,18 +75,16 @@ export class ParticleEmitter {
       Math.random() * 2.0 + 1.0,     // Stronger upward motion
     ];
     
-    const t = Math.random();
-
     // Varied colors for a more realistic fire
     p.color = [
       1.0,                      // red stays max
-      0.3 + 0.7 * t,            // varied green
-      0.0,                      // no blue for fire
+      1.0,            // varied green
+      1.0,                      // no blue for fire
       1.0                       // start fully opaque
     ];
 
     // Varied sizes
-    p.size = Math.random() * 0.15 + 0.05;
+    p.size = Math.random() * 0.60 + 0.2;
     
     // Random life duration between 1.5 and 3.0 seconds
     p.life = Math.random() * 1.5 + 1.5;

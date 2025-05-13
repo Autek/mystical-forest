@@ -6,7 +6,7 @@ varying vec4 vColor;
 
 void main() {
   // Create a circular particle with soft edges
-  float distanceFromCenter = length(vUV - vec2(0.5, 0.5)) * 2.0;
-  float alpha = smoothstep(1.0, 0.0, distanceFromCenter) * vColor.a;
-  gl_FragColor = vec4(vColor.rgb, 0.);
+  float distanceFromCenter = length(vUV - vec2(0.5, 0.5)) * 4.;
+  float alpha = (1. - smoothstep(0., 1., distanceFromCenter)) * vColor.a;
+  gl_FragColor = vec4(vColor.rgb, alpha);
 }
