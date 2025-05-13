@@ -23,14 +23,12 @@ export class FireEmitter extends ParticleEmitter{
   update(dt) {
     // update existing particles
     super.update(dt);
-    console.log(this.aDecay)
     for (const p of this.particles) {
       if (p.life > 0) {
         p.color[3] = (1 - this.aDecay) + this.aDecay * Math.max((p.life / this.maxLife) - this.aThreshold, 0) ;
         p.color[2] = (1 - this.bDecay) + this.bDecay * Math.max((p.life / this.maxLife) - this.bThreshold, 0) ;
         p.color[1] = (1 - this.gDecay) + this.gDecay * Math.max((p.life / this.maxLife) - this.gThreshold, 0) ;
         p.color[0] = (1 - this.rDecay) + this.rDecay * Math.max((p.life / this.maxLife) - this.rThreshold, 0) ; 
-        console.log(p.color[3])
       }
     }
   }
