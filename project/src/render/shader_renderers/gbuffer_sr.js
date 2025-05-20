@@ -58,6 +58,9 @@ export class GBufferShaderRenderer extends ShaderRenderer {
 				mat_model_view_projection: mat_model_view_projection,
 				mat_model_view: mat_model_view,
 				mat_normals_model_view: mat_normals_model_view,
+
+				// vert: this.vert_shader, 
+				// frag: this.frag_shader
 			});
 		}
 
@@ -78,14 +81,6 @@ export class GBufferShaderRenderer extends ShaderRenderer {
 			positionTex: regl.prop('positionTex'),
 			normalsTex: regl.prop('normalsTex'),
 			albedoTex: regl.prop('albedoTex')
-		};
-	}
-
-	attributes(regl) {
-		return {
-			vertex_positions: regl.prop('mesh.vertex_positions'),
-			vertex_normals: regl.prop('mesh.vertex_normals'),
-			vertex_tex_coords: regl.prop('mesh.vertex_tex_coords'),
 		};
 	}
 

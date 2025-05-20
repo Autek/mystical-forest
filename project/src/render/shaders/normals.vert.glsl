@@ -1,5 +1,5 @@
 // Vertex attributes, specified in the "attributes" entry of the pipeline
-attribute vec3 vertex_position;
+attribute vec3 vertex_positions;
 attribute vec3 vertex_normal;
 
 // Global variables specified in "uniforms" entry of the pipeline
@@ -12,5 +12,5 @@ varying vec3 normal;
 void main() {
 
 	normal = normalize(mat_normals_model_view * vertex_normal);
-	gl_Position = mat_model_view_projection * vec4(vertex_position, 1);
+	gl_Position = mat_model_view_projection * vec4(vertex_positions, 1);
 }

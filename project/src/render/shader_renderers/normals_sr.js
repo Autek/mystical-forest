@@ -42,13 +42,6 @@ export class NormalsShaderRenderer extends ShaderRenderer {
 		this.pipeline(inputs);
 	}
 
-	attributes(regl) {
-		return {
-			vertex_position: regl.prop('mesh.vertex_positions'),
-			vertex_normal: regl.prop('mesh.vertex_normals'),
-		};
-	}
-
 	uniforms(regl) {
 		return {
 			mesh : regl.prop('mesh'), 

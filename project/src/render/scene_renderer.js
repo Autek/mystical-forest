@@ -10,6 +10,7 @@ import { ResourceManager } from "../scene_resources/resource_manager.js"
 import { NormalsShaderRenderer } from "./shader_renderers/normals_sr.js"
 import { GBufferShaderRenderer } from "./shader_renderers/gbuffer_sr.js"
 import { SSAOShaderRenderer } from "./shader_renderers/ssao_sr.js"
+import { BlurShaderRenderer } from "./shader_renderers/blur_sr.js"
 
 export class SceneRenderer {
 
@@ -40,6 +41,7 @@ export class SceneRenderer {
         // ssao stuff
         this.gbuffer = new GBufferShaderRenderer(regl, resource_manager);
         this.ssao = new SSAOShaderRenderer(regl, resource_manager);
+        this.blur = new BlurShaderRenderer(regl, resource_manager);
 
         // Create textures & buffer to save some intermediate renders into a texture
         this.create_texture_and_buffer("shadows", {}); 
@@ -49,6 +51,7 @@ export class SceneRenderer {
             this.gbuffer.gbuffer
         ];  // equivalent to `create_texture_and_buffer` with 3 textures instead of 1
         this.create_texture_and_buffer("ssao", {});
+        this.create_texture_and_buffer("blur", {});
     }
 
     /**
@@ -120,21 +123,26 @@ export class SceneRenderer {
         ---------------------------------------------------------------*/
 
         // ssao texture computation
+        const texture_to_render = scene_state.ui_params.is_active_blur ? "blur" : "ssao";
+        this.render_in_texture("gbuffer", () => {
+            this.pre_processing.render(scene_state);
+            this.gbuffer.render(scene_state);
+        });
+        
         if (scene_state.ui_params.is_active_ssao) {
-            this.render_in_texture("gbuffer", () => {
-
+            this.render_in_texture("ssao", () => {
                 this.pre_processing.render(scene_state);
-
-                this.gbuffer.render(scene_state);
-
-                this.render_in_texture("ssao", () => {
-                    this.pre_processing.render(scene_state);
-                    this.ssao.render(scene_state, this.texture("gbuffer"));
-                })
+                this.ssao.render(scene_state, this.texture("gbuffer"));
             });
+
+            if (scene_state.ui_params.is_active_blur) {
+                this.render_in_texture("blur", () => {
+                    this.pre_processing.render(scene_state);
+                    this.blur.render(scene_state, this.texture("ssao"));
+                });
+            }
         }
-
-
+            
         // Render call: the result will be stored in the texture "base"
         this.render_in_texture("base", () => {
 
@@ -151,7 +159,7 @@ export class SceneRenderer {
             this.terrain.render(scene_state);
             
             // Render shaded objects
-            this.blinn_phong.render(scene_state, this.texture("ssao")); // pass occlusion factor
+            this.blinn_phong.render(scene_state, this.texture(texture_to_render)); // pass occlusion factor
             
             // Render the reflection of mirror objects on top
             if (scene_state.ui_params.is_active_mirror) {
@@ -160,7 +168,7 @@ export class SceneRenderer {
                     this.normals.render(scene_state);
                     this.flat_color.render(s_s);
                     this.terrain.render(scene_state);
-                    this.blinn_phong.render(s_s, this.texture("ssao")); // same
+                    this.blinn_phong.render(s_s, this.texture(texture_to_render)); // same
                 });
             }
         })
@@ -185,6 +193,10 @@ export class SceneRenderer {
 
         // Mix the base color of the scene with the shadows information to create the final result
         this.map_mixer.render(scene_state, this.texture("shadows"), this.texture("base"));
+    
+        // this.ssao.render(scene_state, this.texture("gbuffer")); 
+        // this.blur.render(scene_state, this.texture("ssao"));
+        // this.blinn_phong.render(scene_state, this.texture("blur"));
 
         // this.render_in_texture();
         

@@ -1,7 +1,7 @@
 precision highp float;
 
 attribute vec3 vertex_positions;
-attribute vec3 vertex_normals;
+attribute vec3 vertex_normal;
 attribute vec2 vertex_tex_coords;
 
 uniform mat4 mat_model_view;
@@ -14,10 +14,10 @@ varying vec2 TexCoords;
 
 void main() {
 	// pos in view space
-	FragPos = vec3(mat_model_view * vec4(vertex_positions, 1.0));
+	FragPos = (mat_model_view * vec4(vertex_positions, 1.0)).xyz;
 
 	// normal in view space
-	Normal = mat_normals_model_view * vertex_normals;
+	Normal = normalize(mat_normals_model_view * vertex_normal);
 
 	// texture coordinates
 	TexCoords = vertex_tex_coords;

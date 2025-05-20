@@ -31,13 +31,7 @@ export class SSAOShaderRenderer extends ShaderRenderer {
 			height: this.height,
 			format: 'rgba',
 			type: 'float',
-		})
-
-		// framebuffer
-		this.ssaoFramebuffer = regl.framebuffer({
-			color: this.ssaoTex,
 		});
-
   }
 
   render(scene_state, gbufferTex) {
@@ -66,6 +60,9 @@ export class SSAOShaderRenderer extends ShaderRenderer {
 				gPosition: gbufferTex[0],
 				gNormal: gbufferTex[1],
 				texNoise: this.ssaoNoiseTex,
+
+				vert: this.vert_shader, 
+				frag: this.frag_shader
       });
     }
   

@@ -43,43 +43,16 @@ export class SSAOScene extends Scene {
 
     // Add lights
     this.lights.push({
-      position : [-4,-5,7],
-      color: [0.75, 0.53, 0.45]
-    });
-    this.lights.push({
-      position : [6,4,6],
-      color: [0.0, 0.0, 0.3]
-    });
-    
-    // Add a procedurally generated mesh
-    const height_map = this.procedural_texture_generator.compute_texture(
-      "perlin_heightmap", 
-      noise_functions.FBM_for_terrain, 
-      {width: 96, height: 96, mouse_offset: [-12.24, 8.15]}
-    );
-    this.WATER_LEVEL = -0.03125;
-    this.TERRAIN_SCALE = [10,10,10];
-    const terrain_mesh = terrain_build_mesh(height_map, this.WATER_LEVEL);
-    this.resource_manager.add_procedural_mesh("mesh_terrain", terrain_mesh);
-    this.resource_manager.add_procedural_mesh("mesh_sphere_env_map", cg_mesh_make_uv_sphere(16));
-
-    // Add some meshes dynamically - see more functions below
-    place_random_trees(this.dynamic_objects, this.actors, terrain_mesh, this.TERRAIN_SCALE, this.WATER_LEVEL);
-
-    // Add some meshes to the static objects list
-    this.static_objects.push({
-      translation: [0, 0, 0],
-      scale: [80., 80., 80.],
-      mesh_reference: 'mesh_sphere_env_map',
-      material: MATERIALS.sunset_sky
+      position : [0.0, -10.0, 0.0],
+      color: [0.95, 0.85, 0.85]
     });
 
     this.static_objects.push({
       translation: [0, 0, 0],
-      scale: this.TERRAIN_SCALE,
-      mesh_reference: 'mesh_terrain',
-      material: MATERIALS.terrain
-    });
+      scale: [1.0, 1.0, 1.0], 
+      mesh_reference: 'ssao.obj', 
+      material: MATERIALS.gray
+    })
 
     // Combine the dynamic & static objects into one array
     this.objects = this.static_objects.concat(this.dynamic_objects);
@@ -132,9 +105,9 @@ export class SSAOScene extends Scene {
     // Set preset view
     create_hotkey_action("Preset view", "1", () => {
       this.camera.set_preset_view({
-        distance_factor : 0.5,
-        angle_z : -8.440681469282041,
-        angle_y : -0.29240122440170113,
+        distance_factor : 1.5,
+        angle_z : -1.575,
+        angle_y : -0.65,
         look_at : [0, 0, 0]
       })
     });
@@ -159,6 +132,10 @@ export class SSAOScene extends Scene {
 		create_button_with_hotkey("Ambient Occlusion", "a", () => {
 			this.ui_params.is_active_ssao = !this.ui_params.is_active_ssao;
 		});
+    // blur button
+    create_button_with_hotkey("Ambient Occlusion Blur", "b", () => {
+      this.ui_params.is_active_blur = !this.ui_params.is_active_blur;
+    });
   }
 
   /**

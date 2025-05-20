@@ -156,6 +156,7 @@ export class ResourceManager{
             'normals.vert.glsl', 'normals.frag.glsl',
             'gbuffer.vert.glsl', 'gbuffer.frag.glsl',
             'buffer_to_screen.vert.glsl', 'ssao.frag.glsl',
+            'buffer_to_screen.vert.glsl', 'blur.frag.glsl'
           ];
     }
 
