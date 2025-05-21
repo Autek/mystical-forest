@@ -6,7 +6,7 @@ import { terrain_build_mesh } from "../scene_resources/terrain_generation.js"
 import { noise_functions } from "../render/shader_renderers/noise_sr.js"
 import { Scene } from "./scene.js"
 import { vec3 } from "../../lib/gl-matrix_3.3.0/esm/index.js"
-import { create_button, create_slider, create_hotkey_action } from "../cg_libraries/cg_web.js"
+import { create_button, create_slider, create_hotkey_action, create_button_with_hotkey } from "../cg_libraries/cg_web.js"
 import { ResourceManager } from "../scene_resources/resource_manager.js"
 import { ProceduralTextureGenerator } from "../render/procedural_texture_generator.js"
 
@@ -34,6 +34,11 @@ export class DemoScene extends Scene {
   }
 
   initialize_scene(){
+
+    // ui stuff
+		this.ui_params = {
+      is_active_ssao: false,
+    };
 
     // Add lights
     this.lights.push({
@@ -148,6 +153,15 @@ export class DemoScene extends Scene {
 
     // Add button to generate random terrain
     create_button("Random terrain", () => {this.random_terrain()});
+
+    // ssao button
+    create_button_with_hotkey("Ambient Occlusion", "a", () => {
+      this.ui_params.is_active_ssao = !this.ui_params.is_active_ssao;
+    });
+    // blur button
+    create_button_with_hotkey("Ambient Occlusion Blur", "b", () => {
+      this.ui_params.is_active_blur = !this.ui_params.is_active_blur;
+    });
   }
 
   /**

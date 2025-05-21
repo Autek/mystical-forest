@@ -72,7 +72,6 @@ export class BlinnPhongShaderRenderer extends ShaderRenderer {
                     window_height: window.innerHeight,
                     window_width: window.innerWidth,
 
-
                     // ssao
                     ssao_tex: ssaoTex,
                     is_active_ssao: scene_state.ui_params.is_active_ssao,

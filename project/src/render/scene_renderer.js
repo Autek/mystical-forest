@@ -1,16 +1,16 @@
 
-import { BlinnPhongShaderRenderer } from "./shader_renderers/blinn_phong_sr.js"
-import { FlatColorShaderRenderer } from "./shader_renderers/flat_color_sr.js"
-import { MirrorShaderRenderer } from "./shader_renderers/mirror_sr.js"
-import { ShadowsShaderRenderer } from "./shader_renderers/shadows_sr.js"
-import { MapMixerShaderRenderer } from "./shader_renderers/map_mixer_sr.js"
-import { TerrainShaderRenderer } from "./shader_renderers/terrain_sr.js"
-import { PreprocessingShaderRenderer } from "./shader_renderers/pre_processing_sr.js"
 import { ResourceManager } from "../scene_resources/resource_manager.js"
-import { NormalsShaderRenderer } from "./shader_renderers/normals_sr.js"
-import { GBufferShaderRenderer } from "./shader_renderers/gbuffer_sr.js"
-import { SSAOShaderRenderer } from "./shader_renderers/ssao_sr.js"
+import { BlinnPhongShaderRenderer } from "./shader_renderers/blinn_phong_sr.js"
 import { BlurShaderRenderer } from "./shader_renderers/blur_sr.js"
+import { FlatColorShaderRenderer } from "./shader_renderers/flat_color_sr.js"
+import { GBufferShaderRenderer } from "./shader_renderers/gbuffer_sr.js"
+import { MapMixerShaderRenderer } from "./shader_renderers/map_mixer_sr.js"
+import { MirrorShaderRenderer } from "./shader_renderers/mirror_sr.js"
+import { NormalsShaderRenderer } from "./shader_renderers/normals_sr.js"
+import { PreprocessingShaderRenderer } from "./shader_renderers/pre_processing_sr.js"
+import { ShadowsShaderRenderer } from "./shader_renderers/shadows_sr.js"
+import { SSAOShaderRenderer } from "./shader_renderers/ssao_sr.js"
+import { TerrainShaderRenderer } from "./shader_renderers/terrain_sr.js"
 
 export class SceneRenderer {
 
@@ -156,7 +156,7 @@ export class SceneRenderer {
             this.flat_color.render(scene_state);
             
             // Render the terrain
-            this.terrain.render(scene_state);
+            this.terrain.render(scene_state, this.texture(texture_to_render));
             
             // Render shaded objects
             this.blinn_phong.render(scene_state, this.texture(texture_to_render)); // pass occlusion factor
@@ -167,7 +167,7 @@ export class SceneRenderer {
                     this.pre_processing.render(scene_state);
                     this.normals.render(scene_state);
                     this.flat_color.render(s_s);
-                    this.terrain.render(scene_state);
+                    this.terrain.render(scene_state, this.texture(texture_to_render));
                     this.blinn_phong.render(s_s, this.texture(texture_to_render)); // same
                 });
             }
@@ -193,12 +193,6 @@ export class SceneRenderer {
 
         // Mix the base color of the scene with the shadows information to create the final result
         this.map_mixer.render(scene_state, this.texture("shadows"), this.texture("base"));
-    
-        // this.ssao.render(scene_state, this.texture("gbuffer")); 
-        // this.blur.render(scene_state, this.texture("ssao"));
-        // this.blinn_phong.render(scene_state, this.texture("blur"));
-
-        // this.render_in_texture();
         
         // Visualize cubemap
         // this.mirror.env_capture.visualize();

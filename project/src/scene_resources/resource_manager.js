@@ -163,7 +163,8 @@ export class ResourceManager{
     meshes_to_load() {
         return [
         "pine.obj",
-        "suzanne.obj"
+        "suzanne.obj", 
+        "ssao.obj"
       ];
     }
 
