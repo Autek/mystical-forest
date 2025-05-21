@@ -9,6 +9,7 @@ import { vec3 } from "../../lib/gl-matrix_3.3.0/esm/index.js"
 import { create_button, create_slider, create_hotkey_action, create_button_with_hotkey } from "../cg_libraries/cg_web.js"
 import { ResourceManager } from "../scene_resources/resource_manager.js"
 import { ProceduralTextureGenerator } from "../render/procedural_texture_generator.js"
+import { framebuffer_to_image_download } from "../cg_libraries/cg_screenshot.js"
 
 
 export class DemoScene extends Scene {
@@ -131,9 +132,9 @@ export class DemoScene extends Scene {
     // Set preset view
     create_hotkey_action("Preset view", "1", () => {
       this.camera.set_preset_view({
-        distance_factor : 0.8,
-        angle_z : 2.440681469282041,
-        angle_y : -0.29240122440170113,
+        distance_factor : 0.6086308726792908,
+        angle_z : -1.3426814692820401,
+        angle_y : -0.47559877559829866,
         look_at : [0, 0, 0]
       })
     });
