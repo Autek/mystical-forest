@@ -46,11 +46,11 @@ export class DemoScene extends Scene {
     // Add lights
     this.lights.push({
       position : [-4,-5,7],
-      color: [1.5, 0.75, 0.0]
+      color: [0.5, 0.5, 0.5]
     });
     this.lights.push({
       position : [6,4,6],
-      color: [0.0, 0.75, 1.5]
+      color: [1.0, 0.8, 0.8]
     });
     
     // Add a procedurally generated mesh
@@ -180,6 +180,10 @@ export class DemoScene extends Scene {
     this.ui_params.fire_blue_threshold = 0;
     this.ui_params.fire_green_threshold = 0;
     this.ui_params.fire_red_threshold = 0;
+    this.ui_params.is_active_bloom = false;
+    this.ui_params.bloom_threshold = 1.0;
+    this.ui_params.exposition = 1.0;
+
 
     // Set preset view
     create_hotkey_action("Preset view", "1", () => {
@@ -215,6 +219,23 @@ export class DemoScene extends Scene {
     create_button_with_hotkey("Ambient Occlusion Blur", "b", () => {
       this.ui_params.is_active_blur = !this.ui_params.is_active_blur;
     });
+
+    create_button_with_hotkey("bloom", "c", () => {
+      this.ui_params.is_active_bloom = !this.ui_params.is_active_bloom;
+    });
+
+    const min_bloom = 0;
+    const max_bloom = 4;
+    create_slider("exposition", [0, n_steps_slider], (i) => {
+      this.ui_params.exposition = min_bloom + i * (max_bloom - min_bloom) / n_steps_slider;
+    });
+
+    const min_bloom_thresh = 0;
+    const max_bloom_thresh = 4;
+    create_slider("bloom threshold", [0, n_steps_slider], (i) => {
+      this.ui_params.bloom_threshold = min_bloom_thresh + i * (max_bloom_thresh - min_bloom_thresh) / n_steps_slider;
+    });
+
     var min1 = 0;
     var max1 = 2;
     create_slider("max fire particle size", [0, n_steps_slider], (i) => {

@@ -60,6 +60,7 @@ export class SceneRenderer {
         ];  // equivalent to `create_texture_and_buffer` with 3 textures instead of 1
         this.create_texture_and_buffer("ssao", {});
         this.create_texture_and_buffer("blur", {});
+        this.create_texture_and_buffer("shaded", {});
         this.create_texture_and_buffer("lowres0", { scale: 0.5 });
         this.create_texture_and_buffer("lowres1", { scale: 0.5 });
     }
@@ -203,22 +204,30 @@ export class SceneRenderer {
             3. Compositing
         ---------------------------------------------------------------*/
 
-        // Mix the base color of the scene with the shadows information to create the final result
-        this.map_mixer.render(scene_state, this.texture("shadows"), this.texture("base"));
 
-        // 4. Threshold post-processing from base to pingpong0
-        this.threshold.render(this.texture("base"), "lowres0");
+        if (scene_state.ui_params.is_active_bloom) {
+            // Mix the base color of the scene with the shadows information to create the final result
+            this.render_in_texture("shaded", () =>{
+                this.map_mixer.render(scene_state, this.texture("shadows"), this.texture("base"));
+            })
+            // 4. Threshold post-processing from base to pingpong0
+            this.threshold.render(this.texture("shaded"), "lowres0", scene_state.ui_params.bloom_threshold);
 
-        // 5. Blur the result
-        const blurred = this.bloom_shader.applyBlur(
-            this.texture("lowres0"),
-            this.texture("lowres0"),
-            this.texture("lowres1"),
-            10
-        );
+            // 5. Blur the result
+            const blurred = this.bloom_shader.applyBlur(
+                this.texture("lowres0"),
+                this.texture("lowres0"),
+                this.texture("lowres1"),
+                10
+            );
 
-        // 6. Final composite bloom on top
-        this.bloom_composite.render(this.texture("base"), blurred);
+            // 6. Final composite bloom on top
+            this.bloom_composite.render(this.texture("shaded"), blurred, scene_state.ui_params.exposition);
+        }
+
+        else {
+                this.map_mixer.render(scene_state, this.texture("shadows"), this.texture("base"));
+        }
 
         // Visualize cubemap
         // this.mirror.env_capture.visualize();
