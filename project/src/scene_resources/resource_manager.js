@@ -152,12 +152,16 @@ export class ResourceManager{
             'noise.vert.glsl', 'noise.frag.glsl',
             `buffer_to_screen.vert.glsl`, `buffer_to_screen.frag.glsl`,
             'terrain.vert.glsl', 'terrain.frag.glsl',
+            'bloom.vert.glsl', 'bloom.frag.glsl',
+            'bloom_composite.vert.glsl', 'bloom_composite.frag.glsl',
+            'threshold.vert.glsl', 'threshold.frag.glsl',
           ];
     }
 
     meshes_to_load() {
         return [
         "pine.obj",
+        "suzanne.obj",
       ];
     }
 

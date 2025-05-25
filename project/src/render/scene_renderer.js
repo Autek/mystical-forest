@@ -1,4 +1,4 @@
-
+import { BloomShaderRenderer } from "./shader_renderers/bloom_sr.js"
 import { BlinnPhongShaderRenderer } from "./shader_renderers/blinn_phong_sr.js"
 import { FlatColorShaderRenderer } from "./shader_renderers/flat_color_sr.js"
 import { MirrorShaderRenderer } from "./shader_renderers/mirror_sr.js"
@@ -7,6 +7,8 @@ import { MapMixerShaderRenderer } from "./shader_renderers/map_mixer_sr.js"
 import { TerrainShaderRenderer } from "./shader_renderers/terrain_sr.js"
 import { PreprocessingShaderRenderer } from "./shader_renderers/pre_processing_sr.js"
 import { ResourceManager } from "../scene_resources/resource_manager.js"
+import { BloomCompositeRenderer } from "./shader_renderers/bloom_composite_sr.js"
+import { ThresholdShaderRenderer } from "./shader_renderers/threshold_sr.js"
 
 export class SceneRenderer {
 
@@ -32,9 +34,15 @@ export class SceneRenderer {
         this.shadows = new ShadowsShaderRenderer(regl, resource_manager);
         this.map_mixer = new MapMixerShaderRenderer(regl, resource_manager);
 
+        this.threshold = new ThresholdShaderRenderer(regl, resource_manager, this.render_in_texture.bind(this));
+        this.bloom_shader = new BloomShaderRenderer(regl, resource_manager, this.render_in_texture.bind(this));
+        this.bloom_composite = new BloomCompositeRenderer(regl, resource_manager);
+
         // Create textures & buffer to save some intermediate renders into a texture
         this.create_texture_and_buffer("shadows", {}); 
         this.create_texture_and_buffer("base", {}); 
+        this.create_texture_and_buffer("pingpong0", {});
+        this.create_texture_and_buffer("pingpong1", {});
     }
 
     /**
@@ -150,12 +158,22 @@ export class SceneRenderer {
         // Mix the base color of the scene with the shadows information to create the final result
         this.map_mixer.render(scene_state, this.texture("shadows"), this.texture("base"));
 
+        // 4. Threshold post-processing from base to pingpong0
+        this.threshold.render(this.texture("base"), "pingpong0");
+
+        // 5. Blur the result
+        const blurred = this.bloom_shader.applyBlur(
+            this.texture("pingpong0"),
+            this.texture("pingpong0"),
+            this.texture("pingpong1"),
+            10
+        );
+
+        // 6. Final composite bloom on top
+        this.bloom_composite.render(this.texture("base"), blurred);
+
         // Visualize cubemap
         // this.mirror.env_capture.visualize();
 
     }
 }
-
-
-
-
