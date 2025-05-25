@@ -6,10 +6,11 @@ export class BloomCompositeRenderer extends ShaderRenderer {
         this.pipeline = this.init_pipeline();
     }
 
-    render(baseTex, bloomTex) {
+    render(baseTex, bloomTex, exposure) {
         this.pipeline({
             baseTex,
-            bloomTex
+            bloomTex,
+            exposure
         });
     }
 
@@ -17,6 +18,7 @@ export class BloomCompositeRenderer extends ShaderRenderer {
         return {
             baseTex: regl.prop("baseTex"),
             bloomTex: regl.prop("bloomTex"),
+            exposure: regl.prop("exposure")
         };
     }
 

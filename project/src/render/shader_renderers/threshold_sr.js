@@ -6,7 +6,7 @@ export class ThresholdShaderRenderer extends ShaderRenderer {
         this.renderInTexture = renderInTexture;
     }
 
-    render(inputTex, outputBufName) {
+    render(inputTex, outputBufName, threshold) {
         this.renderInTexture(outputBufName, () => {
             this.pipeline({
                 inputTex,
@@ -15,14 +15,16 @@ export class ThresholdShaderRenderer extends ShaderRenderer {
                 ],
                 elements: [
                     [0, 1, 2], [0, 2, 3]
-                ]
+                ],
+                threshold
             });
         });
     }
 
     uniforms(regl) {
         return {
-            inputTex: regl.prop("inputTex")
+            inputTex: regl.prop("inputTex"),
+            threshold: regl.prop("threshold")
         };
     }
     init_pipeline() {
