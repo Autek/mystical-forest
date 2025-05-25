@@ -60,7 +60,8 @@ export class ParticleShaderRenderer extends ShaderRenderer {
         const colors = new Uint8Array(this.maxParticles * 4);
         let aliveCount = 0;
 
-        for (const emitter of scene.particle_emitters) {
+        const emitters = scene.particle_emitters ?? []
+        for (const emitter of emitters) {
             aliveCount += emitter.exportParticles(positions, colors, aliveCount);
         }
 

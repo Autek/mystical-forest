@@ -44,8 +44,8 @@ export class SceneRenderer {
         // Create textures & buffer to save some intermediate renders into a texture
         this.create_texture_and_buffer("shadows", {}); 
         this.create_texture_and_buffer("base", {}); 
-        this.create_texture_and_buffer("lowres0", { scale: 0.25 });
-        this.create_texture_and_buffer("lowres1", { scale: 0.25 });
+        this.create_texture_and_buffer("lowres0", { scale: 0.5 });
+        this.create_texture_and_buffer("lowres1", { scale: 0.5 });
     }
 
     /**

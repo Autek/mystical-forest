@@ -48,7 +48,7 @@ export class BloomShaderRenderer extends ShaderRenderer {
         let input = inputTex;
 
         for (let i = 0; i < passes; ++i) {
-            const output = horizontal ? "pingpong1" : "pingpong0";
+            const output = horizontal ? "lowres1" : "lowres0";
 
             this.render(
                 first_iteration ? input : (horizontal ? pingpong0Tex : pingpong1Tex),
