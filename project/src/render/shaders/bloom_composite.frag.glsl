@@ -5,7 +5,11 @@ uniform sampler2D bloomTex;
 varying vec2 v_uv;
 
 void main() {
-    vec3 base = texture2D(baseTex, v_uv).rgb;
-    vec3 bloom = texture2D(bloomTex, v_uv).rgb;
-    gl_FragColor = vec4(base + bloom, 1.0); // or mix(base, bloom, 0.3) for subtle effect
+    const float gamma = 2.2;
+    vec3 hdrColor = texture2D(baseTex, v_uv).rgb;      
+    vec3 bloomColor = texture2D(bloomTex, v_uv).rgb;
+    hdrColor += bloomColor;
+    // tone mapping
+    vec3 result = vec3(1.0) - exp(-hdrColor * 0.8);
+    gl_FragColor = vec4(result, 1.0);
 }
