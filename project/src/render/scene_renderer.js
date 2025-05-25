@@ -1,3 +1,7 @@
+import { BlurShaderRenderer } from "./shader_renderers/blur_sr.js"
+import { GBufferShaderRenderer } from "./shader_renderers/gbuffer_sr.js"
+import { NormalsShaderRenderer } from "./shader_renderers/normals_sr.js"
+import { SSAOShaderRenderer } from "./shader_renderers/ssao_sr.js"
 import { BloomShaderRenderer } from "./shader_renderers/bloom_sr.js"
 import { BlinnPhongShaderRenderer } from "./shader_renderers/blinn_phong_sr.js"
 import { FlatColorShaderRenderer } from "./shader_renderers/flat_color_sr.js"
@@ -37,6 +41,12 @@ export class SceneRenderer {
         this.shadows = new ShadowsShaderRenderer(regl, resource_manager);
         this.map_mixer = new MapMixerShaderRenderer(regl, resource_manager);
 
+        this.normals = new NormalsShaderRenderer(regl, resource_manager);
+
+        // ssao stuff
+        this.gbuffer = new GBufferShaderRenderer(regl, resource_manager);
+        this.ssao = new SSAOShaderRenderer(regl, resource_manager);
+        this.blur = new BlurShaderRenderer(regl, resource_manager);
         this.threshold = new ThresholdShaderRenderer(regl, resource_manager, this.render_in_texture.bind(this));
         this.bloom_shader = new BloomShaderRenderer(regl, resource_manager, this.render_in_texture.bind(this));
         this.bloom_composite = new BloomCompositeRenderer(regl, resource_manager);
@@ -44,6 +54,12 @@ export class SceneRenderer {
         // Create textures & buffer to save some intermediate renders into a texture
         this.create_texture_and_buffer("shadows", {}); 
         this.create_texture_and_buffer("base", {}); 
+        this.textures_and_buffers["gbuffer"] = [    
+            [this.gbuffer.positionTex, this.gbuffer.normalsTex, this.gbuffer.albedoTex], 
+            this.gbuffer.gbuffer
+        ];  // equivalent to `create_texture_and_buffer` with 3 textures instead of 1
+        this.create_texture_and_buffer("ssao", {});
+        this.create_texture_and_buffer("blur", {});
         this.create_texture_and_buffer("lowres0", { scale: 0.5 });
         this.create_texture_and_buffer("lowres1", { scale: 0.5 });
     }
@@ -116,30 +132,57 @@ export class SceneRenderer {
             1. Base Render Passes
         ---------------------------------------------------------------*/
 
+        // ssao texture computation
+        const texture_to_render = scene_state.ui_params.is_active_blur ? "blur" : "ssao";
+        this.render_in_texture("gbuffer", () => {
+            this.pre_processing.render(scene_state);
+            this.gbuffer.render(scene_state);
+        });
+        
+        if (scene_state.ui_params.is_active_ssao) {
+            this.render_in_texture("ssao", () => {
+                this.pre_processing.render(scene_state);
+                this.ssao.render(scene_state, this.texture("gbuffer"));
+            });
+
+            if (scene_state.ui_params.is_active_blur) {
+                this.render_in_texture("blur", () => {
+                    this.pre_processing.render(scene_state);
+                    this.blur.render(scene_state, this.texture("ssao"));
+                });
+            }
+        }
+            
         // Render call: the result will be stored in the texture "base"
-        this.render_in_texture("base", () =>{
+        this.render_in_texture("base", () => {
 
             // Prepare the z_buffer and object with default black color
             this.pre_processing.render(scene_state);
 
+            // normals
+            this.normals.render(scene_state);
+            
             // Render the background
             this.flat_color.render(scene_state);
-
+            
             // Render the terrain
-            this.terrain.render(scene_state);
-
+            this.terrain.render(scene_state, this.texture(texture_to_render));
+            
             // Render shaded objects
-            this.blinn_phong.render(scene_state);
-
+            this.blinn_phong.render(scene_state, this.texture(texture_to_render)); // pass occlusion factor
+            
             this.particle.render(scene_state);
 
             // Render the reflection of mirror objects on top
-            this.mirror.render(scene_state, (s_s) => {
-                this.pre_processing.render(scene_state);
-                this.flat_color.render(s_s);
-                this.terrain.render(scene_state);
-                this.blinn_phong.render(s_s);
-            });
+            if (scene_state.ui_params.is_active_mirror) {
+                this.mirror.render(scene_state, (s_s) => {
+                    this.pre_processing.render(scene_state);
+                    this.normals.render(scene_state);
+                    this.flat_color.render(s_s);
+                    this.terrain.render(scene_state, this.texture(texture_to_render));
+                    this.blinn_phong.render(s_s, this.texture(texture_to_render)); // same
+                });
+            }
         })
 
         /*---------------------------------------------------------------
@@ -179,6 +222,5 @@ export class SceneRenderer {
 
         // Visualize cubemap
         // this.mirror.env_capture.visualize();
-
     }
 }
