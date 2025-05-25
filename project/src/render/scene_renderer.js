@@ -44,8 +44,8 @@ export class SceneRenderer {
         // Create textures & buffer to save some intermediate renders into a texture
         this.create_texture_and_buffer("shadows", {}); 
         this.create_texture_and_buffer("base", {}); 
-        this.create_texture_and_buffer("pingpong0", {});
-        this.create_texture_and_buffer("pingpong1", {});
+        this.create_texture_and_buffer("lowres0", { scale: 0.25 });
+        this.create_texture_and_buffer("lowres1", { scale: 0.25 });
     }
 
     /**
@@ -53,10 +53,10 @@ export class SceneRenderer {
      * @param {*} name the name for the texture (used to save & retrive data)
      * @param {*} parameters use if you need specific texture parameters
      */
-    create_texture_and_buffer(name, {wrap = 'clamp', format = 'rgba', type = 'float'}){
+    create_texture_and_buffer(name, {wrap = 'clamp', format = 'rgba', type = 'float', scale = 1.0}){
         const regl = this.regl;
-        const framebuffer_width = window.innerWidth;
-        const framebuffer_height = window.innerHeight;
+        const framebuffer_width = Math.floor(window.innerWidth * scale);
+        const framebuffer_height = Math.floor(window.innerHeight * scale);
 
         // Create a regl texture and a regl buffer linked to the regl texture
         const text = regl.texture({ width: framebuffer_width, height: framebuffer_height, wrap: wrap, format: format, type: type })
@@ -164,13 +164,13 @@ export class SceneRenderer {
         this.map_mixer.render(scene_state, this.texture("shadows"), this.texture("base"));
 
         // 4. Threshold post-processing from base to pingpong0
-        this.threshold.render(this.texture("base"), "pingpong0");
+        this.threshold.render(this.texture("base"), "lowres0");
 
         // 5. Blur the result
         const blurred = this.bloom_shader.applyBlur(
-            this.texture("pingpong0"),
-            this.texture("pingpong0"),
-            this.texture("pingpong1"),
+            this.texture("lowres0"),
+            this.texture("lowres0"),
+            this.texture("lowres1"),
             10
         );
 
