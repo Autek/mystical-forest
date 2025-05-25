@@ -7,9 +7,12 @@ import { MapMixerShaderRenderer } from "./shader_renderers/map_mixer_sr.js"
 import { TerrainShaderRenderer } from "./shader_renderers/terrain_sr.js"
 import { PreprocessingShaderRenderer } from "./shader_renderers/pre_processing_sr.js"
 import { ResourceManager } from "../scene_resources/resource_manager.js"
+<<<<<<< HEAD
 import { ParticleShaderRenderer } from "./shader_renderers/particle_shader_renderer.js"
+=======
 import { BloomCompositeRenderer } from "./shader_renderers/bloom_composite_sr.js"
 import { ThresholdShaderRenderer } from "./shader_renderers/threshold_sr.js"
+>>>>>>> bloom
 
 export class SceneRenderer {
 
