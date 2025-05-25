@@ -1,5 +1,5 @@
-import { vec2, vec3, vec4, mat3, mat4 } from "../../lib/gl-matrix_3.3.0/esm/index.js"
-import { deg_to_rad, mat4_to_string, vec_to_string, mat4_matmul_many } from "../cg_libraries/cg_math.js"
+import { mat3, mat4 } from "../../lib/gl-matrix_3.3.0/esm/index.js"
+import { deg_to_rad, mat4_matmul_many } from "../cg_libraries/cg_math.js"
 
 /**
  * Create a new turntable camera
@@ -15,7 +15,8 @@ export class TurntableCamera {
         
         this.mat = {
             projection : mat4.create(),
-            view : mat4.create()
+            view : mat4.create(),
+            view_projection: mat4.create()
         }
 
         this.update_format_ratio(100, 100);
@@ -35,6 +36,7 @@ export class TurntableCamera {
             0.01, // near
             512, // far
         )
+        this.update_cam_transform();
     }
 
     /**
@@ -52,6 +54,7 @@ export class TurntableCamera {
         const M_rot_y = mat4.fromYRotation(mat4.create(), this.angle_y)
         const M_rot_z = mat4.fromZRotation(mat4.create(), this.angle_z)
         mat4_matmul_many(this.mat.view, M_look_forward_X, M_rot_y, M_rot_z);
+        mat4.multiply(this.mat.view_projection, this.mat.projection, this.mat.view);
     }
 
     /**

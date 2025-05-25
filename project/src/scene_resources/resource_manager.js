@@ -1,7 +1,6 @@
 import { cg_mesh_make_uv_sphere, cg_mesh_load_obj_into_regl, mesh_upload_to_buffer } from "../cg_libraries/cg_mesh.js"
 import { load_image, load_text, load_texture } from "../cg_libraries/cg_web.js"
 import { vec3, vec4, mat3, mat4 } from "../../lib/gl-matrix_3.3.0/esm/index.js"
-import { ProceduralTextureGenerator } from "../render/procedural_texture_generator.js";
 
 export class ResourceManager{
 
@@ -156,7 +155,11 @@ export class ResourceManager{
             'normals.vert.glsl', 'normals.frag.glsl',
             'gbuffer.vert.glsl', 'gbuffer.frag.glsl',
             'buffer_to_screen.vert.glsl', 'ssao.frag.glsl',
-            'buffer_to_screen.vert.glsl', 'blur.frag.glsl'
+            'buffer_to_screen.vert.glsl', 'blur.frag.glsl',
+            'particles.vert.glsl', 'particles.frag.glsl',
+            'bloom.vert.glsl', 'bloom.frag.glsl',
+            'bloom_composite.vert.glsl', 'bloom_composite.frag.glsl',
+            'threshold.vert.glsl', 'threshold.frag.glsl',
           ];
     }
 
@@ -201,7 +204,4 @@ function generate_textures(regl, resources) {
     resources['tex_water_identifier'] = make_texture_from_color([0.0, 0.0, 1.0])
     resources['tex_water_wall_identifier'] = make_texture_from_color([0.0, 1.0, 1.0])
     resources['tex_terrain'] = make_texture_from_color([1.0, 0.0, 0.0])
-  
   }
-  
-

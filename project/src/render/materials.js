@@ -110,6 +110,11 @@ export const pine = new DiffuseMaterial({
     shininess: 0.5
 });
 
+export const test = new DiffuseMaterial({
+    color: [0.9, 0.8, 0.8],
+    shininess: 10.
+});
+
 export const terrain = new TerrainMaterial({
     water_color: [0.29, 0.51, 0.62],
     grass_color: [0.33, 0.43, 0.18],
