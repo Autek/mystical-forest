@@ -55,6 +55,9 @@ export class SSAOShaderRenderer extends ShaderRenderer {
 
 				samples: this.ssaoKernel,
 				noiseScale: this.noiseScale,
+				ssaoRadius: scene_state.ui_params.ssao_radius,
+				ssaoBias: scene_state.ui_params.ssao_bias,
+				ssaoIntensity: scene_state.ui_params.ssao_intensity,
 				
 				// textures
 				gPosition: gbufferTex[0],
@@ -75,6 +78,9 @@ export class SSAOShaderRenderer extends ShaderRenderer {
 
 			samples: regl.prop('samples'),
 			noiseScale: regl.prop('noiseScale'),
+			ssao_radius: regl.prop('ssaoRadius'),
+			ssao_bias: regl.prop('ssaoBias'),
+			ssao_intensity: regl.prop('ssaoIntensity'),
 			
 			gPosition: regl.prop('gPosition'),
 			gNormal: regl.prop('gNormal'),

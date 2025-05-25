@@ -39,6 +39,10 @@ export class SSAOScene extends Scene {
     // ui stuff
 		this.ui_params = {
       is_active_ssao: false,
+      is_active_blur: false, 
+      ssao_radius: 1.0,
+      ssao_bias: 0.025, 
+      ssao_intensity: 2.0,
     };
 
     // Add lights
@@ -135,6 +139,16 @@ export class SSAOScene extends Scene {
     // blur button
     create_button_with_hotkey("Ambient Occlusion Blur", "b", () => {
       this.ui_params.is_active_blur = !this.ui_params.is_active_blur;
+    });
+    // sliders for tweakable parameters
+    create_slider("SSAO radius", [0.0, 200.], (value) => {
+      this.ui_params.ssao_radius = value/10.; // divide by 10 to account for slider only having ints
+    });
+    create_slider("SSAO bias", [0.0, 20.0], (value) => {
+      this.ui_params.ssao_bias = value/10.0;
+    });
+    create_slider("SSAO intensity", [0.0, 200.0], (value) => {
+      this.ui_params.ssao_intensity = value/10.0;
     });
   }
 

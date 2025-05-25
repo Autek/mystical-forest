@@ -9,6 +9,9 @@ uniform sampler2D texNoise;
 
 uniform vec4 samples[64];
 uniform mat4 projection;
+uniform float ssao_radius;
+uniform float ssao_bias;
+uniform float ssao_intensity;
 
 // tile noise texture (screen dims divided by noise size)
 uniform vec2 noiseScale;
@@ -28,8 +31,8 @@ void main() {
     // iterate over samples to get final result
     float occlusion = 0.0;
     const int kernelSize = 64; // tweakable //! if change, change in sample generation as well
-    float radius = 1.0; // tweakable
-    float bias = 0.025; // tweakable - solves acnee
+    float radius = ssao_radius; // tweakable
+    float bias = ssao_bias; // tweakable - solves acnee
     for (int i = 0; i < kernelSize; ++i) {
         // translate sample pos from tangent to view space
         vec3 samplePosView = TBN * samples[i].xyz * radius; // sample[i] in tangent space
@@ -52,7 +55,7 @@ void main() {
 
     // normalize by number of samples and 1 - X to be able to use directly on ambient light
     occlusion = 1.0 - (occlusion / float(kernelSize));
-    occlusion = pow(occlusion, 2.0);	// tweakable - more intense
+    occlusion = pow(occlusion, ssao_intensity);	// tweakable - more intense
 
     gl_FragColor[0] = occlusion;
 }

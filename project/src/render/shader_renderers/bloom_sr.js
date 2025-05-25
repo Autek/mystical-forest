@@ -25,7 +25,6 @@ export class BloomShaderRenderer extends ShaderRenderer {
      * @param {*} scene_state 
      */
     render(inputTex, outputBufName, horizontal) {
-        console.log("inputTex:", inputTex);  // 🔍 Check what you're passing in
         this.renderInTexture(outputBufName, () => {
         this.pipeline({
             image: inputTex,

@@ -115,7 +115,7 @@ async function main() {
   const particle_scene = new ParticleScene(resource_manager);
   const tutorial_scene = new TutorialScene(resource_manager);
   const ssao_scene = new SSAOScene(resource_manager, procedural_texture_generator);
-  const active_scene = demo_scene;   // Assign the scene to be rendered to active_scene
+  const active_scene = ssao_scene;   // Assign the scene to be rendered to active_scene
   
   /*---------------------------------------------------------------
     5. UI Instantiation
