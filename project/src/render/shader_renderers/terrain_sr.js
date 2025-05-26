@@ -25,7 +25,7 @@ export class TerrainShaderRenderer extends ShaderRenderer {
      * Render all objects that have a "terrain" material.
      * @param {*} scene_state 
      */
-    render(scene_state){
+    render(scene_state, ssaoTex){
 
         const scene = scene_state.scene;
         const inputs = [];
@@ -69,7 +69,14 @@ export class TerrainShaderRenderer extends ShaderRenderer {
                     material_grass_color: obj.material.grass_color,
                     material_grass_shininess: obj.material.grass_shininess,
                     material_peak_color: obj.material.peak_color,
-                    material_peak_shininess: obj.material.peak_shininess
+                    material_peak_shininess: obj.material.peak_shininess,
+
+                    window_height: window.innerHeight,
+                    window_width: window.innerWidth,
+
+                    // ssao
+                    ssao_tex: ssaoTex,
+                    is_active_ssao: scene_state.ui_params.is_active_ssao,
                 });
 
             }
@@ -106,7 +113,7 @@ export class TerrainShaderRenderer extends ShaderRenderer {
     }
 
     uniforms(regl){
-        return{
+        return {
             // View (camera) related matrix
             mat_model_view_projection: regl.prop('mat_model_view_projection'),
             mat_model_view: regl.prop('mat_model_view'),
@@ -128,7 +135,15 @@ export class TerrainShaderRenderer extends ShaderRenderer {
             grass_color: regl.prop('material_grass_color'),
             grass_shininess: regl.prop('material_grass_shininess'),
             peak_color: regl.prop('material_peak_color'),
-            peak_shininess: regl.prop('material_peak_shininess')
+            peak_shininess: regl.prop('material_peak_shininess'),
+
+            // window size
+            window_height: regl.prop('window_height'),
+            window_width: regl.prop('window_width'),
+
+            // ssao texture
+            ssao_texture: regl.prop('ssao_tex'),
+            is_active_ssao: regl.prop('is_active_ssao'),
         };
     }
 }

@@ -13,7 +13,6 @@ uniform mat4 mat_model_view;
 uniform mat4 mat_model_view_projection;
 uniform mat3 mat_normals_model_view;
 
-
 void main() {
 	
 	// uv if object has a texture

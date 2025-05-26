@@ -9,11 +9,10 @@ import { vec3 } from "../../lib/gl-matrix_3.3.0/esm/index.js"
 import { create_button, create_slider, create_hotkey_action, create_button_with_hotkey } from "../cg_libraries/cg_web.js"
 import { ResourceManager } from "../scene_resources/resource_manager.js"
 import { ProceduralTextureGenerator } from "../render/procedural_texture_generator.js"
-import { framebuffer_to_image_download } from "../cg_libraries/cg_screenshot.js"
-import { FireEmitter } from "../scene_resources/fire_emitter.js"
 
 
-export class DemoScene extends Scene {
+
+export class SSAOScene extends Scene {
 
   /**
    * A scene featuring a procedurally generated terrain with dynamic objects
@@ -30,7 +29,6 @@ export class DemoScene extends Scene {
     // Additional helper lists to better organize dynamic object generation
     this.static_objects = [];
     this.dynamic_objects = [];
-    this.particle_emitters = [];
 
     this.initialize_scene();
     this.initialize_actor_actions();
@@ -41,47 +39,24 @@ export class DemoScene extends Scene {
     // ui stuff
 		this.ui_params = {
       is_active_ssao: false,
+      is_active_blur: false, 
+      ssao_radius: 1.0,
+      ssao_bias: 0.025, 
+      ssao_intensity: 2.0,
     };
 
     // Add lights
     this.lights.push({
-      position : [-4,-5,7],
-      color: [0.5, 0.5, 0.5]
-    });
-    this.lights.push({
-      position : [6,4,6],
-      color: [1.0, 0.8, 0.8]
-    });
-    
-    // Add a procedurally generated mesh
-    const height_map = this.procedural_texture_generator.compute_texture(
-      "perlin_heightmap", 
-      noise_functions.FBM_for_terrain, 
-      {width: 96, height: 96, mouse_offset: [-12.24, 8.15]}
-    );
-    this.WATER_LEVEL = -0.03125;
-    this.TERRAIN_SCALE = [10,10,10];
-    const terrain_mesh = terrain_build_mesh(height_map, this.WATER_LEVEL);
-    this.resource_manager.add_procedural_mesh("mesh_terrain", terrain_mesh);
-    this.resource_manager.add_procedural_mesh("mesh_sphere_env_map", cg_mesh_make_uv_sphere(16));
-
-    // Add some meshes dynamically - see more functions below
-    place_random_trees(this.dynamic_objects, this.actors, terrain_mesh, this.TERRAIN_SCALE, this.WATER_LEVEL);
-
-    // Add some meshes to the static objects list
-    this.static_objects.push({
-      translation: [0, 0, 0],
-      scale: [80., 80., 80.],
-      mesh_reference: 'mesh_sphere_env_map',
-      material: MATERIALS.sunset_sky
+      position : [0.0, -10.0, 0.0],
+      color: [0.95, 0.85, 0.85]
     });
 
     this.static_objects.push({
       translation: [0, 0, 0],
-      scale: this.TERRAIN_SCALE,
-      mesh_reference: 'mesh_terrain',
-      material: MATERIALS.terrain
-    });
+      scale: [1.0, 1.0, 1.0], 
+      mesh_reference: 'ssao.obj', 
+      material: MATERIALS.gray
+    })
 
     // Combine the dynamic & static objects into one array
     this.objects = this.static_objects.concat(this.dynamic_objects);
@@ -90,20 +65,6 @@ export class DemoScene extends Scene {
     this.lights.forEach((light, i) => {
       this.actors[`light_${i}`] = light
     });
-
-    const fireEmitter = new FireEmitter({
-      position: [0., 0., 0.], 
-      maxParticles: 100000,
-      emissionRate: 300, // per second
-      color: [1.0, 0.5, 0.0, 1.0],
-      maxLife: 3,
-      minLife: 1.5,
-      minPartSize: 0.5,
-      maxPartSize: 1.5,
-
-    });
-    this.particle_emitters.push(fireEmitter);
-    this.actors["fire"] = fireEmitter;
   }
 
   /**
@@ -113,27 +74,6 @@ export class DemoScene extends Scene {
     
     for (const name in this.actors) {
       // Pine tree
-      if (name === "fire"){
-        const fire = this.actors[name];
-        fire.evolve = (dt) => {
-          fire.maxPartSize = this.ui_params.fire_max_part_size;
-          fire.minPartSize = this.ui_params.fire_min_part_size;
-          fire.emissionRate = this.ui_params.fire_part_emission_rate;
-          fire.maxLife = this.ui_params.fire_max_part_life;
-          fire.minLife = this.ui_params.fire_min_part_life;
-          fire.fireRadius = this.ui_params.fire_radius;
-          fire.speed = this.ui_params.fire_speed;
-          fire.aDecay = this.ui_params.fire_alpha_decay;
-          fire.bDecay = this.ui_params.fire_blue_decay;
-          fire.gDecay = this.ui_params.fire_green_decay;
-          fire.rDecay = this.ui_params.fire_red_decay;
-          fire.aThreshold = this.ui_params.fire_alpha_threshold;
-          fire.bThreshold = this.ui_params.fire_blue_threshold;
-          fire.gThreshold = this.ui_params.fire_green_threshold;
-          fire.rThreshold = this.ui_params.fire_red_threshold;
-          fire.update(dt); 
-        }
-    }
       if (name.includes("tree")){
         const tree = this.actors[name];
         tree.evolve = (dt) => {
@@ -165,32 +105,13 @@ export class DemoScene extends Scene {
   initialize_ui_params(){
 
     this.ui_params.light_height = [7, 6];
-    this.ui_params.fire_max_part_size = 0.5;
-    this.ui_params.fire_min_part_size = 0.;
-    this.ui_params.fire_part_emission_rate = 1000;
-    this.ui_params.fire_max_part_life = 3;
-    this.ui_params.fire_min_part_life = 0.;
-    this.ui_params.fire_radius = 2;
-    this.ui_params.fire_speed = 1;
-    this.ui_params.fire_alpha_decay = 1;
-    this.ui_params.fire_blue_decay = 1;
-    this.ui_params.fire_green_decay = 1;
-    this.ui_params.fire_red_decay = 1;
-    this.ui_params.fire_alpha_threshold = 0;
-    this.ui_params.fire_blue_threshold = 0;
-    this.ui_params.fire_green_threshold = 0;
-    this.ui_params.fire_red_threshold = 0;
-    this.ui_params.is_active_bloom = false;
-    this.ui_params.bloom_threshold = 1.0;
-    this.ui_params.exposition = 1.0;
-
 
     // Set preset view
     create_hotkey_action("Preset view", "1", () => {
       this.camera.set_preset_view({
-        distance_factor : 0.6086308726792908,
-        angle_z : -1.3426814692820401,
-        angle_y : -0.47559877559829866,
+        distance_factor : 1.5,
+        angle_z : -1.575,
+        angle_y : -0.65,
         look_at : [0, 0, 0]
       })
     });
@@ -211,111 +132,23 @@ export class DemoScene extends Scene {
     // Add button to generate random terrain
     create_button("Random terrain", () => {this.random_terrain()});
 
-    // ssao button
-    create_button_with_hotkey("Ambient Occlusion", "a", () => {
-      this.ui_params.is_active_ssao = !this.ui_params.is_active_ssao;
-    });
+		// ssao button
+		create_button_with_hotkey("Ambient Occlusion", "a", () => {
+			this.ui_params.is_active_ssao = !this.ui_params.is_active_ssao;
+		});
     // blur button
     create_button_with_hotkey("Ambient Occlusion Blur", "b", () => {
       this.ui_params.is_active_blur = !this.ui_params.is_active_blur;
     });
-
-    create_button_with_hotkey("bloom", "c", () => {
-      this.ui_params.is_active_bloom = !this.ui_params.is_active_bloom;
+    // sliders for tweakable parameters
+    create_slider("SSAO radius", [0.0, 200.], (value) => {
+      this.ui_params.ssao_radius = value/10.; // divide by 10 to account for slider only having ints
     });
-
-    const min_bloom = 0;
-    const max_bloom = 4;
-    create_slider("exposition", [0, n_steps_slider], (i) => {
-      this.ui_params.exposition = min_bloom + i * (max_bloom - min_bloom) / n_steps_slider;
+    create_slider("SSAO bias", [0.0, 20.0], (value) => {
+      this.ui_params.ssao_bias = value/10.0;
     });
-
-    const min_bloom_thresh = 0;
-    const max_bloom_thresh = 4;
-    create_slider("bloom threshold", [0, n_steps_slider], (i) => {
-      this.ui_params.bloom_threshold = min_bloom_thresh + i * (max_bloom_thresh - min_bloom_thresh) / n_steps_slider;
-    });
-
-    var min1 = 0;
-    var max1 = 2;
-    create_slider("max fire particle size", [0, n_steps_slider], (i) => {
-      this.ui_params.fire_max_part_size = Math.max(min1 + i * (max1 - min1) / n_steps_slider, this.ui_params.fire_min_part_size);
-    });
-    create_slider("min fire particle size", [0, n_steps_slider], (i) => {
-      this.ui_params.fire_min_part_size = Math.min(min1 + i * (max1 - min1) / n_steps_slider, this.ui_params.fire_max_part_size);
-    });
-
-    const min2= 0;
-    const max2 = 10000;
-    create_slider("fire particle emission rate", [0, n_steps_slider], (i) => {
-      this.ui_params.fire_part_emission_rate = min2 + i * (max2 - min2) / n_steps_slider;
-    });
-
-    var min3 = 0;
-    var max3 = 8;
-    create_slider("max fire particle life", [0, n_steps_slider], (i) => {
-      this.ui_params.fire_max_part_life = Math.max(min3 + i * (max3 - min3) / n_steps_slider, this.ui_params.fire_min_part_life);
-    });
-    create_slider("min fire particle life", [0, n_steps_slider], (i) => {
-      this.ui_params.fire_min_part_life = Math.min(min3 + i * (max3 - min3) / n_steps_slider, this.ui_params.fire_max_part_life);
-    });
-
-    const min4= 0;
-    const max4 = 10;
-    create_slider("fire radius", [0, n_steps_slider], (i) => {
-      this.ui_params.fire_radius = min4 + i * (max4 - min4) / n_steps_slider;
-    });
-
-    const min5= 0;
-    const max5 = 10;
-    create_slider("fire particle speed", [0, n_steps_slider], (i) => {
-      this.ui_params.fire_speed = min5 + i * (max5 - min5) / n_steps_slider;
-    });
-
-    const min7 = 0;
-    const max7 = 1;
-    create_slider("fire alpha decay", [0, n_steps_slider], (i) => {
-      this.ui_params.fire_alpha_decay = min7 + i * (max7 - min7) / n_steps_slider;
-    });
-
-    const min8 = 0;
-    const max8 = 1;
-    create_slider("fire alpha threshold", [0, n_steps_slider], (i) => {
-      this.ui_params.fire_alpha_threshold = min8 + i * (max8 - min8) / n_steps_slider;
-    });
-
-    const min9 = 0;
-    const max9 = 1;
-    create_slider("fire blue decay", [0, n_steps_slider], (i) => {
-      this.ui_params.fire_blue_decay = min9 + i * (max9 - min9) / n_steps_slider;
-    });
-
-    const min10 = 0;
-    const max10 = 1;
-    create_slider("fire blue threshold", [0, n_steps_slider], (i) => {
-      this.ui_params.fire_blue_threshold = min10 + i * (max10 - min10) / n_steps_slider;
-    });
-
-    const min11 = 0;
-    const max11 = 1;
-    create_slider("fire green decay", [0, n_steps_slider], (i) => {
-      this.ui_params.fire_green_decay = min11 + i * (max11 - min11) / n_steps_slider;
-    });
-    
-    const min12 = 0;
-    const max12 = 1;
-    create_slider("fire green threshold", [0, n_steps_slider], (i) => {
-      this.ui_params.fire_green_threshold = min12 + i * (max12 - min12) / n_steps_slider;
-    });
-    const min13 = 0;
-    const max13 = 1;
-    create_slider("fire red decay", [0, n_steps_slider], (i) => {
-      this.ui_params.fire_red_decay = min13 + i * (max13 - min13) / n_steps_slider;
-    });
-    const min14 = 0;
-    const max14 = 1;
-    create_slider("fire red threshold", [0, n_steps_slider], (i) => {
-      this.ui_params.fire_red_threshold = min14 + i * (max14 - min14) / n_steps_slider;
+    create_slider("SSAO intensity", [0.0, 200.0], (value) => {
+      this.ui_params.ssao_intensity = value/10.0;
     });
   }
 

@@ -1,3 +1,4 @@
+#extension GL_EXT_draw_buffers : require
 precision highp float;
 
 varying float v2f_height;
@@ -17,6 +18,12 @@ uniform float  grass_shininess;
 uniform float  peak_shininess;
 
 uniform float ambient_factor;
+uniform float window_height;
+uniform float window_width;
+
+// ssao
+uniform sampler2D ssao_texture;
+uniform bool is_active_ssao;
 
 // Small perturbation to prevent "z-fighting" on the water on some machines...
 const float terrain_water_level    = -0.03125 + 1e-6;
@@ -48,23 +55,38 @@ void main()
 
 	vec3 h = normalize(l + v);
 
-    // Compute diffuse
-    vec3 diffuse = vec3(0.0);
+	// Compute diffuse
+	vec3 diffuse = vec3(0.0);
 	diffuse = material_color * max(dot(n, l), 0.0);
 	
 	// Compute specular
-    vec3 specular = vec3(0.0);
+	vec3 specular = vec3(0.0);
 	float s = dot(h, n);
 	if (s > 0.0){
 		specular = material_color * pow(s, shininess);
 	}
 
+	// ssao
+	float ambient_occlusion = 1.0;
+	if (is_active_ssao) {
+		vec2 screen_uv = gl_FragCoord.xy/vec2(window_width, window_height);
+		ambient_occlusion = texture2D(ssao_texture, screen_uv).r;
+		ambient_occlusion = pow(ambient_occlusion, 2.0);
+	}
+
 	// Compute ambient
-	vec3 ambient = ambient_factor * material_color * material_ambient;
+	vec3 ambient = ambient_factor * material_color * material_ambient * ambient_occlusion;
+
+	// float light_distance = length(light_position - v2f_frag_pos);
+	// float attenuation = 1.0 / pow(light_distance, 0.5);
+
+	// Compute pixel color
+	// vec3 color = ambient + (attenuation * light_color * material_color * (diffuse + specular));
 
 	//float attenuation = 1. / (dist_frag_light * dist_frag_light);
 	
 	// Compute pixel color
-    vec3 color = ambient + (light_color * (diffuse + specular));
+	vec3 color = ambient + (light_color * (diffuse + specular));
 	gl_FragColor = vec4(color, 1.); // output: RGBA in 0..1 range
+	// gl_FragColor = vec4(vec3(ambient_occlusion), 1.0);
 }
