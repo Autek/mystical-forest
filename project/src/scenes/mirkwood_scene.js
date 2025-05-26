@@ -35,8 +35,8 @@ export class MirkwoodScene extends Scene {
 		this.ui_params = {
       // fog
       is_active_fog: false,
-      fog_max_height: 0.3,
-      fog_opacity: 2.5,
+      fog_max_height: 2.52,
+      fog_opacity: 0.62,
 
       // ssao
       is_active_ssao: false,
@@ -132,11 +132,11 @@ export class MirkwoodScene extends Scene {
     create_button_with_hotkey("Fog", "f", () => {
       this.ui_params.is_active_fog = !this.ui_params.is_active_fog;
     });
-    create_slider("Fog max height", [0.0, 100.0], (value) => {
+    create_slider("Fog max height", [0.0, 500.0], (value) => {
       this.ui_params.fog_max_height = value/100.0;
     });
     create_slider("Fog opacity", [0.0, 100.0], (value) => {
-      this.ui_params.fog_opacity = value/10.0;
+      this.ui_params.fog_opacity = value/100.0;
     });
 
     // ssao params

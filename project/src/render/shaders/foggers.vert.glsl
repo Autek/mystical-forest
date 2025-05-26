@@ -14,11 +14,11 @@ varying float fog_factor;
 void main() {
 	float fog_max = fog_max_height; // tweakable
 	float drop_rate = fog_opacity; // tweakable
-	float dfactor = vertex_position.z - fog_max;
+	float dfactor = length((mat_model_view * vec4(vertex_position, 1)).xyz);
 
 	fog_factor = 1.;
 	if (vertex_position.z < fog_max) {
-		fog_factor = exp(-(drop_rate * dfactor) * (drop_rate * dfactor)); //clamp(vertex_position.z * 4. , 0., 1.);
+		fog_factor = exp2(-(drop_rate * dfactor) * (drop_rate * dfactor) * 1.44); //clamp(vertex_position.z * 4. , 0., 1.);
 	}
 
 	gl_Position = mat_model_view_projection * vec4(vertex_position, 1);
