@@ -6,13 +6,14 @@ attribute vec3 vertex_normal;
 uniform mat4 mat_model_view_projection;
 uniform mat4 mat_model_view;
 uniform mat3 mat_normals_model_view;
-
+uniform float fog_max_height;
+uniform float fog_opacity;
 
 varying float fog_factor;
 
 void main() {
-	float fog_max = 0.3; // tweakable
-	float drop_rate = 3.5; // tweakable
+	float fog_max = fog_max_height; // tweakable
+	float drop_rate = fog_opacity; // tweakable
 	float dfactor = vertex_position.z - fog_max;
 
 	fog_factor = 1.;

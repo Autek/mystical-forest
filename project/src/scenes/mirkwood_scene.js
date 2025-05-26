@@ -33,6 +33,11 @@ export class MirkwoodScene extends Scene {
 
     // ui stuff
 		this.ui_params = {
+      // fog
+      fog_max_height: 0.3,
+      fog_opacity: 2.5,
+
+      // ssao
       is_active_ssao: false,
       is_active_blur: false, 
       ssao_radius: 1.0,
@@ -110,7 +115,27 @@ export class MirkwoodScene extends Scene {
    * Initialize custom scene-specific UI parameters to allow interactive control of selected scene elements.
    * This function is called in main() if the scene is active.
    */
-  initialize_ui_params(){
+  initialize_ui_params() {
+
+    // preset view
+    create_hotkey_action("Preset view", "1", () => {
+      this.camera.set_preset_view({
+        distance_factor : 0.09854892647087418,
+        angle_z : 0.5413185307179585,
+        angle_y : -0.03459877559829886,
+        look_at : [0, 0, 0]
+      })
+    });
+    
+    // fog params
+    create_slider("Fog max height", [0.0, 50.0], (value) => {
+      this.ui_params.fog_max_height = value/100.0;
+    });
+    create_slider("Fog opacity", [0.0, 100.0], (value) => {
+      this.ui_params.fog_opacity = value/10.0;
+    });
+
+    
 
   }
 

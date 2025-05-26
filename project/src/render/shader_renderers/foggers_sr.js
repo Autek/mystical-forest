@@ -28,13 +28,15 @@ export class FoggerShaderRenderer extends ShaderRenderer {
                 mat_normals_model_view
             } = scene.camera.object_matrices.get(obj);
 
-            // const dbase = scene.camera.distance_base;
 
             inputs.push({
                 mesh: mesh, 
                 mat_model_view_projection: mat_model_view_projection, 
                 mat_model_view: mat_model_view, 
                 mat_normals_model_view: mat_normals_model_view,
+
+                fogMaxHeight: scene_state.ui_params.fog_max_height,
+                fogOpacity: scene.ui_params.fog_opacity,
 
                 vert: this.vert_shader, 
                 frag: this.frag_shader
@@ -82,6 +84,9 @@ export class FoggerShaderRenderer extends ShaderRenderer {
             mat_model_view_projection: regl.prop('mat_model_view_projection'),
             mat_model_view: regl.prop('mat_model_view'),
             mat_normals_model_view: regl.prop('mat_normals_model_view'),
+
+            fog_max_height: regl.prop('fogMaxHeight'),
+            fog_opacity: regl.prop('fogOpacity'),
         };
     }
 }
