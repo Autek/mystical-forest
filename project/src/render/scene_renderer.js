@@ -185,11 +185,13 @@ export class SceneRenderer {
                 });
             }
         })
-
-        this.render_in_texture("fog", () => {
-            this.pre_processing.render(scene_state);
-            this.foggers.render(scene_state);
-        })
+        
+        if (scene.ui_params.is_active_fog) {
+            this.render_in_texture("fog", () => {
+                this.pre_processing.render(scene_state);
+                this.foggers.render(scene_state);
+            })
+        }
 
         /*---------------------------------------------------------------
             2. Shadows Render Pass

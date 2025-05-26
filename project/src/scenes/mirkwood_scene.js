@@ -34,6 +34,7 @@ export class MirkwoodScene extends Scene {
     // ui stuff
 		this.ui_params = {
       // fog
+      is_active_fog: false,
       fog_max_height: 0.3,
       fog_opacity: 2.5,
 
@@ -128,14 +129,33 @@ export class MirkwoodScene extends Scene {
     });
     
     // fog params
-    create_slider("Fog max height", [0.0, 50.0], (value) => {
+    create_button_with_hotkey("Fog", "f", () => {
+      this.ui_params.is_active_fog = !this.ui_params.is_active_fog;
+    });
+    create_slider("Fog max height", [0.0, 100.0], (value) => {
       this.ui_params.fog_max_height = value/100.0;
     });
     create_slider("Fog opacity", [0.0, 100.0], (value) => {
       this.ui_params.fog_opacity = value/10.0;
     });
 
-    
+    // ssao params
+		create_button_with_hotkey("Ambient Occlusion", "a", () => {
+			this.ui_params.is_active_ssao = !this.ui_params.is_active_ssao;
+		});
+    create_button_with_hotkey("Ambient Occlusion Blur", "b", () => {
+      this.ui_params.is_active_blur = !this.ui_params.is_active_blur;
+    });
+    create_slider("SSAO radius", [0.0, 200.], (value) => {
+      this.ui_params.ssao_radius = value/10.; // divide by 10 to account for slider only having ints
+    });
+    create_slider("SSAO bias", [0.0, 20.0], (value) => {
+      this.ui_params.ssao_bias = value/10.0;
+    });
+    create_slider("SSAO intensity", [0.0, 200.0], (value) => {
+      this.ui_params.ssao_intensity = value/10.0;
+    });
+
 
   }
 

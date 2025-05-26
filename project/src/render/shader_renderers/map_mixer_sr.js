@@ -54,6 +54,8 @@ export class MapMixerShaderRenderer extends ShaderRenderer {
                 shadows: rendered_shadows,
                 fog: rendered_fog,
                 blinn_phong: rendered_blinn_phong,
+
+                is_active_fog: scene_state.ui_params.is_active_fog,
             });
         }
 
@@ -72,6 +74,8 @@ export class MapMixerShaderRenderer extends ShaderRenderer {
             shadows: regl.prop("shadows"),
             fog: regl.prop("fog"),
             blinn_phong: regl.prop("blinn_phong"),
+
+            is_active_fog: regl.prop("is_active_fog"),
         };
     }
 }
