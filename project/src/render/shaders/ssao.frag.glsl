@@ -17,20 +17,18 @@ uniform float ssao_intensity;
 uniform vec2 noiseScale;
 
 void main() {
-    // todo: understand what this does
     vec3 fragPosView = texture2D(gPosition, v2f_tex_coords).xyz;
     vec4 fragPos = vec4(fragPosView, 1.0);
     vec3 normal = texture2D(gNormal, v2f_tex_coords).rgb;
     vec3 randomVec = texture2D(texNoise, v2f_tex_coords * noiseScale).xyz;
 
-    // todo: understand what this does
     vec3 tangent = normalize(randomVec - normal * dot(randomVec, normal));
     vec3 bitangent = cross(normal, tangent);
     mat3 TBN = mat3(tangent, bitangent, normal); // tangent space to view space matrix
 
     // iterate over samples to get final result
     float occlusion = 0.0;
-    const int kernelSize = 64; // tweakable //! if change, change in sample generation as well
+    const int kernelSize = 64;
     float radius = ssao_radius; // tweakable
     float bias = ssao_bias; // tweakable - solves acnee
     for (int i = 0; i < kernelSize; ++i) {
