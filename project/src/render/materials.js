@@ -35,6 +35,7 @@ class BackgroundMaterial extends Material {
         this.texture = texture;
         this.properties.push("environment");
         this.properties.push("no_blinn_phong");
+        this.properties.push("no_fog");
     }
 }
 
@@ -92,9 +93,24 @@ export const sunset_sky = new BackgroundMaterial({
     texture: 'kloppenheim_07_puresky_blur.jpg'
 });
 
+export const black = new DiffuseMaterial({
+    color: [0.27, 0.18, 0.12],
+    shininess: 0.5
+});
+
+export const wood = new DiffuseMaterial({
+    color: [0.36, 0.33, 0.29],
+    shininess: 0.5
+});
+
+export const mirror = new ReflectiveMaterial({
+    color: [1., 0.5, 0.5],
+    shininess: 0.1
+});
+
 export const gray = new DiffuseMaterial({
     color: [0.4, 0.4, 0.4],
-    shininess: 0.5
+    shininess: 0.1
 });
 
 export const gold = new DiffuseMaterial({
@@ -108,7 +124,8 @@ export const pine = new DiffuseMaterial({
 });
 
 export const terrain = new TerrainMaterial({
-    water_color: [0.29, 0.51, 0.62],
-    grass_color: [0.33, 0.43, 0.18],
-    peak_color: [0.8, 0.5, 0.4]
+    water_color: [0.33, 0.43, 0.18],//water_color: [0.29, 0.51, 0.62],
+    water_shininess : 0.,
+    grass_color: [0.9, 0.9, 0.75],
+    peak_color: [1., 1., 1.]
 });

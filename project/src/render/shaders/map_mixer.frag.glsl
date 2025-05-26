@@ -5,6 +5,7 @@ varying vec4 canvas_pos;
 
 // Global variables specified in "uniforms" entry of the pipeline
 uniform sampler2D shadows;
+uniform sampler2D fog;
 uniform sampler2D blinn_phong;
 
 void main()
@@ -24,5 +25,8 @@ void main()
         color = shadow_color;
     }
 
-	gl_FragColor = vec4(color, 1.); // output: RGBA in 0..1 range
+    float fog_factor = texture2D(fog, uv).x;
+    vec4 fog_color = vec4(0.6, 0.57, 0.57, 0.25);
+
+	gl_FragColor = mix(fog_color, vec4(color, 1.), fog_factor);//vec4(color, 1.); // output: RGBA in 0..1 range
 }

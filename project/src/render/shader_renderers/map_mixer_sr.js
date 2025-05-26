@@ -26,7 +26,7 @@ export class MapMixerShaderRenderer extends ShaderRenderer {
      * @param {*} rendered_shadows a texture containing the shadows information
      * @param {*} rendered_blinn_phong a texture with the objects colors & shading 
      */
-    render(scene_state, rendered_shadows, rendered_blinn_phong){
+    render(scene_state, rendered_shadows, rendered_fog, rendered_blinn_phong){
 
         const scene = scene_state.scene;
         const inputs = [];
@@ -52,7 +52,7 @@ export class MapMixerShaderRenderer extends ShaderRenderer {
                 canvas_height: scene_state.frame.framebufferHeight,
 
                 shadows: rendered_shadows,
-
+                fog: rendered_fog,
                 blinn_phong: rendered_blinn_phong,
             });
         }
@@ -70,6 +70,7 @@ export class MapMixerShaderRenderer extends ShaderRenderer {
             canvas_height: regl.prop("canvas_height"),
 
             shadows: regl.prop("shadows"),
+            fog: regl.prop("fog"),
             blinn_phong: regl.prop("blinn_phong"),
         };
     }
