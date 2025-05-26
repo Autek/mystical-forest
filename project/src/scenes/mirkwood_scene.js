@@ -96,6 +96,39 @@ export class MirkwoodScene extends Scene {
       material: MATERIALS.sunset_sky
     });
 
+    // Add random trees
+    const minimum_distance_from_fire = 1.0;
+    const maximum_distance_from_fire = 4.0;
+    const num_trees = 100;
+    
+    for (let i = 0; i < num_trees; i++) {
+      let tree_pos;
+      do {
+        const x = (Math.random() * 6) - 3;
+        const y = (Math.random() * 6) - 3;
+        const z = 0;
+
+        tree_pos = [x, y, z];
+        
+        const dx = tree_pos[0] - fire_pos[0];
+        const dy = tree_pos[1] - fire_pos[1];
+        const distance = Math.sqrt(dx*dx + dy*dy);
+        
+        if (distance >= minimum_distance_from_fire && distance <= maximum_distance_from_fire) {
+          break;
+        }
+      } while (true);
+      
+      const tree_scale = 0.2 + Math.random() * 0.5;
+      
+      this.objects.push({
+        translation: tree_pos,
+        scale: [tree_scale, tree_scale, tree_scale],
+        mesh_reference: 'pine.obj',
+        material: MATERIALS.pine
+      });
+    }
+
     // Light Source
     this.lights.push({
       position : [0. , -15.0, 5.],
