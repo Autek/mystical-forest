@@ -31,6 +31,15 @@ export class MirkwoodScene extends Scene {
    */
   initialize_scene(){
 
+    // ui stuff
+		this.ui_params = {
+      is_active_ssao: false,
+      is_active_blur: false, 
+      ssao_radius: 1.0,
+      ssao_bias: 0.025, 
+      ssao_intensity: 2.0,
+    };
+
     // Place
     const suz ={
       translation: [0, 0, 0],

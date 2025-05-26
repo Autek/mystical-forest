@@ -186,6 +186,11 @@ export class SceneRenderer {
             }
         })
 
+        this.render_in_texture("fog", () => {
+            this.pre_processing.render(scene_state);
+            this.foggers.render(scene_state);
+        })
+
         /*---------------------------------------------------------------
             2. Shadows Render Pass
         ---------------------------------------------------------------*/
@@ -198,7 +203,6 @@ export class SceneRenderer {
 
             // Render the shadows
             this.shadows.render(scene_state);
-            this.foggers.render(scene_state);
         })
 
         /*---------------------------------------------------------------
@@ -208,7 +212,7 @@ export class SceneRenderer {
         if (scene_state.ui_params.is_active_bloom) {
             // Mix the base color of the scene with the shadows information to create the final result
             this.render_in_texture("shaded", () =>{
-                this.map_mixer.render(scene_state, this.texture("shadows"), this.this.texture("fog"), this.texture("base"));
+                this.map_mixer.render(scene_state, this.texture("shadows"), this.texture("fog"), this.texture("base"));
             })
             // 4. Threshold post-processing from base to pingpong0
             this.threshold.render(this.texture("shaded"), "lowres0", scene_state.ui_params.bloom_threshold);
@@ -223,10 +227,8 @@ export class SceneRenderer {
 
             // 6. Final composite bloom on top
             this.bloom_composite.render(this.texture("shaded"), blurred, scene_state.ui_params.exposition);
-        }
-
-        else {
-                this.map_mixer.render(scene_state, this.texture("shadows"), this.texture("base"));
+        } else {
+            this.map_mixer.render(scene_state, this.texture("shadows"), this.texture("fog"), this.texture("base"));
         }
 
         // Visualize cubemap

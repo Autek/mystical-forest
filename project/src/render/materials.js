@@ -138,6 +138,3 @@ export const terrain = new TerrainMaterial({
     peak_color: [1., 1., 1.]
 });
 
-export const mirror = new ReflectiveMaterial({
-    texture: 'marble.png',
-});
