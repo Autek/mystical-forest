@@ -8,15 +8,15 @@ export class FireEmitter extends ParticleEmitter{
     this.minLife = minLife;
     this.minPartSize = minPartSize;
     this.maxPartSize = maxPartSize;
-    this.fireRadius = 2;
-    this.speed = 1;
-    this.aDecay = 0;
-    this.bDecay = 0;
-    this.gDecay = 0;
+    this.fireRadius = 0.12;
+    this.speed = 0.1;
+    this.aDecay = 1;
+    this.bDecay = 1;
+    this.gDecay = 0.7;
     this.rDecay = 0;
     this.aThreshold = 0;
-    this.bThreshold = 0;
-    this.gThreshold = 0;
+    this.bThreshold = 0.6;
+    this.gThreshold = 0.8;
     this.rThreshold = 0;
   }
 
@@ -45,9 +45,9 @@ export class FireEmitter extends ParticleEmitter{
 
     // More varied velocities
     p.velocity = [
-      (Math.random() - 0.5) * 1.0 * this.speed,   // Wider lateral motion
-      (Math.random() - 0.5) * 1.0 * this.speed,    // Wider depth motion
-      Math.random() * 2.0 * this.speed + 1.0,     // Stronger upward motion
+      (Math.random() - 0.5) * this.speed,   // Wider lateral motion
+      (Math.random() - 0.5) * this.speed,    // Wider depth motion
+      Math.random() * 2.0 * this.speed + 0.1,     // Stronger upward motion
     ];
     
     // Varied colors for a more realistic fire

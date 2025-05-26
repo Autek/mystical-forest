@@ -10,6 +10,7 @@ import {
 } from "../cg_libraries/cg_web.js";
 import { Scene } from "./scene.js";
 import { ResourceManager } from "../scene_resources/resource_manager.js";
+import { FireEmitter } from "../scene_resources/fire_emitter.js";
 
 export class MirkwoodScene extends Scene {
 
@@ -22,6 +23,7 @@ export class MirkwoodScene extends Scene {
     
     this.resource_manager = resource_manager;
 
+    this.particle_emitters = [];
     this.initialize_scene();
     this.initialize_actor_actions();
   }
@@ -62,6 +64,23 @@ export class MirkwoodScene extends Scene {
     // Fireplace
     const fire_scale = [0.3, 0.3, 0.3];
     const fire_pos = [-0.75, 0, -0.3];
+    const fireEmitter = new FireEmitter({
+      position: [-0.75, 0, -0.3], 
+      maxParticles: 100000,
+      emissionRate: 10000, // per second
+      color: [1.0, 0.5, 0.0, 1.0],
+      maxLife: 1.0,
+      minLife: 0.,
+      minPartSize: 0.,
+      maxPartSize: 0.2,
+
+    });
+    this.particle_emitters.push(fireEmitter);
+    this.actors["fire"] = fireEmitter;
+    this.lights.push({
+      position : [-0.75 , 0, -2],
+      color: [0.4, 0.20, 0.0]
+    });
 
     const logs ={
       translation: fire_pos,
@@ -132,21 +151,26 @@ export class MirkwoodScene extends Scene {
     // Light Source
     this.lights.push({
       position : [0. , -15.0, 5.],
-      color: [1.0, 1.0, 0.9]
+      color: [1.0, 0.5, 0.1]
     });
-
-    this.lights.push({
-      position : [0. , -15.0, -5.],
-      color: [1.0, 1.0, 0.9]
-    });
-
   }
 
   /**
    * Initialize the evolve function that describes the behaviour of each actor 
    */
   initialize_actor_actions(){
-
+    for (const name in this.actors) {
+      // Pine tree
+      if (name === "fire"){
+        const fire = this.actors[name];
+        fire.evolve = (dt) => {
+          fire.update(dt); 
+          fire.maxPartSize = this.ui_params.fire_max_part_size;
+          fire.emissionRate = this.ui_params.fire_part_emission_rate;
+          fire.maxLife = this.ui_params.fire_max_part_life;
+        }
+      }
+    }
   }
 
   /**
@@ -155,6 +179,28 @@ export class MirkwoodScene extends Scene {
    */
   initialize_ui_params() {
 
+    this.ui_params.light_height = [7, 6];
+    this.ui_params.fire_max_part_size = 0.1;
+    this.ui_params.fire_part_emission_rate = 10000;
+    this.ui_params.fire_max_part_life = 3;
+
+    const n_steps_slider = 100;
+    var min1 = 0;
+    var max1 = 0.2;
+    create_slider("max fire particle size", [0, n_steps_slider], (i) => {
+      this.ui_params.fire_max_part_size = Math.max(min1 + i * (max1 - min1) / n_steps_slider, 0.);
+    });
+    const min2= 0;
+    const max2 = 10000;
+    create_slider("fire particle emission rate", [0, n_steps_slider], (i) => {
+      this.ui_params.fire_part_emission_rate = min2 + i * (max2 - min2) / n_steps_slider;
+    });
+
+    var min3 = 0;
+    var max3 = 8;
+    create_slider("max fire particle life", [0, n_steps_slider], (i) => {
+      this.ui_params.fire_max_part_life = Math.max(min3 + i * (max3 - min3) / n_steps_slider, 0.);
+    });
     // preset view
     create_hotkey_action("Preset view", "1", () => {
       this.camera.set_preset_view({
