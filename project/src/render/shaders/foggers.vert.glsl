@@ -11,8 +11,8 @@ uniform mat3 mat_normals_model_view;
 varying float fog_factor;
 
 void main() {
-	float fog_max = 0.3;
-	float drop_rate = 3.5;
+	float fog_max = 0.3; // tweakable
+	float drop_rate = 3.5; // tweakable
 	float dfactor = vertex_position.z - fog_max;
 
 	fog_factor = 1.;
