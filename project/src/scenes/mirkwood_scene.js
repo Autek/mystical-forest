@@ -44,7 +44,7 @@ export class MirkwoodScene extends Scene {
       is_active_ssao: false,
       is_active_blur: false, 
       ssao_radius: 1.0,
-      ssao_bias: 0.025, 
+      ssao_bias: 0.0025, 
       ssao_intensity: 2.0,
 
       // bloom
