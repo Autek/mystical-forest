@@ -44,6 +44,10 @@ export class MirkwoodScene extends Scene {
       ssao_radius: 1.0,
       ssao_bias: 0.025, 
       ssao_intensity: 2.0,
+
+      // bloom
+      bloom_exposition: 0.8,
+      bloom_threshold: 1.0,
     };
 
     // Place
@@ -155,6 +159,19 @@ export class MirkwoodScene extends Scene {
     create_slider("SSAO intensity", [0.0, 200.0], (value) => {
       this.ui_params.ssao_intensity = value/10.0;
     });
+
+    // bloom params
+    create_button_with_hotkey("Bloom", "c", () => {
+      this.ui_params.is_active_bloom = !this.ui_params.is_active_bloom;
+    });
+    create_slider("Bloom intensity", [0.0, 40.0], (value) => {
+      this.ui_params.bloom_exposition = value/10.0;
+    });
+    create_slider("Bloom threshold", [0.0, 40.0], (value) => {
+      this.ui_params.bloom_threshold = value/10.0;
+    });
+
+
 
 
   }

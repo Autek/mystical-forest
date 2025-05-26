@@ -228,7 +228,7 @@ export class SceneRenderer {
             );
 
             // 6. Final composite bloom on top
-            this.bloom_composite.render(this.texture("shaded"), blurred, scene_state.ui_params.exposition);
+            this.bloom_composite.render(this.texture("shaded"), blurred, scene_state.ui_params.bloom_exposition);
         } else {
             this.map_mixer.render(scene_state, this.texture("shadows"), this.texture("fog"), this.texture("base"));
         }
