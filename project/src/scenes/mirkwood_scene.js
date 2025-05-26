@@ -116,7 +116,7 @@ export class MirkwoodScene extends Scene {
     });
 
     // Add random trees
-    const minimum_distance_from_fire = 1.0;
+    const minimum_distance_from_fire = 0.8;
     const maximum_distance_from_fire = 4.0;
     const num_trees = 100;
     
@@ -125,7 +125,7 @@ export class MirkwoodScene extends Scene {
       do {
         const x = (Math.random() * 6) - 3;
         const y = (Math.random() * 6) - 3;
-        const z = 0;
+        const z = -0.1;
 
         tree_pos = [x, y, z];
         
@@ -138,7 +138,7 @@ export class MirkwoodScene extends Scene {
         }
       } while (true);
       
-      const tree_scale = 0.2 + Math.random() * 0.5;
+      const tree_scale = 0.3 + Math.random() * 0.7;
       
       this.objects.push({
         translation: tree_pos,
