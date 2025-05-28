@@ -79,7 +79,7 @@ export class MirkwoodScene extends Scene {
     this.actors["fire"] = fireEmitter;
     this.lights.push({
       position : [-0.75 , 0, -2],
-      color: [0.4, 0.20, 0.0]
+      color: [0.7, 0.4, 0.0]
     });
 
     const logs ={
@@ -149,10 +149,10 @@ export class MirkwoodScene extends Scene {
     }
 
     // Light Source
-    this.lights.push({
-      position : [0. , -15.0, 5.],
-      color: [1.0, 0.5, 0.1]
-    });
+    // this.lights.push({
+    //   position : [0. , -15.0, 5.],
+    //   color: [1.0, 0.5, 0.1]
+    // });
   }
 
   /**

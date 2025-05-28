@@ -135,6 +135,7 @@ export class ResourceManager{
     textures_to_load(){
         return [
             'kloppenheim_07_puresky_blur.jpg',
+            'night_sky.jpg',
             'pine.png',
             'marble.png'
           ];
