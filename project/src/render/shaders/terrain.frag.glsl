@@ -50,7 +50,7 @@ void main()
 	// Blinn-Phong lighting model
 	vec3 v = normalize(-v2f_frag_pos);
 	vec3 l = normalize(light_position - v2f_frag_pos);
-	vec3 n = -normalize(v2f_normal);
+	vec3 n = normalize(v2f_normal);
 	float dist_frag_light = length(v2f_frag_pos - light_position);
 
 	vec3 h = normalize(l + v);
