@@ -58,12 +58,20 @@ export function poly_mesh(n, b_1, b_2, height) {
         faces.push([(2*i) % (2*n), ((2*i) + 1) % (2*n), ((2*i) + 3) % (2*n)]);
         faces.push([(2*i) % (2*n), ((2*i) + 2) % (2*n), ((2*i) + 3) % (2*n)]);
     }
+    const vertex_tex_coords = [];
+
+    for (let i = 0; i < n; i++) {
+        const u = i / n;
+        vertex_tex_coords.push([u, 0]); // bottom
+        vertex_tex_coords.push([u, 1]); // top
+    }
+
 
     return {
 		vertex_positions: vertices,
 		vertex_normals: normals,
 		faces: faces,
-        vertex_tex_coords: []
+        vertex_tex_coords: vertex_tex_coords,
 	}
 }
 
@@ -88,11 +96,12 @@ export function rotate_mesh(mesh, axis, th, ph) {
         return [vec[0], vec[1], vec[2]];
     });
 
+    const tex_coords = mesh.vertex_tex_coords.map((uv) => [...uv]);
     return {
 		vertex_positions: vertices,
 		vertex_normals: normals,
 		faces: mesh.faces,
-        vertex_tex_coords: []
+        vertex_tex_coords: tex_coords,
 	};
 }
 

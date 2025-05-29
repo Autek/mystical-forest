@@ -97,7 +97,7 @@ export class TreeScene extends Scene {
         translation: [0, 0, 0],
         scale: [1, 1, 1],
         mesh_reference: name,
-        material: MATERIALS.terrain
+        material: MATERIALS.wood
       })
       i += 1;
     });
