@@ -59,9 +59,6 @@ void main()
 
     // Compute pixel color
     vec3 color = ambient + (attenuation * light_color * material_color * (diffuse + specular));
-    if (is_textured) {
-        color = vec3(1., 0., 1.);
-    }
 
     gl_FragColor = vec4(color, 1.); // output: RGBA in 0..1 range
 }
