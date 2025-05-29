@@ -78,7 +78,7 @@ export class MirkwoodScene extends Scene {
     this.particle_emitters.push(fireEmitter);
     this.actors["fire"] = fireEmitter;
     this.lights.push({
-      position : [-0.75 , 0, -2],
+      position : [-0.75 , 0, -0.1],
       color: [0.7, 0.4, 0.0]
     });
 
