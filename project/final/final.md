@@ -436,10 +436,10 @@ For the bloom effect, the main challenge was getting multiple shaders to work to
 			<td style="background-color: #f0f0f0;">0h</td>
 			<td>8h</td>
 			<td>12h</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td>8h</td>
+			<td>3h</td>
+			<td>9h</td>
+			<td>42h</td>
 		</tr>
 		<tr>
 			<td>Marius</td>
