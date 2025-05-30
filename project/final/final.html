@@ -93,22 +93,19 @@ Effects, Fog, Procedurally Generated Trees from L-Systems, and
 Bloom.</p>
 <h2 id="overview">Overview</h2>
 <div
-style="display: flex; justify-content: space-around; align-items: center;">
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
 <div>
-<p><img src="images/demo_detail.png" height="300px" style="vertical-align: middle;"></p>
-</div>
-<div>
-<video src="videos/demo_detail.mp4" height="300px" autoplay loop style="vertical-align: middle;">
-</video>
+<img src="images/l_system/4_step.png" height="190px" style="vertical-align: middle;">
 </div>
 </div>
 <figcaption style="text-align: center;">
-Some more visuals focusing on interesting details of your scene.
+Overview of our components
 </figcaption>
-<p>We generated the trees procedurally using L-systems. This means they
-can be easily modified to create different types of trees, or other
-plants. blablabla <span class="citation"
-data-cites="coaguila">@coaguila</span> fill in this part.</p>
+<p>We generated the trees procedurally using L-systems. This allows
+varying trees that share a similar underlaying structure. It also allows
+to “grow” trees and show them in different stages of developpment. The
+code is easily modifiable to produce other plants, like potentially
+bushes and other types of trees.</p>
 <p>We also added a fog to create a more immersive atmosphere. The fog is
 implemented using a fragment shader that calculates the fog density
 based on the distance from the camera, and applies it to the scene. This
@@ -119,8 +116,15 @@ effect, we added screen-space ambient occlusion. This creates a more
 realistic lighting by simulating how light interacts with nearby
 environment, especially in the corners and crevices that we have on the
 trees. It gives a nice depth to the scene.</p>
-<p>Finally, we added a fire using particles. blablabla <span
-class="citation" data-cites="Autek">@Autek</span> fill in this part.</p>
+<p>We added a fire using particles. the fire adds to the cozy atmosphere
+and works very well with the bloom effect also added. It brings some
+light to the scene that is otherwise rendered at night. The particles
+don’t emit light but we placed a light inside the fire</p>
+<p>Finally, we added bloom. Bloom finishes the effects on the scene. It
+makes the fire smoother and allows to better see the flames. This makes
+for a very cozy scene that has a peaceful vibe. And also with the
+exposition parameter this allows for a lot of different vibes to the
+scene.</p>
 <p>The terrain was made by hand in Blender, and we used the given shader
 to apply texture to it.</p>
 <h2 id="feature-validation">Feature validation</h2>
@@ -696,7 +700,7 @@ trees but this does not come from bloom.</p>
 <div
 style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
 <div>
-<img src=****"images/bloom_pip1.png" height="300px" style="vertical-align: middle;">
+<img src="images/bloom_pip1.png" height="300px" style="vertical-align: middle;">
 </div>
 <div>
 <img src="images/bloom_pip2.png" height="300px" style="vertical-align: middle;">
@@ -718,8 +722,8 @@ image everywhere.)</p>
 <h2 id="discussion">Discussion</h2>
 <h3 id="additional-components">Additional Components</h3>
 <p>As a small additional component, we implemented HDR rendering with
-tone mapping to bring values back into the [0,1][0,1] range. The
-equation we used is:</p>
+tone mapping to bring values back into the [0,1] range. The equation we
+used is:</p>
 <p><span
 class="math display"><strong>1</strong> − exp (−hdrColor ⋅ exposure)</span></p>
 <p>This introduces an exposure parameter, which is very useful for
@@ -727,7 +731,10 @@ achieving a cinematic look. It’s not strictly required for bloom, but it
 greatly improves the result—without it, the image tends to appear
 overexposed, with all bloomed pixels turning completely white.</p>
 <h3 id="failed-experiments">Failed Experiments</h3>
-<p>No components failed during our implementation.</p>
+<p>The OpenGL tutorials given were straighforward enough to not lose us
+on wrong paths. We did struggle with the framework and general
+implementation but we did not try anything that did not pan out with (a
+lot of) debugging.</p>
 <h3 id="challenges">Challenges</h3>
 <p>TODO</p>
 <h2 id="contributions">Contributions</h2>

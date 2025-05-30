@@ -15,23 +15,20 @@ Imagine yourself in a forest at night surrounded by the stars. The fog is settin
 
 ## Overview
 
-<div style="display: flex; justify-content: space-around; align-items: center;">
-<div>
-<img src="images/demo_detail.png" height="300px" style="vertical-align: middle;">
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <div><img src="images/l_system/4_step.png" height="190px" style="vertical-align: middle;"></div>
 </div>
-<div>
-<video src="videos/demo_detail.mp4" height="300px" autoplay loop style="vertical-align: middle;"></video>
-</div>
-</div>
-<figcaption style="text-align: center;">Some more visuals focusing on interesting details of your scene.</figcaption>
+ <figcaption style="text-align: center;">Overview of our components</figcaption>
 
-We generated the trees procedurally using L-systems. This means they can be easily modified to create different types of trees, or other plants. blablabla @coaguila fill in this part. 
+We generated the trees procedurally using L-systems. This allows varying trees that share a similar underlaying structure. It also allows to "grow" trees and show them in different stages of developpment. The code is easily modifiable to produce other plants, like potentially bushes and other types of trees.
 
 We also added a fog to create a more immersive atmosphere. The fog is implemented using a fragment shader that calculates the fog density based on the distance from the camera, and applies it to the scene. This gives a sense of depth and mystery to the forest, which is really cool to see. 
 
 To add even more to the atmosphere, and because it's an interesting effect, we added screen-space ambient occlusion. This creates a more realistic lighting by simulating how light interacts with nearby environment, especially in the corners and crevices that we have on the trees. It gives a nice depth to the scene. 
 
-Finally, we added a fire using particles. blablabla @Autek fill in this part. 
+We added a fire using particles. the fire adds to the cozy atmosphere and works very well with the bloom effect also added. It brings some light to the scene that is otherwise rendered at night. The particles don't emit light but we placed a light inside the fire
+
+Finally, we added bloom. Bloom finishes the effects on the scene. It makes the fire smoother and allows to better see the flames. This makes for a very cozy scene that has a peaceful vibe. And also with the exposition parameter this allows for a lot of different vibes to the scene.
 
 The terrain was made by hand in Blender, and we used the given shader to apply texture to it.
 
@@ -370,10 +367,11 @@ In the pictures above, we see the fire integrated with the bloom effect. The fla
 In the vido above, we can clearly see the bloom effect being added to the seen and everything looks nice. We also see that the exposition and bloom threshold is working as expected. We have some weird lighting on trees but this does not come from bloom.
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  <div><img src=****"images/bloom_pip1.png" height="300px" style="vertical-align: middle;"></div>
-  <div><img src="images/bloom_pip2.png" height="300px" style="vertical-align: middle;"></div>
-  <div><img src="images/bloom_pip3.png" height="300px" style="vertical-align: middle;"></div>
-  <div><img src="images/bloom_pip4.png" height="300px" style="vertical-align: middle;"></div>
+<div><img src="images/bloom_pip1.png" height="300px" style="vertical-align: middle;"></div>
+<div><img src="images/bloom_pip2.png" height="300px" style="vertical-align: middle;"></div>
+<div><img src="images/bloom_pip3.png" height="300px" style="vertical-align: middle;"></div>
+<div><img src="images/bloom_pip4.png" height="300px" style="vertical-align: middle;"></div>
+
 </div>
  <figcaption style="text-align: center;">bloom pipeline</figcaption>
 In the pictures above, we see the whole blooming pipeline. First the base image, then the thresholded image, then the blurred thresholded map andfinally the mix of the blurred and base image. (it is not the same image everywhere.)
