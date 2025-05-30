@@ -16,15 +16,10 @@ Imagine yourself in a forrest at night surronded by the stars. The fog is settin
 
 ## Overview
 
-<div style="display: flex; justify-content: space-around; align-items: center;">
-<div>
-<img src="images/demo_detail.png" height="210px" style="vertical-align: middle;">
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <div><img src="images/l_system/4_step.png" height="190px" style="vertical-align: middle;"></div>
 </div>
-<div>
-<video src="videos/demo_detail.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
-</div>
-</div>
-<figcaption style="text-align: center;">Some more visuals focusing on interesting details of your scene.</figcaption>
+ <figcaption style="text-align: center;">Overview of our components</figcaption>
 
 We generated the trees procedurally using L-systems. This means they can be easily modified to create different types of trees, or other plants. blablabla @coaguila fill in this part. 
 
@@ -32,7 +27,9 @@ We also added a fog to create a more immersive atmosphere. The fog is implemente
 
 To add even more to the atmosphere, and because it's an interesting effect, we added screen-space ambient occlusion. This creates a more realistic lighting by simulating how light interacts with nearby environment, especially in the corners and crevices that we have on the trees. It gives a nice depth to the scene. 
 
-Finally, we added a fire using particles. blablabla @Autek fill in this part. 
+We added a fire using particles. the fire adds to the cozy atmosphere and works very well with the bloom effect also added. It brings some light to the scene that is otherwise rendered at night. The particles don't emit light but we placed a light inside the fire
+
+Finally, we added bloom. Bloom finishes the effects on the scene. It makes the fire smoother and allows to better see the flames. This makes for a very cozy scene that has a peaceful vibe. And also with the exposition parameter this allows for a lot of different vibes to the scene.
 
 The terrain was made by hand in Blender, and we used the given shader to apply texture to it.
 

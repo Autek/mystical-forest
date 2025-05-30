@@ -82,22 +82,49 @@
 Mystical Forest
 </figcaption>
 <h2 id="abstract">Abstract</h2>
-<p>TODO</p>
+<p>Imagine yourself in a forrest at night surronded by the stars. The
+fog is setting in. You decide to make campfire in an empty patch. You
+can not help yourself but feel warm while be surrounded by the stars,
+the trees, and the mountains. Truly a mystical experience that few can
+experience and yet here you are. This is our project Mystical Forest.
+This project implements different features like Screen Space Ambient
+Occlusion(SSAO), Particle Effects, Fog Shaders, Procedurally Generated
+Trees from L-Systems, and Bloom.</p>
 <h2 id="overview">Overview</h2>
 <div
-style="display: flex; justify-content: space-around; align-items: center;">
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
 <div>
-<p><img src="images/demo_detail.png" height="210px" style="vertical-align: middle;"></p>
-</div>
-<div>
-<video src="videos/demo_detail.mp4" height="210px" autoplay loop style="vertical-align: middle;">
-</video>
+<img src="images/l_system/4_step.png" height="190px" style="vertical-align: middle;">
 </div>
 </div>
 <figcaption style="text-align: center;">
-Some more visuals focusing on interesting details of your scene.
+Overview of our components
 </figcaption>
-<p>TODO</p>
+<p>We generated the trees procedurally using L-systems. This means they
+can be easily modified to create different types of trees, or other
+plants. blablabla <span class="citation"
+data-cites="coaguila">@coaguila</span> fill in this part.</p>
+<p>We also added a fog to create a more immersive atmosphere. The fog is
+implemented using a fragment shader that calculates the fog density
+based on the distance from the camera, and applies it to the scene. This
+gives a sense of depth and mystery to the forest, which is really cool
+to see.</p>
+<p>To add even more to the atmosphere, and because it’s an interesting
+effect, we added screen-space ambient occlusion. This creates a more
+realistic lighting by simulating how light interacts with nearby
+environment, especially in the corners and crevices that we have on the
+trees. It gives a nice depth to the scene.</p>
+<p>We added a fire using particles. the fire adds to the cozy atmosphere
+and works very well with the bloom effect also added. It brings some
+light to the scene that is otherwise rendered at night. The particles
+don’t emit light but we placed a light inside the fire</p>
+<p>Finally, we added bloom. Bloom finishes the effects on the scene. It
+makes the fire smoother and allows to better see the flames. This makes
+for a very cozy scene that has a peaceful vibe. And also with the
+exposition parameter this allows for a lot of different vibes to the
+scene.</p>
+<p>The terrain was made by hand in Blender, and we used the given shader
+to apply texture to it.</p>
 <h2 id="feature-validation">Feature validation</h2>
 <table>
 <caption>
@@ -871,6 +898,13 @@ Marius
 <h4 id="comments">Comments</h4>
 <p>TODO</p>
 <h2 id="references">References</h2>
+<h4 id="obj-meshes">Obj Meshes</h4>
+<ul>
+<li>Mountain Scene by Alonso Coaguila SCIPER: 339718</li>
+<li><a
+href="https://www.cgtrader.com/free-3d-models/exterior/other/low-poly-campfire-f8ee77da-78f4-42f2-9c81-4a36f12d8f5e">Low
+Poly Campfire Free low-poly 3D model</a></li>
+</ul>
 <h4 id="screen-space-ambient-occlusion">Screen-Space Ambient
 Occlusion</h4>
 <ul>
