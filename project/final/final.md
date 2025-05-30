@@ -11,7 +11,8 @@ title: Final Project Report CS-341 2025
 
 ## Abstract
 
-In our project Mystical Forest, we have create a foggy, mystical forest, with a calming fire. We used ambient occlusion and fog to create a dim atmosphere, and added a fire generated with particles and bloom to enhance the light it produces. The trees are L-systems generated simulate a real forest.  
+TODO
+
 
 ## Overview
 
@@ -25,15 +26,8 @@ In our project Mystical Forest, we have create a foggy, mystical forest, with a 
 </div>
 <figcaption style="text-align: center;">Some more visuals focusing on interesting details of your scene.</figcaption>
 
-We generated the trees procedurally using L-systems. This means they can be easily modified to create different types of trees, or other plants. blablabla @coaguila fill in this part. 
+TODO
 
-We also added a fog to create a more immersive atmosphere. The fog is implemented using a fragment shader that calculates the fog density based on the distance from the camera, and applies it to the scene. This gives a sense of depth and mystery to the forest, which is really cool to see. 
-
-To add even more to the atmosphere, and because it's an interesting effect, we added screen-space ambient occlusion. This creates a more realistic lighting by simulating how light interacts with nearby environment, especially in the corners and crevices that we have on the trees. It gives a nice depth to the scene. 
-
-Finally, we added a fire using particles. blablabla @Autek fill in this part. 
-
-The terrain was made by hand in Blender, and we used the given shader to apply texture to it.
 
 ## Feature validation
 
@@ -80,28 +74,7 @@ The terrain was made by hand in Blender, and we used the given shader to apply t
 
 #### Implementation
 
-The ambient occlusion is implemented in screen space by using a fragment shader that samples the depth buffer to compute the occlusion factor: it compares the depth of the current fragment with the depth of nearby fragments to determine how much light is occluded. We then apply that factor to the ambient light of the scene to reduce it in areas that should be dimmed. A bias is applied to deal with acnee, and a later blur pass smoothes the result to avoid harsh edges.
-
-The occlusion factor is computed in three passes:
-1. **G-buffer pass:** we render the scene to a G-buffer with three textures in different color attachement (position, normal and albedo). We couldn't use the syntax given in the OpenGL tutorial since we are working in WEBGL1.0 instead of WEBGL2.0. This is done in `gbuffer_sr.js`, `gbuffer.vert.glsl` and `gbuffer,frag.glsl`.
-  
-<!-- todo: add images of different parts of the gbuffer -->
-
-2. **SSAO pass:** this pass computes the ambient occlusion factor. In `ssao_sr.js`, we generate a kernel of random samples and pass it to the shaders. The vertex shader is a simple buffer to screen but the fragment shader `ssao.frag.glsl` computes the occulsion factor: it iterates on the random samples, gets the value of the G-buffer at that point and only increments the occlusion factor if needed.
-
-<!-- todo: add images of only ssao buffer -->
-
-1. _(optional)_ **Blur pass:** this pass smoothes the result of the SSAO pass to avoid harsh edges. It applies a 4x4 box blur to the SSAO texture. This is done in `blur_sr.js`, `buffer_to_screen.vert.glsl` and `blur.frag.glsl`. We found that a box blur was sufficient for our needs since SSAO is already a discreet effect so the diffence between box blur and guassian blur was not visible.
-
-<!-- todo: add images of blur on ssao -->
-
-After having computed the ambient occlusion factor, we integrate it to the scene in the Blinn-Phong shader by multiplying it with the ambient light component. 
-
-
-
-
-
-
+TODO
 
 #### Validation
 
@@ -128,6 +101,7 @@ This implementation simulates dynamic fire particles using instanced, textured q
   - A base quad (2D unit square) is instanced per particle.
   - Quads are billboarded in the vertex shader.
   - Alpha blending is enabled for additive effects this works well for flames and will benefit from bloom.
+
 ---
 
 ##### Design Choices
@@ -136,20 +110,20 @@ This implementation simulates dynamic fire particles using instanced, textured q
 
 #### Validation
 
-<div>
+<div style="display: flex; justify-content: center;">
 <video src="videos/fire.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
 </div>
-In the preceding video, we observe a basic fire simulation and a preview of all available parameters and how they influence the fire's behavior. Reducing the particle lifespan creates a flickering effect like fireworks. This happens because each particle is assigned a lifetime upon creation. When we shorten the lifespan, the color calculations based on `(life / maxLife)` can yield values greater than one, since `life` may exceed `maxLife`. It's not a major issue, as the effect normalizes quickly.
+In the above video, we observe a basic fire simulation and a preview of all available parameters and how they influence the fire's behavior. Reducing the particle lifespan creates a flickering effect like fireworks. This happens because each particle is assigned a lifetime upon creation. When we shorten the lifespan, the color calculations based on `(life / maxLife)` can yield values greater than one, since `life` may exceed `maxLife`. It's not a major issue, as the effect normalizes quickly.
 
-<div>
+<div style="display: flex; justify-content: center;">
 <video src="videos/fire_in_scene.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
 </div>
-In the preceding video we can see how the fire integrates to the main scene. Everything looks pretty well together. Trees are overly bright on top but that is not an issue of the fire and has been fixed since.
+In the above video we can see how the fire integrates to the main scene. Everything looks pretty well together. Trees are overly bright on top but that is not an issue of the fire and has been fixed since.
 
-<div>
+<div style="display: flex; justify-content: center;">
 <video src="videos/fire_fog.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
 </div>
-In the preceding video we can see fog getting over the particles if there is a lot of fog (when we can see far withohitting the ground) This is a known issue and we don't really know how to fix it easily.
+In the above video we can see fog getting over the particles if there is a lot of fog (when we can see far withohitting the ground) This is a known issue and we don't really know how to fix it easily.
 
 ### Fog
 
@@ -177,12 +151,52 @@ TODO
 
 #### Implementation
 
-TODO
+This implementation includes a bloom effect. Bloom is computed by first thresholding the bright values of the screen and storing them in a separate texture. This texture is then blurred using a Gaussian kernel multiple times to create a soft glow. Finally, the blurred texture is additively blended back with the original image to produce the final effect.
+
+To enhance the visual quality and prevent overly bright areas from burning out, we also implement tone mapping. This step compresses high dynamic range values into a displayable range, ensuring a more natural and balanced appearance.
+
+---
+
+##### Bloom Integration
+
+- Bloom is applied as a post-processing step after rendering the scene.
+- It captures bright fragments (typically from fire particles) and blurs them across neighboring pixels.
+- This creates a glowing aura that enhances the perceived brightness and softness of the fire.
+- Combined with alpha blending, bloom adds volume and visual depth to the flames.
+
+---
+
+##### Design Choices
+
+- A simple threshold-based bloom implementation is used to keep performance reasonable.
+- We use a Gaussian blurring kernel to get a better render than with a box kernel.
+- We downsample the thresholded texture to get better performances without losing much quality.
+- We use and exponential tone mapping with an exposition parameter to allow for customization.
 
 #### Validation
 
-TODO
+<div style="display: flex; justify-content: space-around; align-items: center;">
+<div>
+<img src="images/not_bloom.png" height="210px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/bloom.png" height="210px" style="vertical-align: middle;">
+</div>
+</div>
+In the pictures above, we see the fire integrated with the bloom effect. The flames appear more vivid and impactful. Bright particles contribute significantly to the glow, creating a more immersive look.
 
+<div style="display: flex; justify-content: center;">
+<video src="videos/bloom.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
+</div>
+In the vido above, we can clearly see the bloom effect being added to the seen and everything looks nice. We also see that the exposition and bloom threshold is working as expected. We have some weird lighting on trees but this does not come from bloom.
+
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <div><img src="images/bloom_pip1.png" height="210px" style="vertical-align: middle;"></div>
+  <div><img src="images/bloom_pip2.png" height="210px" style="vertical-align: middle;"></div>
+  <div><img src="images/bloom_pip3.png" height="210px" style="vertical-align: middle;"></div>
+  <div><img src="images/bloom_pip4.png" height="210px" style="vertical-align: middle;"></div>
+</div>
+In the pictures above, we see the whole blooming pipeline. First the base image, then the thresholded image, then the blurred thresholded map andfinally the mix of the blurred and base image. (it is not the same image everywhere.)
 
 ## Discussion
 
@@ -234,10 +248,10 @@ TODO
 			<td style="background-color: #f0f0f0;">0h</td>
 			<td>8h</td>
 			<td>12h</td>
-			<td>8h</td>
-			<td>3h</td>
-			<td>7h</td>
-			<td>40h</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td>Marius</td>
@@ -286,7 +300,10 @@ TODO
 ## References
 
 #### Screen-Space Ambient Occlusion
-- TODO <!--! todo  -->
+- [Joey DeVries (2015) *Advanced Lighting: SSAO*](https://learnopengl.com/Advanced-Lighting/SSAO)
+- [Arijit Nandi (2023) *Depth-Only Screen Space Ambient Occlusion (SSAO) for Forward Renderers*](https://medium.com/better-programming/depth-only-ssao-for-forward-renderers-1a3dcfa1873a)
+- [Bavoil, L. Sainz, M (2008) *Screen Space Ambient Occlusion*](https://www.researchgate.net/publication/228576448_Screen_Space_Ambient_Occlusion)
+
 #### Particle Effects
 - [MographPlus (2017) *Tutorial No.62 : Rendering realistic Explosion and Smoke in Arnold for 3ds Max (Arnold Volume)*](https://www.youtube.com/watch?v=5k-8ltGNUXk)
 - [OGLDEV (2025) Particle System Using The Compute Shader // Intermediate OpenGL Series](https://www.youtube.com/watch?v=pzAZ0xjWDv8)
