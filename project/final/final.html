@@ -249,24 +249,20 @@ techniques.</li>
 <li>intensity: the intensity of the occlusion. It’s just a power applied
 to the final occlusion factor to make it more or less pronounced.</li>
 </ul></li>
+<li><p><em>(optional)</em> <strong>Blur pass:</strong> this pass
+smoothes the result of the SSAO pass to avoid harsh edges. It applies a
+4x4 box blur to the SSAO texture. This is done in
+<code>blur_sr.js</code>, <code>buffer_to_screen.vert.glsl</code> and
+<code>blur.frag.glsl</code>. We found that a box blur was sufficient for
+our needs since SSAO is already a discreet effect so the diffence
+between box blur and guassian blur was not visible.</p></li>
 </ol>
-<!-- todo: add images of only ssao buffer -->
-<ol type="1">
-<li><em>(optional)</em> <strong>Blur pass:</strong> this pass smoothes
-the result of the SSAO pass to avoid harsh edges. It applies a 4x4 box
-blur to the SSAO texture. This is done in <code>blur_sr.js</code>,
-<code>buffer_to_screen.vert.glsl</code> and <code>blur.frag.glsl</code>.
-We found that a box blur was sufficient for our needs since SSAO is
-already a discreet effect so the diffence between box blur and guassian
-blur was not visible.</li>
-</ol>
-<!-- todo: add images of blur on ssao -->
 <p>After having computed the ambient occlusion factor, we integrate it
 to the scene by passing it to the Blinn-Phong and terrain shaders, and
 multiplying it with the ambient light component.</p>
 <h4 id="validation">Validation</h4>
-<p><em>We have a simple scene to visualize SSAO. From left to right, it
-has a taurus, a spehere, a small cube, and a big cube.</em></p>
+<p><em>We crafted a simple scene to visualize SSAO. From left to right,
+it has a taurus, a spehere, a small cube, and a big cube.</em></p>
 <ol type="1">
 <li><p><strong>G-buffer:</strong></p>
 <p>In the position texture, we have the green quadrant representing
@@ -927,11 +923,12 @@ Marius
 </tbody>
 </table>
 <h4 id="comments">Comments</h4>
-<p>TODO</p>
+<p>We have no comments. We worked well together and we are happy with
+the result.</p>
 <h2 id="references">References</h2>
-<h4 id="obj-meshes">Obj Meshes</h4>
+<h4 id="meshes">Meshes</h4>
 <ul>
-<li>Mountain Scene by Alonso Coaguila SCIPER: 339718</li>
+<li>Mountain Scene by Alonso Coaguila, SCIPER: 339718</li>
 <li><a
 href="https://www.cgtrader.com/free-3d-models/exterior/other/low-poly-campfire-f8ee77da-78f4-42f2-9c81-4a36f12d8f5e">Low
 Poly Campfire Free low-poly 3D model</a></li>
@@ -941,13 +938,6 @@ Occlusion</h4>
 <ul>
 <li><a href="https://learnopengl.com/Advanced-Lighting/SSAO">Joey
 DeVries (2015) <em>Advanced Lighting: SSAO</em></a></li>
-<li><a
-href="https://medium.com/better-programming/depth-only-ssao-for-forward-renderers-1a3dcfa1873a">Arijit
-Nandi (2023) <em>Depth-Only Screen Space Ambient Occlusion (SSAO) for
-Forward Renderers</em></a></li>
-<li><a
-href="https://www.researchgate.net/publication/228576448_Screen_Space_Ambient_Occlusion">Bavoil,
-L. Sainz, M (2008) <em>Screen Space Ambient Occlusion</em></a></li>
 </ul>
 <h4 id="particle-effects-1">Particle Effects</h4>
 <ul>
