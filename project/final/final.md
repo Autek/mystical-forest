@@ -166,7 +166,29 @@ TODO
 
 #### Implementation
 
-TODO
+The trees are procedurally generated with Lindenmayer Systems, otherwise known as L-Systems. By predetermining an alphabet from which we can produces axioms that can be recursively developped through predetermine rules, tree can be "grown" from a string. To generate the trees in the scene, we chose a random spot away from the campfire and randomly choose a predetermined starting axiom. From there, the rules of system are applied a random amount of times.
+
+##### Defining the L-System
+L-Systems are defined as a tuple $G = (V, \omega, P)$, where $V$ is the alphabet, $\omega$ is the starting axiom and $P$ is the set of production rules. The L-System $L$ that was defined to describe the tree has a randomly chosen starting axiom, an alphabet of $V = \{L, B, X, Y, Z, [,]\}$ and one production rule $P = \{B \rightarrow L[XB][YB][ZB][B]\}$.
+The functions that represent the rules and their recursive application are defined in `l_system.js`, which are called within the scene to generate the string defining the tree. 
+
+##### Generating Meshes
+To generate the tree, meshes have to be made, which are defined in `tree_systems.js`. The meshes for the branches are polygonal based prisms and the meshes for the leaves are two triangular faces at a right angle.
+To be able to correctly place all the meshes, functions that rotate and transform the meshes were also defined making the code clearer. 
+To optimize the number of objects, a function that would merge meshes into one mesh was made.
+
+##### Generating the Tree
+To generate the trees mesh, the final string must be parsed, therefore the alphabet must map to some action. The alphabet is parsed as:
+
+- $\{L, B\}$ : They represent a branch and the difference between the two is the branch represented by B could continue to grow if the production rule is applied.
+- $\{X, Y, Z\}$ : They represent a rotation from the base branch that they come from. The difference of the three symbols is the exact angle that the next branch will take.
+- $\{[,]\}$ : They represent a sub tree that would have a smaller base size and represent a new state from which new branches can come from.
+
+Leaves would be randomly placed on the upper half of branches.
+
+Using these rules, the string would be parsed and the corresponding branches and leaves would be generated and placed. To correctly be able to come back to an old position, a stack of the previous positions and rotations done would be kept.
+
+After generating a list of branch meshes and a seperate list of the leaf meshes they would both be merged into two collective meshes that would be added to scene with the `wood` material and the `leaf` material.
 
 #### Validation
 
