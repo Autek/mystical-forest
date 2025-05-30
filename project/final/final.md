@@ -4,14 +4,14 @@ title: Final Project Report CS-341 2025
 
 # Mystical Forest
 
-<div>
-<video src="videos/demo_teaser.mp4" height="300px" autoplay loop></video>
+<div style="text-align: center;">
+<img src="images/main.png" height="300px" style="vertical-align: middle;">
 </div>
-<figcaption style="text-align: center;">A short teaser video, gif, or image showing an overview of the final result.</figcaption>
+<figcaption style="text-align: center;">Mystical Forest</figcaption>
 
 ## Abstract
 
-TODO
+Imagine yourself in a forrest at night surronded by the stars. The fog is setting in. You decide to make campfire in an empty patch. You can not help yourself but feel warm while be surrounded by the stars, the trees, and the mountains. Truly a mystical experience that few can experience and yet here you are. This is our project Mystical Forest. This project implements different features like Screen Space Ambient Occlusion(SSAO), Particle Effects, Fog Shaders, Procedurally Generated Trees from L-Systems, and Bloom. 
 
 
 ## Overview
