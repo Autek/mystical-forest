@@ -192,8 +192,7 @@ We couldn’t use the syntax given in the OpenGL tutorial since we are
 working in WEBGL1.0 instead of WEBGL2.0. This is done in
 <code>gbuffer_sr.js</code>, <code>gbuffer.vert.glsl</code> and
 <code>gbuffer.frag.glsl</code>.</p>
-<!-- todo: add images of different parts of the gbuffer -->
-<ol type="1">
+<ol start="2" type="1">
 <li><p><strong>SSAO pass:</strong> this pass computes the ambient
 occlusion factor. In <code>ssao_sr.js</code>, we generate a kernel of
 random samples and a random rotation texture and pass it to the shaders.
@@ -233,7 +232,163 @@ blur was not visible.</li>
 to the scene by passing it to the Blinn-Phong and terrain shaders, and
 multiplying it with the ambient light component.</p>
 <h4 id="validation">Validation</h4>
-<p>TODO</p>
+<p><em>We have a simple scene to visualize SSAO. From left to right, it
+has a taurus, a spehere, a small cube, and a big cube.</em></p>
+<ol type="1">
+<li><p><strong>G-buffer:</strong></p>
+<p>In the position texture, we have the green quadrant representing
+positions where <span class="math inline"><em>y</em> &gt; 0</span> and
+<span class="math inline"><em>x</em> &lt; 0</span>, the yellow quadrant
+with <span class="math inline"><em>y</em> &gt; 0</span> and <span
+class="math inline"><em>x</em> &gt; 0</span>, the black quadrant with
+<span class="math inline"><em>y</em> &lt; 0</span> and <span
+class="math inline"><em>x</em> &lt; 0</span>, and the red quadrant with
+<span class="math inline"><em>y</em> &lt; 0</span> and <span
+class="math inline"><em>x</em> &gt; 0</span>.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/gbuffer_position.png" height="270px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>G-buffer position texture</p>
+</figcaption>
+<p>The normal texture just shows the normals of the scene, as usual.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/gbuffer_normals.png" height="270px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>G-buffer normal texture</p>
+</figcaption>
+<p>The albedo texture shows the colors of the scene as they would appear
+wihtout any treatment. Everything is white.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/gbuffer_albedo.png" height="270px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>G-buffer albedo texture</p>
+</figcaption></li>
+<li><p><strong>SSAO:</strong> Rendering only the SSAO texture, we can
+see the occlusion factor computed by the shader. It is already
+“reversed” so the darker regions are the ones being the most occluded.
+We are ony rendering the occlusion factor throught the red channel,
+which is why the image is red.</p>
+<p>We can clearly see that the regions of our objects that are closest
+to the ground are being occluded. There is some artifacting because of
+the repetition of the kernel samples, but it will later be smoothed out
+by the blur pass.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/ssao_simple.png" height="270px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>Visualization of the occlusion factor through the red channel</p>
+</figcaption>
+<p>We zoom in on the cubes to see the effect and artifacts more clearly.
+We can see the occlusion between the two cubes, which is pretty
+nice.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/ssao_cubes.png" height="270px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>Zoom on the two cubes</p>
+</figcaption></li>
+<li><p><strong>Blur:</strong> The blur pass smoothes the result of the
+SSAO pass. We can see that the artifacts are gone, and the occlusion
+factor is more uniform.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/ssao_blurred.png" height="270px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>SSAO with blur enabled</p>
+</figcaption>
+<p>Zomming in again on the cubes, we can see the effect of the blur
+pass.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/ssao_cubes_blurred.png" height="270px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>Zoom on the two cubes with blur enabled</p>
+</figcaption></li>
+</ol>
+<p>Finally, we can try tweaking the parameters of the SSAO pass to see
+how they affect the result. We are rendering the SSAO blurred
+texture.</p>
+<ul>
+<li><p><strong>Radius:</strong> Increasing the radius makes the
+occlusion factor more pronounced. Here, it is exagerated to show the
+effect. This also has the side-effect of having occlusion in weird
+places, like the top of the sphere, which is not occluded by anything.
+This is because the radius is too large and samples are taken from too
+far away.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/ssao_big_radius.png" height="270px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>SSAO with increased radius</p>
+</figcaption></li>
+<li><p><strong>Bias:</strong> Increasing the bias reduces the acne
+(which we don’t have much of anyway), but also reduces the occlusion
+factor when it is too high.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/ssao_big_bias.png" height="270px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>SSAO with increased bias</p>
+</figcaption></li>
+<li><p><strong>Intensity:</strong> Increasing the intensity makes the
+occlusion factor more pronounced. Here, it is exagerated to show the
+effect.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/ssao_big_intensity.png" height="270px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>SSAO with increased intensity</p>
+</figcaption></li>
+</ul>
+<p>Here is the final result with all the other shaders, with all the
+parameters set to default values that seemed appropriate.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<p><img src="images/ssao_final_enabled.png" height="270px" style="vertical-align: middle;"></p>
+</div>
+<figcaption style="text-align: center;">
+Scene with SSAO
+</figcaption>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<p><img src="images/ssao_final_disabled.png" height="270px" style="vertical-align: middle;"></p>
+</div>
+<figcaption style="text-align: center;">
+Scene without SSAO for comparision
+</figcaption>
 <h3 id="particle-effects">Particle Effects</h3>
 <h4 id="implementation-1">Implementation</h4>
 <p>This implementation simulates dynamic fire particles using instanced,
@@ -466,7 +621,7 @@ trees but this does not come from bloom.</p>
 <div
 style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
 <div>
-<img src="images/bloom_pip1.png" height="210px" style="vertical-align: middle;">
+<img src=****"images/bloom_pip1.png" height="210px" style="vertical-align: middle;">
 </div>
 <div>
 <img src="images/bloom_pip2.png" height="210px" style="vertical-align: middle;">
