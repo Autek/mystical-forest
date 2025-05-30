@@ -78,10 +78,8 @@ The ambient occlusion is implemented in screen space by using a fragment shader 
 
 The occlusion factor is computed in three passes:
 1. **G-buffer pass:** we render the scene to a simple G-buffer with three textures in different color attachement (position, normal and albedo). We couldn't use the syntax given in the OpenGL tutorial since we are working in WEBGL1.0 instead of WEBGL2.0. This is done in `gbuffer_sr.js`, `gbuffer.vert.glsl` and `gbuffer.frag.glsl`.
-  
-<!-- todo: add images of different parts of the gbuffer -->
 
-1. **SSAO pass:** this pass computes the ambient occlusion factor. In `ssao_sr.js`, we generate a kernel of random samples and a random rotation texture and pass it to the shaders. The vertex shader is a simple buffer-to-screen shader, but the fragment shader `ssao.frag.glsl` computes the occulsion factor. It iterates on the random (rotationned) samples, gets the value of the G-buffer at that point, transforms it to screen-space and computes and only increments the occlusion factor if the depth of the sample is visible from the viewer's point of view. The occlusion factor is then normalized by the number of samples. 
+2. **SSAO pass:** this pass computes the ambient occlusion factor. In `ssao_sr.js`, we generate a kernel of random samples and a random rotation texture and pass it to the shaders. The vertex shader is a simple buffer-to-screen shader, but the fragment shader `ssao.frag.glsl` computes the occulsion factor. It iterates on the random (rotationned) samples, gets the value of the G-buffer at that point, transforms it to screen-space and computes and only increments the occlusion factor if the depth of the sample is visible from the viewer's point of view. The occlusion factor is then normalized by the number of samples. 
 
 	There are multiple tweakable parameters to adjust the effect:
 	  - kernel size: the number of samplse in the kernel. The more samples we have, the more accurate the result is, but also the more expensive it is to compute. We found that 64 samples was a good middle ground.
@@ -98,9 +96,71 @@ The occlusion factor is computed in three passes:
 After having computed the ambient occlusion factor, we integrate it to the scene by passing it to the Blinn-Phong and terrain shaders, and multiplying it with the ambient light component. 
 
 #### Validation
+_We have a simple scene to visualize SSAO. From left to right, it has a taurus, a spehere, a small cube, and a big cube._
 
-TODO
+1. **G-buffer:**
 
+	In the position texture, we have the green quadrant representing positions where $y > 0$ and $x < 0$, the yellow quadrant with $y > 0$ and $x > 0$, the black quadrant with $y < 0$ and $x < 0$, and the red quadrant with $y < 0$ and $x > 0$. 
+
+	![G-buffer position texture](images/gbuffer_position.png)
+	_G-buffer position texture_
+
+	The normal texture just shows the normals of the scene, as usual.
+	
+	![G-buffer normal texture](images/gbuffer_normals.png)
+	_G-buffer normal texture_
+
+	The albedo texture shows the colors of the scene as they would appear wihtout any treatment. Everything is white.
+	
+	![G-buffer albedo texture](images/gbuffer_albedo.png)
+	_G-buffer albedo texture_
+
+2. **SSAO:** Rendering only the SSAO texture, we can see the occlusion factor computed by the shader. It is already "reversed" so the darker regions are the ones being the most occluded. We are ony rendering the occlusion factor throught the red channel, which is why the image is red. 
+
+	We can clearly see that the regions of our objects that are closest to the ground are being occluded. There is some artifacting because of the repetition of the kernel samples, but it will later be smoothed out by the blur pass.
+	
+	![SSAO texture](images/ssao_simple.png)
+	_Visualization of the occlusion factor through the red channel_
+
+	We zoom in on the cubes to see the effect and artifacts more clearly. We can see the occlusion between the two cubes, which is pretty nice.
+	
+	![SSAO texture cubes](images/ssao_cubes.png)
+	_Zoom on the two cubes_
+
+3. **Blur:** The blur pass smoothes the result of the SSAO pass. We can see that the artifacts are gone, and the occlusion factor is more uniform. 
+
+	![Blurred SSAO texture](images/ssao_blurred.png)
+	_SSAO with blur enabled_
+
+	Zomming in again on the cubes, we can see the effect of the blur pass.
+
+	![Blurred SSAO texture cubes](images/ssao_cubes_blurred.png)
+	_Zoom on the two cubes with blur enabled_
+
+Finally, we can try tweaking the parameters of the SSAO pass to see how they affect the result. We are rendering the SSAO blurred texture.
+
+- **Radius:** Increasing the radius makes the occlusion factor more pronounced. Here, it is exagerated to show the effect. This also has the side-effect of having occlusion in weird places, like the top of the sphere, which is not occluded by anything. This is because the radius is too large and samples are taken from too far away.
+
+![SSAO big radius](images/ssao_big_radius.png)
+_SSAO with increased radius_
+
+- **Bias:** Increasing the bias reduces the acne (which we don't have much of anyway), but also reduces the occlusion factor when it is too high.
+
+![SSAO big bias](images/ssao_big_bias.png)
+_SSAO with increased bias_
+
+- **Intensity:** Increasing the intensity makes the occlusion factor more pronounced. Here, it is exagerated to show the effect.
+
+![SSAO big intensity](images/ssao_big_intensity.png)
+_SSAO with increased intensity_
+
+Here is the final result with all the other shaders, with all the parameters set to default values that seemed appropriate.
+
+![Final result with SSAO](images/ssao_final_enabled.png)
+_Scene with SSAO_
+
+![Final result without SSAO](images/ssao_final_disabled.png)
+_Scene without SSAO for comparision_
 
 ### Particle Effects
 
