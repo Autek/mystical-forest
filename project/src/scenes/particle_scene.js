@@ -3,7 +3,7 @@ import * as MATERIALS from "../render/materials.js"
 import { ResourceManager } from "../scene_resources/resource_manager.js"
 import { ProceduralTextureGenerator } from "../render/procedural_texture_generator.js"
 import { FireEmitter } from "../scene_resources/fire_emitter.js";
-import { create_slider } from "../cg_libraries/cg_web.js";
+import { create_button_with_hotkey, create_slider } from "../cg_libraries/cg_web.js";
 
 
 export class ParticleScene extends Scene {
@@ -27,6 +27,24 @@ export class ParticleScene extends Scene {
   }
 
   initialize_scene(){
+
+		this.ui_params = {
+      // fog
+      is_active_fog: false,
+      fog_max_height: 2.52,
+      fog_opacity: 0.62,
+
+      // ssao
+      is_active_ssao: false,
+      is_active_blur: false, 
+      ssao_radius: 1.0,
+      ssao_bias: 0.0025, 
+      ssao_intensity: 2.0,
+
+      // bloom
+      bloom_exposition: 0.8,
+      bloom_threshold: 1.0,
+    };
 
     const fireEmitter = new FireEmitter({
       position: [0., 0., 0.], 
@@ -183,6 +201,16 @@ export class ParticleScene extends Scene {
     const max14 = 1;
     create_slider("fire red threshold", [0, n_steps_slider], (i) => {
       this.ui_params.fire_red_threshold = min14 + i * (max14 - min14) / n_steps_slider;
+    });
+    // bloom params
+    create_button_with_hotkey("Bloom", "c", () => {
+      this.ui_params.is_active_bloom = !this.ui_params.is_active_bloom;
+    });
+    create_slider("Bloom intensity", [0.0, 40.0], (value) => {
+      this.ui_params.bloom_exposition = value/10.0;
+    });
+    create_slider("Bloom threshold", [0.0, 40.0], (value) => {
+      this.ui_params.bloom_threshold = value/10.0;
     });
   }
 }
