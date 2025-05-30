@@ -122,7 +122,7 @@ async function main() {
   const fog_demo_scene = new FogDemoScene(resource_manager, procedural_texture_generator);
   const treegen_scene = new TreeScene(resource_manager);
 
-  const active_scene = treegen_scene;//mirkwood_scene;   // Assign the scene to be rendered to active_scene
+  const active_scene = mirkwood_scene;//mirkwood_scene;   // Assign the scene to be rendered to active_scene
   
   /*---------------------------------------------------------------
     5. UI Instantiation

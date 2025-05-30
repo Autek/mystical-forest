@@ -12,6 +12,9 @@ import { Scene } from "./scene.js";
 import { ResourceManager } from "../scene_resources/resource_manager.js";
 import { FireEmitter } from "../scene_resources/fire_emitter.js";
 
+import { full_tree } from "../scene_resources/tree_systems.js"
+import { applyNTree } from "../scene_resources/l_system.js";
+
 export class MirkwoodScene extends Scene {
 
   /**
@@ -118,7 +121,40 @@ export class MirkwoodScene extends Scene {
     // Add random trees
     const minimum_distance_from_fire = 0.8;
     const maximum_distance_from_fire = 4.0;
-    const num_trees = 100;
+    const num_trees = 20;
+
+    // Lsystem shit
+    let random_item = (stuff) => stuff[Math.floor(Math.random() * stuff.length)]
+    const init_axiom = [
+      'B[XB][B[YB]]', 
+      '[ZB][YB]',
+      'B[XB][B]',
+      'B[ZB][B[YB]]'
+    ];
+
+    let add_tree = (tree, tag) => {
+      let b_tag = tag + "_branches";
+      let l_tag = tag + "_leaves";
+
+      let b = tree.branches;
+      let l = tree.leaves;
+
+      this.resource_manager.add_procedural_mesh(b_tag, b);
+      this.resource_manager.add_procedural_mesh(l_tag, l);
+
+      this.objects.push({
+        translation: [0, 0, 0],
+        scale: [1, 1, 1],
+        mesh_reference: b_tag,
+        material: MATERIALS.wood
+      });
+      this.objects.push({
+        translation: [0, 0, 0],
+        scale: [1, 1, 1],
+        mesh_reference: l_tag,
+        material: MATERIALS.green
+      });
+    };
     
     for (let i = 0; i < num_trees; i++) {
       let tree_pos;
@@ -137,15 +173,23 @@ export class MirkwoodScene extends Scene {
           break;
         }
       } while (true);
+
       
-      const tree_scale = 0.3 + Math.random() * 0.7;
+
+      const axiom = random_item(init_axiom);
+      const n_axiom = applyNTree(axiom, 3 + Math.floor(Math.random() * 2));
+      const arbre = full_tree(n_axiom, tree_pos);
       
-      this.objects.push({
-        translation: tree_pos,
-        scale: [tree_scale, tree_scale, tree_scale],
-        mesh_reference: 'pine.obj',
-        material: MATERIALS.pine
-      });
+      add_tree(arbre, i.toString());
+
+      // const tree_scale = 0.3 + Math.random() * 0.7;
+      
+      // this.objects.push({
+      //   translation: tree_pos,
+      //   scale: [tree_scale, tree_scale, tree_scale],
+      //   mesh_reference: 'pine.obj',
+      //   material: MATERIALS.pine
+      // });
     }
 
     // Light Source
