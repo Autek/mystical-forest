@@ -2,7 +2,7 @@
 title: Final Project Report CS-341 2025
 ---
 
-# Project Title
+# Mystical Forest
 
 <div>
 <video src="videos/demo_teaser.mp4" height="300px" autoplay loop></video>
@@ -42,35 +42,35 @@ TODO
 	</thead>
 	<tbody>
 		<tr>
-			<td>Feature 1</td>
-			<td>5</td>
+			<td>Ambient Occlusion</td>
+			<td>17</td>
 			<td style="background-color: #d4edda;">Completed</td>
 		</tr>
 		<tr>
-			<td>Feature 2</td>
-			<td>5</td>
-			<td style="background-color: #cce5ff;">Missing</td>
-		</tr>
-		<tr>
-			<td>Feature 3</td>
-			<td>10</td>
-			<td style="background-color: #e8ebca;">Partially Completed</td>
-		</tr>
-		<tr>
-			<td>Feature 4</td>
-			<td>10</td>
+			<td>Particle Effects</td>
+			<td>17</td>
 			<td style="background-color: #d4edda;">Completed</td>
 		</tr>
 		<tr>
-			<td>Feature 5</td>
-			<td>20</td>
+			<td>Fog</td>
+			<td>4</td>
+			<td style="background-color: #d4edda;">Completed</td>
+		</tr>
+		<tr>
+			<td>L-Systems for Procedural Scene Generation</td>
+			<td>8</td>
+			<td style="background-color: #d4edda;">Completed</td>
+		</tr>
+		<tr>
+			<td>Bloom</td>
+			<td>4</td>
 			<td style="background-color: #d4edda;">Completed</td>
 		</tr>
 	</tbody>
 </table>
 
 
-### Feature 1
+### Ambient Occlusion
 
 #### Implementation
 
@@ -81,7 +81,7 @@ TODO
 TODO
 
 
-### Feature 2
+### Particle Effects
 
 #### Implementation
 
@@ -92,7 +92,7 @@ TODO
 TODO
 
 
-### Feature 3
+### Fog
 
 #### Implementation
 
@@ -103,7 +103,7 @@ TODO
 TODO
 
 
-### Feature 4
+### L-Systems for Procedural Scene Generation
 
 #### Implementation
 
@@ -114,7 +114,7 @@ TODO
 TODO
 
 
-### Feature 5
+### Bloom
 
 #### Implementation
 
@@ -159,37 +159,37 @@ TODO
 	</thead>
 	<tbody>
 		<tr>
-			<td>Name 1</td>
-			<td></td>
-			<td style="background-color: #f0f0f0;"></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>Name 2</td>
-			<td></td>
-			<td style="background-color: #f0f0f0;"></td>
-			<td></td>
-			<td></td>
+			<td>Alonso</td>
+			<td>3h</td>
+			<td style="background-color: #f0f0f0;">2h</td>
+			<td>4h</td>
+			<td>14h</td>
 			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
-			<td>Name 3</td>
-			<td></td>
-			<td style="background-color: #f0f0f0;"></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td>Charlie</td>
+			<td>2h</td>
+			<td style="background-color: #f0f0f0;">0h</td>
+			<td>8h</td>
+			<td>12h</td>
 			<td></td>
 			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>Marius</td>
+			<td>2h</td>
+			<td style="background-color: #f0f0f0;">0h</td>
+			<td>2h</td>
+			<td>9h30</td>
+			<td>8h</td>
+			<td>4h</td>
+			<td>18h30</td>
+			<td>44h</td>
 		</tr>
 	</tbody>
 </table>
@@ -204,15 +204,15 @@ TODO
 	</thead>
 	<tbody>
 		<tr>
-			<td>Name 1</td>
+			<td>Alonso</td>
 			<td>1/3</td>
 		</tr>
 		<tr>
-			<td>Name 2</td>
+			<td>Charlie</td>
 			<td>1/3</td>
 		</tr>
 		<tr>
-			<td>Name 3</td>
+			<td>Marius</td>
 			<td>1/3</td>
 		</tr>
 	</tbody>
@@ -226,4 +226,27 @@ TODO
 
 ## References
 
-TODO
+#### Screen-Space Ambient Occlusion
+- [Joey DeVries (2015) *Advanced Lighting: SSAO*](https://learnopengl.com/Advanced-Lighting/SSAO)
+- [Arijit Nandi (2023) *Depth-Only Screen Space Ambient Occlusion (SSAO) for Forward Renderers*](https://medium.com/better-programming/depth-only-ssao-for-forward-renderers-1a3dcfa1873a)
+- [Bavoil, L. Sainz, M (2008) *Screen Space Ambient Occlusion*](https://www.researchgate.net/publication/228576448_Screen_Space_Ambient_Occlusion)
+
+#### Particle Effects
+- [MographPlus (2017) *Tutorial No.62 : Rendering realistic Explosion and Smoke in Arnold for 3ds Max (Arnold Volume)*](https://www.youtube.com/watch?v=5k-8ltGNUXk)
+- [OGLDEV (2025) Particle System Using The Compute Shader // Intermediate OpenGL Series](https://www.youtube.com/watch?v=pzAZ0xjWDv8)
+- [OpenGL-Tutorial/Particles](https://www.opengl-tutorial.org/intermediate-tutorials/billboards-particles/)
+- [LearnOpenGL/Particles](https://learnopengl.com/In-Practice/2D-Game/Particles)
+- [Regl Example Gallery, instance-triangle.js](https://regl-project.github.io/regl/www/gallery.html)
+
+#### Fog
+- [OGLDEV (2022) *Mastering Fog Rendering in OpenGL: Adding Depth and Atmosphere to Your Graphics (part 2/2)*](https://youtu.be/BYbIs1C7rkM?feature=shared)
+- [Legakis, J. (1998) *Fast Multi Layer Fog* (SIGGRAPH '98: ACM SIGGRAPH 98)](https://dl.acm.org/doi/pdf/10.1145/280953.282233)
+
+#### L-Systems for Procedural Scene Generation
+- [SimonDev (2020) *Procedural Plant Generation with L-Systems*](https://www.youtube.com/watch?v=feNVBEPXAcE)
+- [P. Prusinkiewicz, M. Cieslak, P. Ferraro, J. Hanan (2018) *Modeling Plant Development with L-Systems*](https://algorithmicbotany.org/papers/modeling-plant-development-with-l-systems.pdf)
+
+#### Bloom
+- [Joey DeVries (2015) *Advanced Lighting: Bloom*](https://learnopengl.com/Advanced-Lighting/Bloom)
+- [3Angle (2024) *WebGL Game Part 19 - Bloom Effect*](https://www.youtube.com/watch?v=SqvPzbvfZEs)
+- [The Cherno (2021) *Bloom.*](https://www.youtube.com/watch?v=tI70-HIc5ro)
