@@ -112,12 +112,44 @@ TODO
 
 #### Implementation
 
-TODO
+This implementation simulates dynamic fire particles using instanced, textured quads that evolve and fade over time. Each particle is rendered as a camera-facing billboard, with GPU rendering and CPU simulation. A fire emitter spawns and evolves over time, with configurable parameters for size, lifespan, emission rate, color options, speed, fire radius.
+
+---
+
+##### Pipeline Structure
+
+  - A FireEmitter extends a general ParticleEmitter class.
+  - A FireEmitter manages particle state: position, velocity, life, color, spawn radius, size.
+  - On each frame:
+    - Dead particles are culled.
+    - New ones are spawned based on emissionRate.
+    - Attributes are updated using remaining lifetime (RGB and alpha).
+  - Results are exported into two arrays: positions (vec4: x, y, z, size) and colors (RGBA uint8).
+  - A base quad (2D unit square) is instanced per particle.
+  - Quads are billboarded in the vertex shader.
+  - Alpha blending is enabled for additive effects this works well for flames and will benefit from bloom.
+---
+
+##### Design Choices
+
+- CPU simulation: because it is simpler than compute shaders and sufficient for our use.
 
 #### Validation
 
-TODO
+<div>
+<video src="videos/fire.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
+</div>
+In the preceding video, we observe a basic fire simulation and a preview of all available parameters and how they influence the fire's behavior. Reducing the particle lifespan creates a flickering effect like fireworks. This happens because each particle is assigned a lifetime upon creation. When we shorten the lifespan, the color calculations based on `(life / maxLife)` can yield values greater than one, since `life` may exceed `maxLife`. It's not a major issue, as the effect normalizes quickly.
 
+<div>
+<video src="videos/fire_in_scene.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
+</div>
+In the preceding video we can see how the fire integrates to the main scene. Everything looks pretty well together. Trees are overly bright on top but that is not an issue of the fire and has been fixed since.
+
+<div>
+<video src="videos/fire_fog.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
+</div>
+In the preceding video we can see fog getting over the particles if there is a lot of fog (when we can see far withohitting the ground) This is a known issue and we don't really know how to fix it easily.
 
 ### Fog
 
