@@ -224,12 +224,19 @@ Within the final mixer shader, the color of the fragement is mixed with the fog'
 
 #### Validation
 
-![image](images/foggers/low_height.png)
-![image](images/foggers/mid_height.png)
-![image](images/foggers/high_height.png)
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <div><img src="images/foggers/low_height.png" height="190px" style="vertical-align: middle;"></div>
+  <div><img src="images/foggers/mid_height.png" height="190px" style="vertical-align: middle;"></div>
+  <div><img src="images/foggers/high_height.png" height="190px" style="vertical-align: middle;"></div>
+</div>
+ <figcaption style="text-align: center;"> Fog Height </figcaption>
 In these images, the height of the fog varies. The difference between the fragments that are mixed with the fog texture and those that are not.
-![image](images/foggers/low_opacity.png)
-![image](images/foggers/high_opacity.png)
+
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <div><img src="images/foggers/low_opacity.png" height="190px" style="vertical-align: middle;"></div>
+  <div><img src="images/foggers/high_opacity.png" height="190px" style="vertical-align: middle;"></div>
+</div>
+ <figcaption style="text-align: center;"> Fog Opacity </figcaption>
 In these images, the oppacity of the fog varies. It can obscure as much as possible but also be as transparent as needed.
 
 
