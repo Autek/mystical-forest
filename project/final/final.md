@@ -4,10 +4,10 @@ title: Final Project Report CS-341 2025
 
 # Mystical Forest
 
-<div>
-<video src="videos/demo_teaser.mp4" height="300px" autoplay loop></video>
+<div style="text-align: center;">
+<img src="images/main.png" height="300px" style="vertical-align: middle;">
 </div>
-<figcaption style="text-align: center;">A short teaser video, gif, or image showing an overview of the final result.</figcaption>
+<figcaption style="text-align: center;">Mystical Forest</figcaption>
 
 ## Abstract
 
