@@ -192,8 +192,20 @@ After generating a list of branch meshes and a seperate list of the leaf meshes 
 
 #### Validation
 
-TODO
+ <div style="text-align: center;">
+	<img src="images/l_system/0_step.png" height="140px" style="vertical-align: middle;">
+	<img src="images/l_system/1_step.png" height="140px" style="vertical-align: middle;">
+	<img src="images/l_system/2_step.png" height="140px" style="vertical-align: middle;">
+ </div>
+ <div style="text-align: center;">
+	<img src="images/l_system/3_step.png" height="140px" style="vertical-align: middle;">
+	<img src="images/l_system/4_step.png" height="140px" style="vertical-align: middle;">
+ </div>
+ <figcaption style="text-align: center;">Different levels of depth (0, 1, 2, 3, 4) </figcaption>
 
+ In the following images you can see the progression and "growth" of a tree, the initial axiom in these image is simply `B`. From the single character we can progress to the first step by applying the production rule `B -> L[XB][YB][ZB][B]`.
+ Also the leaves, are randomly placed in the upper half of a given branch. Since the leaves are generated at each instance, 
+ this generated small differences in each instance of a tree, even if they are generated from the same axiom and have the same depth. 
 
 ### Bloom
 
