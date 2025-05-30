@@ -134,16 +134,22 @@ This implementation simulates dynamic fire particles using instanced, textured q
 <div style="display: flex; justify-content: center;">
 <video src="videos/fire.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
 </div>
+ <figcaption style="text-align: center;">fire particles isolated</figcaption>
+
 In the above video, we observe a basic fire simulation and a preview of all available parameters and how they influence the fire's behavior. Reducing the particle lifespan creates a flickering effect like fireworks. This happens because each particle is assigned a lifetime upon creation. When we shorten the lifespan, the color calculations based on `(life / maxLife)` can yield values greater than one, since `life` may exceed `maxLife`. It's not a major issue, as the effect normalizes quickly.
 
 <div style="display: flex; justify-content: center;">
 <video src="videos/fire_in_scene.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
 </div>
+ <figcaption style="text-align: center;">fire particles in scene</figcaption>
+
 In the above video we can see how the fire integrates to the main scene. Everything looks pretty well together. Trees are overly bright on top but that is not an issue of the fire and has been fixed since.
 
 <div style="display: flex; justify-content: center;">
 <video src="videos/fire_fog.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
 </div>
+ <figcaption style="text-align: center;">fire particles clashing with fog</figcaption>
+
 In the above video we can see fog getting over the particles if there is a lot of fog (when we can see far withohitting the ground) This is a known issue and we don't really know how to fix it easily.
 
 ### Fog
@@ -236,11 +242,13 @@ To enhance the visual quality and prevent overly bright areas from burning out, 
 <img src="images/bloom.png" height="210px" style="vertical-align: middle;">
 </div>
 </div>
+ <figcaption style="text-align: center;">bloom isolated</figcaption>
 In the pictures above, we see the fire integrated with the bloom effect. The flames appear more vivid and impactful. Bright particles contribute significantly to the glow, creating a more immersive look.
 
 <div style="display: flex; justify-content: center;">
 <video src="videos/bloom.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
 </div>
+ <figcaption style="text-align: center;">bloom in scene</figcaption>
 In the vido above, we can clearly see the bloom effect being added to the seen and everything looks nice. We also see that the exposition and bloom threshold is working as expected. We have some weird lighting on trees but this does not come from bloom.
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
@@ -249,6 +257,7 @@ In the vido above, we can clearly see the bloom effect being added to the seen a
   <div><img src="images/bloom_pip3.png" height="210px" style="vertical-align: middle;"></div>
   <div><img src="images/bloom_pip4.png" height="210px" style="vertical-align: middle;"></div>
 </div>
+ <figcaption style="text-align: center;">bloom pipeline</figcaption>
 In the pictures above, we see the whole blooming pipeline. First the base image, then the thresholded image, then the blurred thresholded map andfinally the mix of the blurred and base image. (it is not the same image everywhere.)
 
 ## Discussion
