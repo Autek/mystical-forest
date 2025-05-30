@@ -91,16 +91,12 @@ The occlusion factor is computed in three passes:
 	  - bias: the bias is used to avoid acne like is done in other shadowing techniques.
 	  - intensity: the intensity of the occlusion. It's just a power applied to the final occlusion factor to make it more or less pronounced.
 
-<!-- todo: add images of only ssao buffer -->
-
-1. _(optional)_ **Blur pass:** this pass smoothes the result of the SSAO pass to avoid harsh edges. It applies a 4x4 box blur to the SSAO texture. This is done in `blur_sr.js`, `buffer_to_screen.vert.glsl` and `blur.frag.glsl`. We found that a box blur was sufficient for our needs since SSAO is already a discreet effect so the diffence between box blur and guassian blur was not visible.
-
-<!-- todo: add images of blur on ssao -->
+3. _(optional)_ **Blur pass:** this pass smoothes the result of the SSAO pass to avoid harsh edges. It applies a 4x4 box blur to the SSAO texture. This is done in `blur_sr.js`, `buffer_to_screen.vert.glsl` and `blur.frag.glsl`. We found that a box blur was sufficient for our needs since SSAO is already a discreet effect so the diffence between box blur and guassian blur was not visible.
 
 After having computed the ambient occlusion factor, we integrate it to the scene by passing it to the Blinn-Phong and terrain shaders, and multiplying it with the ambient light component. 
 
 #### Validation
-_We have a simple scene to visualize SSAO. From left to right, it has a taurus, a spehere, a small cube, and a big cube._
+_We crafted a simple scene to visualize SSAO. From left to right, it has a taurus, a spehere, a small cube, and a big cube._
 
 1. **G-buffer:**
 
@@ -479,18 +475,16 @@ TODO
 
 #### Comments
 
-TODO
+We have no comments. We worked well together and we are happy with the result. 
 
 
 ## References
-#### Obj Meshes
-- Mountain Scene by Alonso Coaguila SCIPER: 339718
+#### Meshes
+- Mountain Scene by Alonso Coaguila, SCIPER: 339718
 - [Low Poly Campfire Free low-poly 3D model](https://www.cgtrader.com/free-3d-models/exterior/other/low-poly-campfire-f8ee77da-78f4-42f2-9c81-4a36f12d8f5e)
 
 #### Screen-Space Ambient Occlusion
 - [Joey DeVries (2015) *Advanced Lighting: SSAO*](https://learnopengl.com/Advanced-Lighting/SSAO)
-- [Arijit Nandi (2023) *Depth-Only Screen Space Ambient Occlusion (SSAO) for Forward Renderers*](https://medium.com/better-programming/depth-only-ssao-for-forward-renderers-1a3dcfa1873a)
-- [Bavoil, L. Sainz, M (2008) *Screen Space Ambient Occlusion*](https://www.researchgate.net/publication/228576448_Screen_Space_Ambient_Occlusion)
 
 #### Particle Effects
 - [MographPlus (2017) *Tutorial No.62 : Rendering realistic Explosion and Smoke in Arnold for 3ds Max (Arnold Volume)*](https://www.youtube.com/watch?v=5k-8ltGNUXk)
