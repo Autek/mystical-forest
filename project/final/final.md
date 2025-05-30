@@ -11,7 +11,7 @@ title: Final Project Report CS-341 2025
 
 ## Abstract
 
-Imagine yourself in a forrest at night surronded by the stars. The fog is setting in. You decide to make campfire in an empty patch. You can not help yourself but feel warm while be surrounded by the stars, the trees, and the mountains. Truly a mystical experience that few can experience and yet here you are. This is our project Mystical Forest. This project implements different features like Screen Space Ambient Occlusion(SSAO), Particle Effects, Fog Shaders, Procedurally Generated Trees from L-Systems, and Bloom. 
+Imagine yourself in a forest at night surrounded by the stars. The fog is setting in. You decide to make campfire in an empty patch. You cannot help yourself but to feel warm while be surrounded by the stars, the trees, and the mountains. Truly a mystical experience in this dim atmosphere. This is our project Mystical Forest. This project implements different features like Screen Space Ambient Occlusion, Particle Effects, Fog, Procedurally Generated Trees from L-Systems, and Bloom. 
 
 
 ## Overview
@@ -21,7 +21,7 @@ Imagine yourself in a forrest at night surronded by the stars. The fog is settin
 </div>
  <figcaption style="text-align: center;">Overview of our components</figcaption>
 
-We generated the trees procedurally using L-systems. This means they can be easily modified to create different types of trees, or other plants. blablabla @coaguila fill in this part. 
+We generated the trees procedurally using L-systems. This allows varying trees that share a similar underlaying structure. It also allows to "grow" trees and show them in different stages of developpment. The code is easily modifiable to produce other plants, like potentially bushes and other types of trees.
 
 We also added a fog to create a more immersive atmosphere. The fog is implemented using a fragment shader that calculates the fog density based on the distance from the camera, and applies it to the scene. This gives a sense of depth and mystery to the forest, which is really cool to see. 
 
