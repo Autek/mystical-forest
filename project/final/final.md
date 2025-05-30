@@ -17,6 +17,8 @@ Imagine yourself in a forest at night surrounded by the stars. The fog is settin
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
   <div><img src="images/l_system/4_step.png" height="190px" style="vertical-align: middle;"></div>
+  <div><img src="images/bloom.png" height="190px" style="vertical-align: middle;"></div>
+  <div><img src="images/foggers/high_height.png" height="190px" style="vertical-align: middle;"></div>
 </div>
  <figcaption style="text-align: center;">Overview of our components</figcaption>
 
