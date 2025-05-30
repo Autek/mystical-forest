@@ -26,7 +26,7 @@ Imagine yourself in a forest at night surrounded by the stars. The fog is settin
 </div>
 <figcaption style="text-align: center;">Some more visuals focusing on interesting details of your scene.</figcaption>
 
-We generated the trees procedurally using L-systems. This means they can be easily modified to create different types of trees, or other plants. blablabla @coaguila fill in this part. 
+We generated the trees procedurally using L-systems. This allows varying trees that share a similar underlaying structure. It also allows to "grow" trees and show them in different stages of developpment. The code is easily modifiable to produce other plants, like potentially bushes and other types of trees.
 
 We also added a fog to create a more immersive atmosphere. The fog is implemented using a fragment shader that calculates the fog density based on the distance from the camera, and applies it to the scene. This gives a sense of depth and mystery to the forest, which is really cool to see. 
 
