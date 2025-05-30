@@ -119,7 +119,7 @@ export class MirkwoodScene extends Scene {
     });
 
     // Add random trees
-    const minimum_distance_from_fire = 0.8;
+    const minimum_distance_from_fire = 2.;
     const maximum_distance_from_fire = 4.0;
     const num_trees = 30;
 
