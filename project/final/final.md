@@ -4,7 +4,7 @@ title: Final Project Report CS-341 2025
 
 # Mystical Forest
 
-<div style="text-align: center;">
+<div style="display: flex; justify-content: space-around; align-items: center;">
 <img src="images/main.png" height="300px" style="vertical-align: middle;">
 </div>
 <figcaption style="text-align: center;">Mystical Forest</figcaption>
@@ -13,18 +13,12 @@ title: Final Project Report CS-341 2025
 
 Imagine yourself in a forest at night surrounded by the stars. The fog is setting in. You decide to make campfire in an empty patch. You cannot help yourself but to feel warm while be surrounded by the stars, the trees, and the mountains. Truly a mystical experience in this dim atmosphere. This is our project Mystical Forest. This project implements different features like Screen Space Ambient Occlusion, Particle Effects, Fog, Procedurally Generated Trees from L-Systems, and Bloom. 
 
-
 ## Overview
 
-<div style="display: flex; justify-content: space-around; align-items: center;">
-<div>
-<img src="images/demo_detail.png" height="210px" style="vertical-align: middle;">
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <div><img src="images/l_system/4_step.png" height="190px" style="vertical-align: middle;"></div>
 </div>
-<div>
-<video src="videos/demo_detail.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
-</div>
-</div>
-<figcaption style="text-align: center;">Some more visuals focusing on interesting details of your scene.</figcaption>
+ <figcaption style="text-align: center;">Overview of our components</figcaption>
 
 We generated the trees procedurally using L-systems. This allows varying trees that share a similar underlaying structure. It also allows to "grow" trees and show them in different stages of developpment. The code is easily modifiable to produce other plants, like potentially bushes and other types of trees.
 
@@ -32,7 +26,9 @@ We also added a fog to create a more immersive atmosphere. The fog is implemente
 
 To add even more to the atmosphere, and because it's an interesting effect, we added screen-space ambient occlusion. This creates a more realistic lighting by simulating how light interacts with nearby environment, especially in the corners and crevices that we have on the trees. It gives a nice depth to the scene. 
 
-Finally, we added a fire using particles. blablabla @Autek fill in this part. 
+We added a fire using particles. the fire adds to the cozy atmosphere and works very well with the bloom effect also added. It brings some light to the scene that is otherwise rendered at night. The particles don't emit light but we placed a light inside the fire
+
+Finally, we added bloom. Bloom finishes the effects on the scene. It makes the fire smoother and allows to better see the flames. This makes for a very cozy scene that has a peaceful vibe. And also with the exposition parameter this allows for a lot of different vibes to the scene.
 
 The terrain was made by hand in Blender, and we used the given shader to apply texture to it.
 
@@ -111,21 +107,21 @@ _We have a simple scene to visualize SSAO. From left to right, it has a taurus, 
 	In the position texture, we have the green quadrant representing positions where $y > 0$ and $x < 0$, the yellow quadrant with $y > 0$ and $x > 0$, the black quadrant with $y < 0$ and $x < 0$, and the red quadrant with $y < 0$ and $x > 0$. 
 
 	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  	<div><img src="images/gbuffer_position.png" height="270px" style="vertical-align: middle;"></div>
+  	<div><img src="images/gbuffer_position.png" height="300px" style="vertical-align: middle;"></div>
 	</div>
 	<figcaption style="text-align: center;">G-buffer position texture</figcaption>
 
 	The normal texture just shows the normals of the scene, as usual.
 	
 	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  	<div><img src="images/gbuffer_normals.png" height="270px" style="vertical-align: middle;"></div>
+  	<div><img src="images/gbuffer_normals.png" height="300px" style="vertical-align: middle;"></div>
 	</div>
 	<figcaption style="text-align: center;">G-buffer normal texture</figcaption>
 
 	The albedo texture shows the colors of the scene as they would appear wihtout any treatment. Everything is white.
 	
 	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  	<div><img src="images/gbuffer_albedo.png" height="270px" style="vertical-align: middle;"></div>
+  	<div><img src="images/gbuffer_albedo.png" height="300px" style="vertical-align: middle;"></div>
 	</div>
 	<figcaption style="text-align: center;">G-buffer albedo texture</figcaption>
 
@@ -135,14 +131,14 @@ _We have a simple scene to visualize SSAO. From left to right, it has a taurus, 
 	We can clearly see that the regions of our objects that are closest to the ground are being occluded. There is some artifacting because of the repetition of the kernel samples, but it will later be smoothed out by the blur pass.
 	
 	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  	<div><img src="images/ssao_simple.png" height="270px" style="vertical-align: middle;"></div>
+  	<div><img src="images/ssao_simple.png" height="300px" style="vertical-align: middle;"></div>
 	</div>
 	<figcaption style="text-align: center;">Visualization of the occlusion factor through the red channel</figcaption>
 
 	We zoom in on the cubes to see the effect and artifacts more clearly. We can see the occlusion between the two cubes, which is pretty nice.
 	
 	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  	<div><img src="images/ssao_cubes.png" height="270px" style="vertical-align: middle;"></div>
+  	<div><img src="images/ssao_cubes.png" height="300px" style="vertical-align: middle;"></div>
 	</div>
 	<figcaption style="text-align: center;">Zoom on the two cubes</figcaption>
 
@@ -150,14 +146,14 @@ _We have a simple scene to visualize SSAO. From left to right, it has a taurus, 
 3. **Blur:** The blur pass smoothes the result of the SSAO pass. We can see that the artifacts are gone, and the occlusion factor is more uniform. 
 
 	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  	<div><img src="images/ssao_blurred.png" height="270px" style="vertical-align: middle;"></div>
+  	<div><img src="images/ssao_blurred.png" height="300px" style="vertical-align: middle;"></div>
 	</div>
 	<figcaption style="text-align: center;">SSAO with blur enabled</figcaption>
 
 	Zomming in again on the cubes, we can see the effect of the blur pass.
 
 	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  	<div><img src="images/ssao_cubes_blurred.png" height="270px" style="vertical-align: middle;"></div>
+  	<div><img src="images/ssao_cubes_blurred.png" height="300px" style="vertical-align: middle;"></div>
 	</div>
 	<figcaption style="text-align: center;">Zoom on the two cubes with blur enabled</figcaption>
 
@@ -166,33 +162,33 @@ Finally, we can try tweaking the parameters of the SSAO pass to see how they aff
 - **Radius:** Increasing the radius makes the occlusion factor more pronounced. Here, it is exagerated to show the effect. This also has the side-effect of having occlusion in weird places, like the top of the sphere, which is not occluded by anything. This is because the radius is too large and samples are taken from too far away.
 
 	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  	<div><img src="images/ssao_big_radius.png" height="270px" style="vertical-align: middle;"></div>
+  	<div><img src="images/ssao_big_radius.png" height="300px" style="vertical-align: middle;"></div>
 	</div>
 	<figcaption style="text-align: center;">SSAO with increased radius</figcaption>
 
 - **Bias:** Increasing the bias reduces the acne (which we don't have much of anyway), but also reduces the occlusion factor when it is too high.
 
 	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  	<div><img src="images/ssao_big_bias.png" height="270px" style="vertical-align: middle;"></div>
+  	<div><img src="images/ssao_big_bias.png" height="300px" style="vertical-align: middle;"></div>
 	</div>
 	<figcaption style="text-align: center;">SSAO with increased bias</figcaption>
 
 - **Intensity:** Increasing the intensity makes the occlusion factor more pronounced. Here, it is exagerated to show the effect.
 
 	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  	<div><img src="images/ssao_big_intensity.png" height="270px" style="vertical-align: middle;"></div>
+  	<div><img src="images/ssao_big_intensity.png" height="300px" style="vertical-align: middle;"></div>
 	</div>
 	<figcaption style="text-align: center;">SSAO with increased intensity</figcaption>
 
 Here is the final result with all the other shaders, with all the parameters set to default values that seemed appropriate.
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-<img src="images/ssao_final_enabled.png" height="270px" style="vertical-align: middle;">
+<img src="images/ssao_final_enabled.png" height="300px" style="vertical-align: middle;">
 </div>
 <figcaption style="text-align: center;">Scene with SSAO</figcaption>
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-<img src="images/ssao_final_disabled.png" height="270px" style="vertical-align: middle;">
+<img src="images/ssao_final_disabled.png" height="300px" style="vertical-align: middle;">
 </div>
 <figcaption style="text-align: center;">Scene without SSAO for comparision</figcaption>
 
@@ -227,21 +223,21 @@ This implementation simulates dynamic fire particles using instanced, textured q
 #### Validation
 
 <div style="display: flex; justify-content: center;">
-<video src="videos/fire.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
+<video src="videos/fire.mp4" height="300px" autoplay loop style="vertical-align: middle;"></video>
 </div>
  <figcaption style="text-align: center;">fire particles isolated</figcaption>
 
 In the above video, we observe a basic fire simulation and a preview of all available parameters and how they influence the fire's behavior. Reducing the particle lifespan creates a flickering effect like fireworks. This happens because each particle is assigned a lifetime upon creation. When we shorten the lifespan, the color calculations based on `(life / maxLife)` can yield values greater than one, since `life` may exceed `maxLife`. It's not a major issue, as the effect normalizes quickly.
 
 <div style="display: flex; justify-content: center;">
-<video src="videos/fire_in_scene.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
+<video src="videos/fire_in_scene.mp4" height="300px" autoplay loop style="vertical-align: middle;"></video>
 </div>
  <figcaption style="text-align: center;">fire particles in scene</figcaption>
 
 In the above video we can see how the fire integrates to the main scene. Everything looks pretty well together. Trees are overly bright on top but that is not an issue of the fire and has been fixed since.
 
 <div style="display: flex; justify-content: center;">
-<video src="videos/fire_fog.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
+<video src="videos/fire_fog.mp4" height="300px" autoplay loop style="vertical-align: middle;"></video>
 </div>
  <figcaption style="text-align: center;">fire particles clashing with fog</figcaption>
 
@@ -319,7 +315,7 @@ After generating a list of branch meshes and a seperate list of the leaf meshes 
  this generated small differences in each instance of a tree, even if they are generated from the same axiom and have the same depth. 
 
  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  <div><img src="images/l_system/tree_scene.png" height="210px" style="vertical-align: middle;"></div>
+  <div><img src="images/l_system/tree_scene.png" height="300px" style="vertical-align: middle;"></div>
 </div>
  <figcaption style="text-align: center;"> Trees in scene </figcaption>
 
@@ -355,26 +351,27 @@ To enhance the visual quality and prevent overly bright areas from burning out, 
 
 <div style="display: flex; justify-content: space-around; align-items: center;">
 <div>
-<img src="images/not_bloom.png" height="210px" style="vertical-align: middle;">
+<img src="images/not_bloom.png" height="300px" style="vertical-align: middle;">
 </div>
 <div>
-<img src="images/bloom.png" height="210px" style="vertical-align: middle;">
+<img src="images/bloom.png" height="300px" style="vertical-align: middle;">
 </div>
 </div>
  <figcaption style="text-align: center;">bloom isolated</figcaption>
 In the pictures above, we see the fire integrated with the bloom effect. The flames appear more vivid and impactful. Bright particles contribute significantly to the glow, creating a more immersive look.
 
 <div style="display: flex; justify-content: center;">
-<video src="videos/bloom.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
+<video src="videos/bloom.mp4" height="300px" autoplay loop style="vertical-align: middle;"></video>
 </div>
  <figcaption style="text-align: center;">bloom in scene</figcaption>
 In the vido above, we can clearly see the bloom effect being added to the seen and everything looks nice. We also see that the exposition and bloom threshold is working as expected. We have some weird lighting on trees but this does not come from bloom.
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  <div><img src=****"images/bloom_pip1.png" height="210px" style="vertical-align: middle;"></div>
-  <div><img src="images/bloom_pip2.png" height="210px" style="vertical-align: middle;"></div>
-  <div><img src="images/bloom_pip3.png" height="210px" style="vertical-align: middle;"></div>
-  <div><img src="images/bloom_pip4.png" height="210px" style="vertical-align: middle;"></div>
+<div><img src="images/bloom_pip1.png" height="300px" style="vertical-align: middle;"></div>
+<div><img src="images/bloom_pip2.png" height="300px" style="vertical-align: middle;"></div>
+<div><img src="images/bloom_pip3.png" height="300px" style="vertical-align: middle;"></div>
+<div><img src="images/bloom_pip4.png" height="300px" style="vertical-align: middle;"></div>
+
 </div>
  <figcaption style="text-align: center;">bloom pipeline</figcaption>
 In the pictures above, we see the whole blooming pipeline. First the base image, then the thresholded image, then the blurred thresholded map andfinally the mix of the blurred and base image. (it is not the same image everywhere.)
@@ -383,7 +380,7 @@ In the pictures above, we see the whole blooming pipeline. First the base image,
 
 ### Additional Components
 
-As a small additional component, we implemented HDR rendering with tone mapping to bring values back into the [0,1][0,1] range.
+As a small additional component, we implemented HDR rendering with tone mapping to bring values back into the [0,1] range.
 The equation we used is:
 
 $$
@@ -394,7 +391,7 @@ This introduces an exposure parameter, which is very useful for achieving a cine
 
 ### Failed Experiments
 
-No components failed during our implementation.
+The OpenGL tutorials given were straighforward enough to not lose us on wrong paths. We did struggle with the framework and general implementation but we did not try anything that did not pan out with (a lot of) debugging.
 
 ### Challenges
 
