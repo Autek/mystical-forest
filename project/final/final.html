@@ -487,7 +487,15 @@ andfinally the mix of the blurred and base image. (it is not the same
 image everywhere.)</p>
 <h2 id="discussion">Discussion</h2>
 <h3 id="additional-components">Additional Components</h3>
-<p>TODO</p>
+<p>As a small additional component, we implemented HDR rendering with
+tone mapping to bring values back into the [0,1][0,1] range. The
+equation we used is:</p>
+<p><span
+class="math display"><strong>1</strong> − exp (−hdrColor ⋅ exposure)</span></p>
+<p>This introduces an exposure parameter, which is very useful for
+achieving a cinematic look. It’s not strictly required for bloom, but it
+greatly improves the result—without it, the image tends to appear
+overexposed, with all bloomed pixels turning completely white.</p>
 <h3 id="failed-experiments">Failed Experiments</h3>
 <p>TODO</p>
 <h3 id="challenges">Challenges</h3>

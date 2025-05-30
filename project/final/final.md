@@ -264,7 +264,14 @@ In the pictures above, we see the whole blooming pipeline. First the base image,
 
 ### Additional Components
 
-TODO
+As a small additional component, we implemented HDR rendering with tone mapping to bring values back into the [0,1][0,1] range.
+The equation we used is:
+
+$$
+\mathbf{1} - \exp(-\text{hdrColor} \cdot \text{exposure})
+$$
+
+This introduces an exposure parameter, which is very useful for achieving a cinematic look. It's not strictly required for bloom, but it greatly improves the result—without it, the image tends to appear overexposed, with all bloomed pixels turning completely white.
 
 ### Failed Experiments
 
