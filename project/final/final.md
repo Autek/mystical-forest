@@ -2,7 +2,7 @@
 title: Final Project Report CS-341 2025
 ---
 
-# Project Title
+# Mystical Forest
 
 <div>
 <video src="videos/demo_teaser.mp4" height="300px" autoplay loop></video>
