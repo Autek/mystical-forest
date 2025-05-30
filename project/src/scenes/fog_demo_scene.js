@@ -80,11 +80,6 @@ export class FogDemoScene extends Scene {
       mesh_reference: 'mesh_terrain',
       material: MATERIALS.terrain
     });
-
-    // We add the (static) lights to the actor list to allow them to be modified from the UI
-    // this.lights.forEach((light, i) => {
-    //   this.actors[`light_${i}`] = light
-    // });
   }
 
   /**

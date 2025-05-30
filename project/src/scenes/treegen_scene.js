@@ -60,8 +60,7 @@ export class TreeScene extends Scene {
       bloom_exposition: 0.8,
       bloom_threshold: 1.0,
     };
-
-    // const branch = tree('B[XB[YB[YB][ZB]]][YB][ZB]');
+    
     /**
      * B[XB][B[YB]], 4
      * [ZB][YB], 3
@@ -80,43 +79,23 @@ export class TreeScene extends Scene {
 
       this.objects.push({
         translation: [0, 0, 0],
-        scale: [1, 1, 1],
+        scale: [2, 2, 2],
         mesh_reference: b_tag,
         material: MATERIALS.wood
       });
       this.objects.push({
         translation: [0, 0, 0],
-        scale: [1, 1, 1],
+        scale: [2, 2, 2],
         mesh_reference: l_tag,
         material: MATERIALS.green
       });
     };
 
     const init_axiom = 'B';
-    const n_axiom = applyNTree(init_axiom, 4);
+    const n_axiom = applyNTree(init_axiom, 6);
     const yes = full_tree(n_axiom, [0, 0, 0]);
 
     add_tree(yes, "test");
-
-    // const branch = yes.branches;
-    // const leaf = yes.leaves;
-
-
-    // this.resource_manager.add_procedural_mesh("branches", branch);
-    // this.resource_manager.add_procedural_mesh("leaf", leaf);
-
-    // this.objects.push({
-    //   translation: [0, 0, 0],
-    //   scale: [1, 1, 1],
-    //   mesh_reference: "branches",
-    //   material: MATERIALS.wood
-    // });
-    // this.objects.push({
-    //   translation: [0, 0, 0],
-    //   scale: [1, 1, 1],
-    //   mesh_reference: "leaf",
-    //   material: MATERIALS.green
-    // });
 
     this.resource_manager.add_procedural_mesh("mesh_sphere_env_map", cg_mesh_make_uv_sphere(16));
     this.objects.push({
@@ -130,11 +109,6 @@ export class TreeScene extends Scene {
       position : [-10.0 , 0., 4.],
       color: [0.75, 0.53, 0.45]
     });
-
-    // this.lights.push({
-    //   position : [10., 0., 4.],
-    //   color: [0, 0, 0.3]
-    // });
 
   }
 

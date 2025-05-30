@@ -18,7 +18,7 @@ void main() {
 
 	fog_factor = 1.;
 	if (vertex_position.z < fog_max) {
-		fog_factor = exp2(-(drop_rate * dfactor) * (drop_rate * dfactor) * 1.44); //clamp(vertex_position.z * 4. , 0., 1.);
+		fog_factor = exp2(-(drop_rate * dfactor) * (drop_rate * dfactor) * 1.44);
 	}
 
 	gl_Position = mat_model_view_projection * vec4(vertex_position, 1);
