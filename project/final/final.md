@@ -243,11 +243,28 @@ In the above video we can see fog getting over the particles if there is a lot o
 
 #### Implementation
 
-TODO
+The fog is implemented through a shader. The fog has its own frame buffer where it loads one texture produced by one pair of fragment and vertex shaders.
+
+In the shaders, we calculate the fog factor, which is a number between 0 and 1, where 0 represents full fog and 1 represents 0 no fog. To calculate, we use the distance of the vertex from the camera and the intensity of the fog tends towards 0 in a squared exponentially. 
+
+Within the final mixer shader, the color of the fragement is mixed with the fog's gray color the fog factor that is extracted from the fog texture.
 
 #### Validation
 
-TODO
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <div><img src="images/foggers/low_height.png" height="190px" style="vertical-align: middle;"></div>
+  <div><img src="images/foggers/mid_height.png" height="190px" style="vertical-align: middle;"></div>
+  <div><img src="images/foggers/high_height.png" height="190px" style="vertical-align: middle;"></div>
+</div>
+ <figcaption style="text-align: center;"> Fog Height </figcaption>
+In these images, the height of the fog varies. The difference between the fragments that are mixed with the fog texture and those that are not.
+
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <div><img src="images/foggers/low_opacity.png" height="190px" style="vertical-align: middle;"></div>
+  <div><img src="images/foggers/high_opacity.png" height="190px" style="vertical-align: middle;"></div>
+</div>
+ <figcaption style="text-align: center;"> Fog Opacity </figcaption>
+In these images, the oppacity of the fog varies. It can obscure as much as possible but also be as transparent as needed.
 
 
 ### L-Systems for Procedural Scene Generation
@@ -292,6 +309,13 @@ After generating a list of branch meshes and a seperate list of the leaf meshes 
  In the following images you can see the progression and "growth" of a tree, the initial axiom in these image is simply `B`. From the single character we can progress to the first step by applying the production rule `B -> L[XB][YB][ZB][B]`.
  Also the leaves, are randomly placed in the upper half of a given branch. Since the leaves are generated at each instance, 
  this generated small differences in each instance of a tree, even if they are generated from the same axiom and have the same depth. 
+
+ <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <div><img src="images/l_system/tree_scene.png" height="210px" style="vertical-align: middle;"></div>
+</div>
+ <figcaption style="text-align: center;"> Trees in scene </figcaption>
+
+In the following image you can see different trees surronding the campfire, some are different from one another due to the different starting axioms.
 
 ### Bloom
 
@@ -351,11 +375,18 @@ In the pictures above, we see the whole blooming pipeline. First the base image,
 
 ### Additional Components
 
-TODO
+As a small additional component, we implemented HDR rendering with tone mapping to bring values back into the [0,1][0,1] range.
+The equation we used is:
+
+$$
+\mathbf{1} - \exp(-\text{hdrColor} \cdot \text{exposure})
+$$
+
+This introduces an exposure parameter, which is very useful for achieving a cinematic look. It's not strictly required for bloom, but it greatly improves the result—without it, the image tends to appear overexposed, with all bloomed pixels turning completely white.
 
 ### Failed Experiments
 
-TODO
+No components failed during our implementation.
 
 ### Challenges
 

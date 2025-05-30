@@ -461,9 +461,49 @@ is a lot of fog (when we can see far withohitting the ground) This is a
 known issue and we don’t really know how to fix it easily.</p>
 <h3 id="fog">Fog</h3>
 <h4 id="implementation-2">Implementation</h4>
-<p>TODO</p>
+<p>The fog is implemented through a shader. The fog has its own frame
+buffer where it loads one texture produced by one pair of fragment and
+vertex shaders.</p>
+<p>In the shaders, we calculate the fog factor, which is a number
+between 0 and 1, where 0 represents full fog and 1 represents 0 no fog.
+To calculate, we use the distance of the vertex from the camera and the
+intensity of the fog tends towards 0 in a squared exponentially.</p>
+<p>Within the final mixer shader, the color of the fragement is mixed
+with the fog’s gray color the fog factor that is extracted from the fog
+texture.</p>
 <h4 id="validation-2">Validation</h4>
-<p>TODO</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/foggers/low_height.png" height="190px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/foggers/mid_height.png" height="190px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/foggers/high_height.png" height="190px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+Fog Height
+</figcaption>
+<p>In these images, the height of the fog varies. The difference between
+the fragments that are mixed with the fog texture and those that are
+not.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/foggers/low_opacity.png" height="190px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/foggers/high_opacity.png" height="190px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+Fog Opacity
+</figcaption>
+<p>In these images, the oppacity of the fog varies. It can obscure as
+much as possible but also be as transparent as needed.</p>
 <h3 id="l-systems-for-procedural-scene-generation">L-Systems for
 Procedural Scene Generation</h3>
 <h4 id="implementation-3">Implementation</h4>
@@ -554,6 +594,18 @@ are randomly placed in the upper half of a given branch. Since the
 leaves are generated at each instance, this generated small differences
 in each instance of a tree, even if they are generated from the same
 axiom and have the same depth.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/l_system/tree_scene.png" height="210px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+Trees in scene
+</figcaption>
+<p>In the following image you can see different trees surronding the
+campfire, some are different from one another due to the different
+starting axioms.</p>
 <h3 id="bloom">Bloom</h3>
 <h4 id="implementation-4">Implementation</h4>
 <p>This implementation includes a bloom effect. Bloom is computed by
@@ -642,9 +694,17 @@ andfinally the mix of the blurred and base image. (it is not the same
 image everywhere.)</p>
 <h2 id="discussion">Discussion</h2>
 <h3 id="additional-components">Additional Components</h3>
-<p>TODO</p>
+<p>As a small additional component, we implemented HDR rendering with
+tone mapping to bring values back into the [0,1][0,1] range. The
+equation we used is:</p>
+<p><span
+class="math display"><strong>1</strong> − exp (−hdrColor ⋅ exposure)</span></p>
+<p>This introduces an exposure parameter, which is very useful for
+achieving a cinematic look. It’s not strictly required for bloom, but it
+greatly improves the result—without it, the image tends to appear
+overexposed, with all bloomed pixels turning completely white.</p>
 <h3 id="failed-experiments">Failed Experiments</h3>
-<p>TODO</p>
+<p>No components failed during our implementation.</p>
 <h3 id="challenges">Challenges</h3>
 <p>TODO</p>
 <h2 id="contributions">Contributions</h2>
