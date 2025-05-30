@@ -11,8 +11,7 @@ title: Final Project Report CS-341 2025
 
 ## Abstract
 
-TODO
-
+In our project Mystical Forest, we have create a foggy, mystical forest, with a calming fire. We used ambient occlusion and fog to create a dim atmosphere, and added a fire generated with particles and bloom to enhance the light it produces. The trees are L-systems generated simulate a real forest.  
 
 ## Overview
 
@@ -26,8 +25,15 @@ TODO
 </div>
 <figcaption style="text-align: center;">Some more visuals focusing on interesting details of your scene.</figcaption>
 
-TODO
+We generated the trees procedurally using L-systems. This means they can be easily modified to create different types of trees, or other plants. blablabla @coaguila fill in this part. 
 
+We also added a fog to create a more immersive atmosphere. The fog is implemented using a fragment shader that calculates the fog density based on the distance from the camera, and applies it to the scene. This gives a sense of depth and mystery to the forest, which is really cool to see. 
+
+To add even more to the atmosphere, and because it's an interesting effect, we added screen-space ambient occlusion. This creates a more realistic lighting by simulating how light interacts with nearby environment, especially in the corners and crevices that we have on the trees. It gives a nice depth to the scene. 
+
+Finally, we added a fire using particles. blablabla @Autek fill in this part. 
+
+The terrain was made by hand in Blender, and we used the given shader to apply texture to it.
 
 ## Feature validation
 
@@ -74,7 +80,28 @@ TODO
 
 #### Implementation
 
-TODO
+The ambient occlusion is implemented in screen space by using a fragment shader that samples the depth buffer to compute the occlusion factor: it compares the depth of the current fragment with the depth of nearby fragments to determine how much light is occluded. We then apply that factor to the ambient light of the scene to reduce it in areas that should be dimmed. A bias is applied to deal with acnee, and a later blur pass smoothes the result to avoid harsh edges.
+
+The occlusion factor is computed in three passes:
+1. **G-buffer pass:** we render the scene to a G-buffer with three textures in different color attachement (position, normal and albedo). We couldn't use the syntax given in the OpenGL tutorial since we are working in WEBGL1.0 instead of WEBGL2.0. This is done in `gbuffer_sr.js`, `gbuffer.vert.glsl` and `gbuffer,frag.glsl`.
+  
+<!-- todo: add images of different parts of the gbuffer -->
+
+2. **SSAO pass:** this pass computes the ambient occlusion factor. In `ssao_sr.js`, we generate a kernel of random samples and pass it to the shaders. The vertex shader is a simple buffer to screen but the fragment shader `ssao.frag.glsl` computes the occulsion factor: it iterates on the random samples, gets the value of the G-buffer at that point and only increments the occlusion factor if needed.
+
+<!-- todo: add images of only ssao buffer -->
+
+1. _(optional)_ **Blur pass:** this pass smoothes the result of the SSAO pass to avoid harsh edges. It applies a 4x4 box blur to the SSAO texture. This is done in `blur_sr.js`, `buffer_to_screen.vert.glsl` and `blur.frag.glsl`. We found that a box blur was sufficient for our needs since SSAO is already a discreet effect so the diffence between box blur and guassian blur was not visible.
+
+<!-- todo: add images of blur on ssao -->
+
+After having computed the ambient occlusion factor, we integrate it to the scene in the Blinn-Phong shader by multiplying it with the ambient light component. 
+
+
+
+
+
+
 
 #### Validation
 
@@ -175,10 +202,10 @@ TODO
 			<td style="background-color: #f0f0f0;">0h</td>
 			<td>8h</td>
 			<td>12h</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td>8h</td>
+			<td>3h</td>
+			<td>7h</td>
+			<td>40h</td>
 		</tr>
 		<tr>
 			<td>Marius</td>
@@ -227,10 +254,7 @@ TODO
 ## References
 
 #### Screen-Space Ambient Occlusion
-- [Joey DeVries (2015) *Advanced Lighting: SSAO*](https://learnopengl.com/Advanced-Lighting/SSAO)
-- [Arijit Nandi (2023) *Depth-Only Screen Space Ambient Occlusion (SSAO) for Forward Renderers*](https://medium.com/better-programming/depth-only-ssao-for-forward-renderers-1a3dcfa1873a)
-- [Bavoil, L. Sainz, M (2008) *Screen Space Ambient Occlusion*](https://www.researchgate.net/publication/228576448_Screen_Space_Ambient_Occlusion)
-
+- TODO <!--! todo  -->
 #### Particle Effects
 - [MographPlus (2017) *Tutorial No.62 : Rendering realistic Explosion and Smoke in Arnold for 3ds Max (Arnold Volume)*](https://www.youtube.com/watch?v=5k-8ltGNUXk)
 - [OGLDEV (2025) Particle System Using The Compute Shader // Intermediate OpenGL Series](https://www.youtube.com/watch?v=pzAZ0xjWDv8)
