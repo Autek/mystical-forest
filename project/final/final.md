@@ -42,35 +42,35 @@ TODO
 	</thead>
 	<tbody>
 		<tr>
-			<td>Feature 1</td>
-			<td>5</td>
+			<td>Ambient Occlusion</td>
+			<td>17</td>
 			<td style="background-color: #d4edda;">Completed</td>
 		</tr>
 		<tr>
-			<td>Feature 2</td>
-			<td>5</td>
-			<td style="background-color: #cce5ff;">Missing</td>
-		</tr>
-		<tr>
-			<td>Feature 3</td>
-			<td>10</td>
-			<td style="background-color: #e8ebca;">Partially Completed</td>
-		</tr>
-		<tr>
-			<td>Feature 4</td>
-			<td>10</td>
+			<td>Particle Effects</td>
+			<td>17</td>
 			<td style="background-color: #d4edda;">Completed</td>
 		</tr>
 		<tr>
-			<td>Feature 5</td>
-			<td>20</td>
+			<td>Fog</td>
+			<td>4</td>
+			<td style="background-color: #d4edda;">Completed</td>
+		</tr>
+		<tr>
+			<td>L-Systems for Procedural Scene Generation</td>
+			<td>8</td>
+			<td style="background-color: #d4edda;">Completed</td>
+		</tr>
+		<tr>
+			<td>Bloom</td>
+			<td>4</td>
 			<td style="background-color: #d4edda;">Completed</td>
 		</tr>
 	</tbody>
 </table>
 
 
-### Feature 1
+### Ambient Occlusion
 
 #### Implementation
 
@@ -81,7 +81,7 @@ TODO
 TODO
 
 
-### Feature 2
+### Particle Effects
 
 #### Implementation
 
@@ -92,7 +92,7 @@ TODO
 TODO
 
 
-### Feature 3
+### Fog
 
 #### Implementation
 
@@ -103,7 +103,7 @@ TODO
 TODO
 
 
-### Feature 4
+### L-Systems for Procedural Scene Generation
 
 #### Implementation
 
@@ -114,7 +114,7 @@ TODO
 TODO
 
 
-### Feature 5
+### Bloom
 
 #### Implementation
 
@@ -159,7 +159,7 @@ TODO
 	</thead>
 	<tbody>
 		<tr>
-			<td>Name 1</td>
+			<td>Alonso</td>
 			<td></td>
 			<td style="background-color: #f0f0f0;"></td>
 			<td></td>
@@ -170,7 +170,7 @@ TODO
 			<td></td>
 		</tr>
 		<tr>
-			<td>Name 2</td>
+			<td>Charlie</td>
 			<td></td>
 			<td style="background-color: #f0f0f0;"></td>
 			<td></td>
@@ -181,7 +181,7 @@ TODO
 			<td></td>
 		</tr>
 		<tr>
-			<td>Name 3</td>
+			<td>Marius</td>
 			<td></td>
 			<td style="background-color: #f0f0f0;"></td>
 			<td></td>
@@ -204,15 +204,15 @@ TODO
 	</thead>
 	<tbody>
 		<tr>
-			<td>Name 1</td>
+			<td>Alonso</td>
 			<td>1/3</td>
 		</tr>
 		<tr>
-			<td>Name 2</td>
+			<td>Charlie</td>
 			<td>1/3</td>
 		</tr>
 		<tr>
-			<td>Name 3</td>
+			<td>Marius</td>
 			<td>1/3</td>
 		</tr>
 	</tbody>
