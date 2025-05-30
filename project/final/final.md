@@ -11,7 +11,7 @@ title: Final Project Report CS-341 2025
 
 ## Abstract
 
-Imagine yourself in a forrest at night surronded by the stars. The fog is setting in. You decide to make campfire in an empty patch. You can not help yourself but feel warm while be surrounded by the stars, the trees, and the mountains. Truly a mystical experience that few can experience and yet here you are. This is our project Mystical Forest. This project implements different features like Screen Space Ambient Occlusion(SSAO), Particle Effects, Fog Shaders, Procedurally Generated Trees from L-Systems, and Bloom. 
+Imagine yourself in a forest at night surrounded by the stars. The fog is setting in. You decide to make campfire in an empty patch. You cannot help yourself but to feel warm while be surrounded by the stars, the trees, and the mountains. Truly a mystical experience in this dim atmosphere. This is our project Mystical Forest. This project implements different features like Screen Space Ambient Occlusion, Particle Effects, Fog, Procedurally Generated Trees from L-Systems, and Bloom. 
 
 
 ## Overview
