@@ -165,71 +165,63 @@ export function tree(init) {
     const pos_stack = [[0, 0, 0]];
     const rot_stack = [[0, 0]];
     const h_stack = [BRANCH_LEN];
-    const b_stack = [BASE]
+    const b_stack = [BASE];
 
+    // Branch
+    let handle_log = () => {
+        let h = h_stack[h_stack.length - 1];
+        h_stack.push(h * BRANCH_RATE);
+
+        let b = b_stack[b_stack.length - 1];
+
+        let branch = poly_mesh(POLY_N, b, b * BASE_RATE, h);
+        let end = vec4.fromValues(0, 0, h, 1);
+        
+        let bunch = [];
+        for (let i = 0; i < LEAVES_PER_BRANCH; i ++) {
+            let phi = Math.random() * (2 * Math.PI);
+
+            let leaf = scale_mesh(poly_plane(), 0.05);
+            leaf = rotate_mesh(leaf, 2 * X_ROT_RATE, phi);
+            leaf = translate_mesh(leaf, [(b * BASE_RATE) * Math.cos(phi), (b * BASE_RATE) * Math.sin(phi), (Math.random() * (h/2)) + (h/2)]);
+
+            bunch.push(leaf);
+        }
+
+        // Rotate mesh recursively
+        rot_stack.slice().reverse().forEach (rot => {
+            branch = rotate_mesh(branch, rot[0], rot[1]);
+            end = rotate_vec(end, rot[0], rot[1]);
+
+            for (let i = 0; i < LEAVES_PER_BRANCH; i ++) {
+                bunch[i] = rotate_mesh(bunch[i], rot[0], rot[1]);
+            }
+        });
+
+        // Translate mesh to last position
+        let last = pos_stack[pos_stack.length - 1];
+        branch = translate_mesh(branch, last);
+
+        for (let i = 0; i < LEAVES_PER_BRANCH; i ++) {
+            bunch[i] = translate_mesh(bunch[i], last);
+        }
+
+        // Push new last position
+        pos_stack.push([end[0] + last[0], end[1] + last[1], end[2] + last[2]]);
+
+        // Push mesh
+        branches.push(branch);
+        bunch.forEach(l => leaves.push(l));
+    }
+    
     for (let i = 0; i < init.length; i++) {
         switch(init[i]) {
             case 'B':
-                let h = h_stack[h_stack.length - 1];
-                h_stack.push(h * BRANCH_RATE);
-
-                let b = b_stack[b_stack.length - 1];
-
-                let branch = poly_mesh(POLY_N, b, b * BASE_RATE, h);
-                let end = vec4.fromValues(0, 0, h, 1);
-
-                // let leaf = scale_mesh(poly_plane(), 0.05);
-                
-                let bunch = [];
-                for (let i = 0; i < LEAVES_PER_BRANCH; i ++) {
-                    let phi = Math.random() * (2 * Math.PI);
-
-                    let leaf = scale_mesh(poly_plane(), 0.05);
-                    leaf = rotate_mesh(leaf, 2 * X_ROT_RATE, phi);
-                    leaf = translate_mesh(leaf, [(b * BASE_RATE) * Math.cos(phi), (b * BASE_RATE) * Math.sin(phi), (Math.random() * (h/2)) + (h/2)]);
-
-                    bunch.push(leaf);
-                }
-
-                // bunch.map(leaf => {
-                //     let l = rotate_mesh(leaf, 2 * X_ROT_RATE, Math.random() * (2 * Math.PI));
-                //     l = translate_mesh(l, [0, -(b * BASE_RATE), Math.random() * h]);
-
-                //     return l;
-                // });
-
-                // leaf = rotate_mesh(leaf, 2 * X_ROT_RATE, 0.6);
-                // leaf = translate_mesh(leaf, [0, -(b * BASE_RATE), h/2]);
-
-                // Rotate mesh recursively
-                rot_stack.slice().reverse().forEach (rot => {
-                    branch = rotate_mesh(branch, rot[0], rot[1]);
-                    end = rotate_vec(end, rot[0], rot[1]);
-
-                    for (let i = 0; i < LEAVES_PER_BRANCH; i ++) {
-                        bunch[i] = rotate_mesh(bunch[i], rot[0], rot[1]);
-                    }
-                    // bunch.map(leaf => rotate_mesh(leaf, rot[0], rot[1]));
-                    // leaf = rotate_mesh(leaf, rot[0], rot[1]);
-                });
-
-                // Translate mesh to last position
-                let last = pos_stack[pos_stack.length - 1];
-                branch = translate_mesh(branch, last);
-
-                for (let i = 0; i < LEAVES_PER_BRANCH; i ++) {
-                    bunch[i] = translate_mesh(bunch[i], last);
-                }
-                // bunch.map(l => translate_mesh(l, last));
-                // leaf = translate_mesh(leaf, last);
-
-                // Push new last position
-                pos_stack.push([end[0] + last[0], end[1] + last[1], end[2] + last[2]]);
-
-                // Push mesh
-                branches.push(branch);
-                bunch.forEach(l => leaves.push(l))
-                // leaves.push(leaf);
+                handle_log();
+                break;
+            
+            case 'L':
+                handle_log();
                 break;
 
             case 'X':
