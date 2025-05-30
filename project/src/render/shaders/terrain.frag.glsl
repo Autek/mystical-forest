@@ -77,16 +77,8 @@ void main()
 	// Compute ambient
 	vec3 ambient = ambient_factor * material_color * material_ambient * ambient_occlusion;
 
-	// float light_distance = length(light_position - v2f_frag_pos);
-	// float attenuation = 1.0 / pow(light_distance, 0.5);
-
-	// Compute pixel color
-	// vec3 color = ambient + (attenuation * light_color * material_color * (diffuse + specular));
-
-	//float attenuation = 1. / (dist_frag_light * dist_frag_light);
 	
 	// Compute pixel color
 	vec3 color = ambient + (light_color * (diffuse + specular));
 	gl_FragColor = vec4(color, 1.); // output: RGBA in 0..1 range
-	// gl_FragColor = vec4(vec3(ambient_occlusion), 1.0);
 }
