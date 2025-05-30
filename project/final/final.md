@@ -74,7 +74,28 @@ TODO
 
 #### Implementation
 
-TODO
+The ambient occlusion is implemented in screen space by using a fragment shader that samples the depth buffer to compute the occlusion factor: it compares the depth of the current fragment with the depth of nearby fragments to determine how much light is occluded. We then apply that factor to the ambient light of the scene to reduce it in areas that should be dimmed. A bias is applied to deal with acnee, and a later blur pass smoothes the result to avoid harsh edges.
+
+The occlusion factor is computed in three passes:
+1. **G-buffer pass:** we render the scene to a simple G-buffer with three textures in different color attachement (position, normal and albedo). We couldn't use the syntax given in the OpenGL tutorial since we are working in WEBGL1.0 instead of WEBGL2.0. This is done in `gbuffer_sr.js`, `gbuffer.vert.glsl` and `gbuffer.frag.glsl`.
+  
+<!-- todo: add images of different parts of the gbuffer -->
+
+1. **SSAO pass:** this pass computes the ambient occlusion factor. In `ssao_sr.js`, we generate a kernel of random samples and a random rotation texture and pass it to the shaders. The vertex shader is a simple buffer-to-screen shader, but the fragment shader `ssao.frag.glsl` computes the occulsion factor. It iterates on the random (rotationned) samples, gets the value of the G-buffer at that point, transforms it to screen-space and computes and only increments the occlusion factor if the depth of the sample is visible from the viewer's point of view. The occlusion factor is then normalized by the number of samples. 
+
+	There are multiple tweakable parameters to adjust the effect:
+	  - kernel size: the number of samplse in the kernel. The more samples we have, the more accurate the result is, but also the more expensive it is to compute. We found that 64 samples was a good middle ground.
+	  - radius: the radius in which the occlusion factor is computed. The larger the radius is, the larger the area of influence of the occlusion is. To avoid hard cuttoffs, the border should be smoothstep'd.
+	  - bias: the bias is used to avoid acne like is done in other shadowing techniques.
+	  - intensity: the intensity of the occlusion. It's just a power applied to the final occlusion factor to make it more or less pronounced.
+
+<!-- todo: add images of only ssao buffer -->
+
+1. _(optional)_ **Blur pass:** this pass smoothes the result of the SSAO pass to avoid harsh edges. It applies a 4x4 box blur to the SSAO texture. This is done in `blur_sr.js`, `buffer_to_screen.vert.glsl` and `blur.frag.glsl`. We found that a box blur was sufficient for our needs since SSAO is already a discreet effect so the diffence between box blur and guassian blur was not visible.
+
+<!-- todo: add images of blur on ssao -->
+
+After having computed the ambient occlusion factor, we integrate it to the scene by passing it to the Blinn-Phong and terrain shaders, and multiplying it with the ambient light component. 
 
 #### Validation
 
@@ -140,12 +161,42 @@ TODO
 
 #### Implementation
 
-TODO
+The trees are procedurally generated with Lindenmayer Systems, otherwise known as L-Systems. By predetermining an alphabet from which we can produces axioms that can be recursively developped through predetermine rules, tree can be "grown" from a string. To generate the trees in the scene, we chose a random spot away from the campfire and randomly choose a predetermined starting axiom. From there, the rules of system are applied a random amount of times.
+
+##### Defining the L-System
+L-Systems are defined as a tuple $G = (V, \omega, P)$, where $V$ is the alphabet, $\omega$ is the starting axiom and $P$ is the set of production rules. The L-System $L$ that was defined to describe the tree has a randomly chosen starting axiom, an alphabet of $V = \{L, B, X, Y, Z, [,]\}$ and one production rule $P = \{B \rightarrow L[XB][YB][ZB][B]\}$.
+The functions that represent the rules and their recursive application are defined in `l_system.js`, which are called within the scene to generate the string defining the tree. 
+
+##### Generating Meshes
+To generate the tree, meshes have to be made, which are defined in `tree_systems.js`. The meshes for the branches are polygonal based prisms and the meshes for the leaves are two triangular faces at a right angle.
+To be able to correctly place all the meshes, functions that rotate and transform the meshes were also defined making the code clearer. 
+To optimize the number of objects, a function that would merge meshes into one mesh was made.
+
+##### Generating the Tree
+To generate the trees mesh, the final string must be parsed, therefore the alphabet must map to some action. The alphabet is parsed as:
+
+- $\{L, B\}$ : They represent a branch and the difference between the two is the branch represented by B could continue to grow if the production rule is applied.
+- $\{X, Y, Z\}$ : They represent a rotation from the base branch that they come from. The difference of the three symbols is the exact angle that the next branch will take.
+- $\{[,]\}$ : They represent a sub tree that would have a smaller base size and represent a new state from which new branches can come from.
+
+Leaves would be randomly placed on the upper half of branches.
+
+Using these rules, the string would be parsed and the corresponding branches and leaves would be generated and placed. To correctly be able to come back to an old position, a stack of the previous positions and rotations done would be kept.
+
+After generating a list of branch meshes and a seperate list of the leaf meshes they would both be merged into two collective meshes that would be added to scene with the `wood` material and the `leaf` material.
 
 #### Validation
 
-TODO
+![image](images/l_system/0_step.png)
+![image](images/l_system/1_step.png)
+![image](images/l_system/2_step.png)
+![image](images/l_system/3_step.png)
+![image](images/l_system/4_step.png)	
+ <figcaption style="text-align: center;">Different levels of depth (0, 1, 2, 3, 4) </figcaption>
 
+ In the following images you can see the progression and "growth" of a tree, the initial axiom in these image is simply `B`. From the single character we can progress to the first step by applying the production rule `B -> L[XB][YB][ZB][B]`.
+ Also the leaves, are randomly placed in the upper half of a given branch. Since the leaves are generated at each instance, 
+ this generated small differences in each instance of a tree, even if they are generated from the same axiom and have the same depth. 
 
 ### Bloom
 
@@ -237,10 +288,10 @@ TODO
 			<td style="background-color: #f0f0f0;">2h</td>
 			<td>4h</td>
 			<td>14h</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td>4h</td>
+			<td>7h</td>
+			<td>15h</td>
+			<td>49h</td>
 		</tr>
 		<tr>
 			<td>Charlie</td>
