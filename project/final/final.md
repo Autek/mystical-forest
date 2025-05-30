@@ -83,11 +83,17 @@ The terrain was made by hand in Blender, and we used the given shader to apply t
 The ambient occlusion is implemented in screen space by using a fragment shader that samples the depth buffer to compute the occlusion factor: it compares the depth of the current fragment with the depth of nearby fragments to determine how much light is occluded. We then apply that factor to the ambient light of the scene to reduce it in areas that should be dimmed. A bias is applied to deal with acnee, and a later blur pass smoothes the result to avoid harsh edges.
 
 The occlusion factor is computed in three passes:
-1. **G-buffer pass:** we render the scene to a G-buffer with three textures in different color attachement (position, normal and albedo). We couldn't use the syntax given in the OpenGL tutorial since we are working in WEBGL1.0 instead of WEBGL2.0. This is done in `gbuffer_sr.js`, `gbuffer.vert.glsl` and `gbuffer,frag.glsl`.
+1. **G-buffer pass:** we render the scene to a simple G-buffer with three textures in different color attachement (position, normal and albedo). We couldn't use the syntax given in the OpenGL tutorial since we are working in WEBGL1.0 instead of WEBGL2.0. This is done in `gbuffer_sr.js`, `gbuffer.vert.glsl` and `gbuffer.frag.glsl`.
   
 <!-- todo: add images of different parts of the gbuffer -->
 
-2. **SSAO pass:** this pass computes the ambient occlusion factor. In `ssao_sr.js`, we generate a kernel of random samples and pass it to the shaders. The vertex shader is a simple buffer to screen but the fragment shader `ssao.frag.glsl` computes the occulsion factor: it iterates on the random samples, gets the value of the G-buffer at that point and only increments the occlusion factor if needed.
+1. **SSAO pass:** this pass computes the ambient occlusion factor. In `ssao_sr.js`, we generate a kernel of random samples and a random rotation texture and pass it to the shaders. The vertex shader is a simple buffer-to-screen shader, but the fragment shader `ssao.frag.glsl` computes the occulsion factor. It iterates on the random (rotationned) samples, gets the value of the G-buffer at that point, transforms it to screen-space and computes and only increments the occlusion factor if the depth of the sample is visible from the viewer's point of view. The occlusion factor is then normalized by the number of samples. 
+
+	There are multiple tweakable parameters to adjust the effect:
+	  - kernel size: the number of samplse in the kernel. The more samples we have, the more accurate the result is, but also the more expensive it is to compute. We found that 64 samples was a good middle ground.
+	  - radius: the radius in which the occlusion factor is computed. The larger the radius is, the larger the area of influence of the occlusion is. To avoid hard cuttoffs, the border should be smoothstep'd.
+	  - bias: the bias is used to avoid acne like is done in other shadowing techniques.
+	  - intensity: the intensity of the occlusion. It's just a power applied to the final occlusion factor to make it more or less pronounced.
 
 <!-- todo: add images of only ssao buffer -->
 
@@ -95,13 +101,7 @@ The occlusion factor is computed in three passes:
 
 <!-- todo: add images of blur on ssao -->
 
-After having computed the ambient occlusion factor, we integrate it to the scene in the Blinn-Phong shader by multiplying it with the ambient light component. 
-
-
-
-
-
-
+After having computed the ambient occlusion factor, we integrate it to the scene by passing it to the Blinn-Phong and terrain shaders, and multiplying it with the ambient light component. 
 
 #### Validation
 
