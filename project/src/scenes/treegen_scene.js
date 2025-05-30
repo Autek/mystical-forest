@@ -16,7 +16,9 @@ import {
   poly_mesh,
   rotate_mesh,
   translate_mesh,
-  merge_meshes
+  merge_meshes,
+  poly_plane,
+  full_tree
 } from "../scene_resources/tree_systems.js"
 import { rotate } from "../../lib/gl-matrix_3.3.0/esm/mat2.js";
 import { applyNTree } from "../scene_resources/l_system.js";
@@ -60,18 +62,61 @@ export class TreeScene extends Scene {
     };
 
     // const branch = tree('B[XB[YB[YB][ZB]]][YB][ZB]');
-    const init_axiom = 'B[XB][B]';
-    const n_axiom = applyNTree(init_axiom, 2);
-    const branch = merge_meshes(tree(n_axiom));
+    /**
+     * B[XB][B[YB]], 4
+     * [ZB][YB], 3
+     * 
+     */
 
-    this.resource_manager.add_procedural_mesh("tree", branch);
+    let add_tree = (tree, tag) => {
+      let b_tag = tag + "_branches";
+      let l_tag = tag + "_leaves";
 
-    this.objects.push({
-      translation: [0, 0, 0],
-      scale: [0.25, 0.25, 0.25],
-      mesh_reference: "tree",
-      material: MATERIALS.wood
-    });
+      let b = tree.branches;
+      let l = tree.leaves;
+
+      this.resource_manager.add_procedural_mesh(b_tag, b);
+      this.resource_manager.add_procedural_mesh(l_tag, l);
+
+      this.objects.push({
+        translation: [0, 0, 0],
+        scale: [1, 1, 1],
+        mesh_reference: b_tag,
+        material: MATERIALS.wood
+      });
+      this.objects.push({
+        translation: [0, 0, 0],
+        scale: [1, 1, 1],
+        mesh_reference: l_tag,
+        material: MATERIALS.green
+      });
+    };
+
+    const init_axiom = 'B';
+    const n_axiom = applyNTree(init_axiom, 4);
+    const yes = full_tree(n_axiom, [0, 0, 0]);
+
+    add_tree(yes, "test");
+
+    // const branch = yes.branches;
+    // const leaf = yes.leaves;
+
+
+    // this.resource_manager.add_procedural_mesh("branches", branch);
+    // this.resource_manager.add_procedural_mesh("leaf", leaf);
+
+    // this.objects.push({
+    //   translation: [0, 0, 0],
+    //   scale: [1, 1, 1],
+    //   mesh_reference: "branches",
+    //   material: MATERIALS.wood
+    // });
+    // this.objects.push({
+    //   translation: [0, 0, 0],
+    //   scale: [1, 1, 1],
+    //   mesh_reference: "leaf",
+    //   material: MATERIALS.green
+    // });
 
     this.resource_manager.add_procedural_mesh("mesh_sphere_env_map", cg_mesh_make_uv_sphere(16));
     this.objects.push({
@@ -178,10 +223,7 @@ export class TreeScene extends Scene {
     create_slider("Bloom threshold", [0.0, 40.0], (value) => {
       this.ui_params.bloom_threshold = value/10.0;
     });
-
-
-
-
   }
+
 
 }

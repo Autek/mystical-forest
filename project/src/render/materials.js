@@ -106,6 +106,11 @@ export const wood = new DiffuseMaterial({
     shininess: 0.5
 });
 
+export const green = new DiffuseMaterial({
+    color: [0., 0.48, 0.20],
+    shininess: 0.25
+})
+
 export const mirror = new ReflectiveMaterial({
     color: [1., 0.5, 0.5],
     shininess: 0.1

@@ -2,6 +2,49 @@ import {vec2, vec3, vec4, mat2, mat3, mat4} from "../../lib/gl-matrix_3.3.0/esm/
 import { fromRotation } from "../../lib/gl-matrix_3.3.0/esm/mat2.js";
 import { mat4_to_string } from "../cg_libraries/cg_math.js";
 
+export function poly_plane() {
+    const vertices = [
+        [0, 0, 0],
+        [1, 1, 1],
+        [-1, 1, 1],
+        [0, 0, 3],
+    ];
+
+    const normals = [
+        [0, 1, 0],
+        [1/Math.sqrt(2), -1/Math.sqrt(2), 0],
+        [-1/Math.sqrt(2), -1/Math.sqrt(2), 0],
+        [0, 1, 0],
+    ];
+
+    const faces = [
+        [0, 1, 3],
+        [0, 2, 3],
+    ];
+
+    const tex = [
+        [0, 0],
+        [1, 0],
+        [0, 1],
+        [1, 1],
+    ];
+
+    return {
+        vertex_positions: vertices,
+        vertex_normals: normals,
+        faces: faces,
+        vertex_tex_coords: tex
+    };
+}
+
+export function make_n_planes(n) {
+    const planes = [];
+    for (let i = 0; i < n; i ++) {
+        planes.push(poly_plane());
+    }
+    return planes;
+}
+
 export function poly_mesh(n, b_1, b_2, height) {
     const vertices = [];
     const normals = [];
@@ -30,6 +73,15 @@ export function poly_mesh(n, b_1, b_2, height) {
         vertex_normals: normals,
         faces: faces,
         vertex_tex_coords: tex
+    }
+}
+
+export function scale_mesh(mesh, n) {
+    return {
+        vertex_positions: mesh.vertex_positions.map(v => v.map(e => n * e)),
+        vertex_normals: mesh.vertex_normals,
+        faces: mesh.faces,
+        vertex_tex_coords: mesh.vertex_tex_coords,
     }
 }
 
@@ -94,18 +146,21 @@ export function translate_mesh(mesh, to) {
 }
 
 export function tree(init) {
-    const POLY_N = 3;
+    const POLY_N = 4;
 
     const BRANCH_LEN = 0.7;
     const BASE = 0.1;
 
-    const BRANCH_RATE = 0.75;
+    const BRANCH_RATE = 0.7;
     const BASE_RATE = 0.5;
 
     const X_ROT_RATE = (Math.PI / 180) * 35;
     const Z_ROT_RATE = (2 * Math.PI) / 3;
 
+    const LEAVES_PER_BRANCH = 3;
+
     const branches = [];
+    const leaves = [];
 
     const pos_stack = [[0, 0, 0]];
     const rot_stack = [[0, 0]];
@@ -123,21 +178,58 @@ export function tree(init) {
                 let branch = poly_mesh(POLY_N, b, b * BASE_RATE, h);
                 let end = vec4.fromValues(0, 0, h, 1);
 
+                // let leaf = scale_mesh(poly_plane(), 0.05);
+                
+                let bunch = [];
+                for (let i = 0; i < LEAVES_PER_BRANCH; i ++) {
+                    let phi = Math.random() * (2 * Math.PI);
+
+                    let leaf = scale_mesh(poly_plane(), 0.05);
+                    leaf = rotate_mesh(leaf, 2 * X_ROT_RATE, phi);
+                    leaf = translate_mesh(leaf, [(b * BASE_RATE) * Math.cos(phi), (b * BASE_RATE) * Math.sin(phi), (Math.random() * (h/2)) + (h/2)]);
+
+                    bunch.push(leaf);
+                }
+
+                // bunch.map(leaf => {
+                //     let l = rotate_mesh(leaf, 2 * X_ROT_RATE, Math.random() * (2 * Math.PI));
+                //     l = translate_mesh(l, [0, -(b * BASE_RATE), Math.random() * h]);
+
+                //     return l;
+                // });
+
+                // leaf = rotate_mesh(leaf, 2 * X_ROT_RATE, 0.6);
+                // leaf = translate_mesh(leaf, [0, -(b * BASE_RATE), h/2]);
+
                 // Rotate mesh recursively
                 rot_stack.slice().reverse().forEach (rot => {
-                branch = rotate_mesh(branch, rot[0], rot[1]);
-                end = rotate_vec(end, rot[0], rot[1]);
+                    branch = rotate_mesh(branch, rot[0], rot[1]);
+                    end = rotate_vec(end, rot[0], rot[1]);
+
+                    for (let i = 0; i < LEAVES_PER_BRANCH; i ++) {
+                        bunch[i] = rotate_mesh(bunch[i], rot[0], rot[1]);
+                    }
+                    // bunch.map(leaf => rotate_mesh(leaf, rot[0], rot[1]));
+                    // leaf = rotate_mesh(leaf, rot[0], rot[1]);
                 });
 
                 // Translate mesh to last position
                 let last = pos_stack[pos_stack.length - 1];
                 branch = translate_mesh(branch, last);
 
+                for (let i = 0; i < LEAVES_PER_BRANCH; i ++) {
+                    bunch[i] = translate_mesh(bunch[i], last);
+                }
+                // bunch.map(l => translate_mesh(l, last));
+                // leaf = translate_mesh(leaf, last);
+
                 // Push new last position
                 pos_stack.push([end[0] + last[0], end[1] + last[1], end[2] + last[2]]);
 
                 // Push mesh
                 branches.push(branch);
+                bunch.forEach(l => leaves.push(l))
+                // leaves.push(leaf);
                 break;
 
             case 'X':
@@ -167,7 +259,10 @@ export function tree(init) {
                 break;
         }
     }
-    return branches;
+    return {
+        branches: branches,
+        leaves: leaves
+    };
 }
 
 export function merge_meshes(meshes){
@@ -194,3 +289,18 @@ export function merge_meshes(meshes){
         vertex_tex_coords: tex
     };
 };
+
+export function full_tree(init, position) {
+    let fun = tree(init);
+
+    let b = merge_meshes(fun.branches);
+    let l = merge_meshes(fun.leaves);
+
+    b = translate_mesh(b, position);
+    l = translate_mesh(l, position);
+
+    return {
+        branches: b,
+        leaves: l
+    }
+}
