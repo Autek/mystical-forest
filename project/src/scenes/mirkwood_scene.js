@@ -115,7 +115,7 @@ export class MirkwoodScene extends Scene {
       translation: [0, 0, 0],
       scale: [80., 80., 80.],
       mesh_reference: 'mesh_sphere_env_map',
-      material: MATERIALS.sunset_sky
+      material: MATERIALS.night_sky
     });
 
     // Add random trees

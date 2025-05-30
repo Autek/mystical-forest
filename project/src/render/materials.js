@@ -92,9 +92,12 @@ class TerrainMaterial extends Material {
  * Here materials are defined to later be assigned to objects.
  * Choose the material class, and specify its customizable parameters.
  */
-export const sunset_sky = new BackgroundMaterial({
-    // texture: 'kloppenheim_07_puresky_blur.jpg'
+export const night_sky = new BackgroundMaterial({
     texture: 'night_sky.jpg'
+});
+
+export const sunset_sky = new BackgroundMaterial({
+    texture: 'kloppenheim_07_puresky_blur.jpg'
 });
 
 export const black = new DiffuseMaterial({
