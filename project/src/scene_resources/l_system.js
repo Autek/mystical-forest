@@ -7,7 +7,7 @@
 export function rule(char) {
     switch (char) {
         case 'B':
-            return 'B[XB][YB]';
+            return 'B[XB][YB][ZB][B]';
         default:
             return char;
     }
@@ -20,8 +20,6 @@ export function applyTree(state) {
     let new_state = '';
 
     for (let i = 0; i < state.length; i++) {
-
-
         let optionRule = rule(state[i]);
 
         if (optionRule == '') {

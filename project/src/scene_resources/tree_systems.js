@@ -1,50 +1,12 @@
 import {vec2, vec3, vec4, mat2, mat3, mat4} from "../../lib/gl-matrix_3.3.0/esm/index.js"
 import { fromRotation } from "../../lib/gl-matrix_3.3.0/esm/mat2.js";
-
-/**
- * Handles building the 3d tree
- */
-
-// vvv Creates simple square mesh
-export function square_mesh(x, y, z, square_size) {
-
-	const vertices = [];
-	const normals = [];
-	const faces = [];
-
-    
-    let sx = x - 0.5 * square_size;
-    let sy = y - 0.5 * square_size;
-
-    
-
-    normals[0] = [0,0,1];
-    normals[1] = [0,0,1];
-    normals[2] = [0,0,1];
-    normals[3] = [0,0,1];
-
-
-    vertices[0] = [sx, sy, z];
-    vertices[1] = [sx + square_size, sy + square_size, z];
-    vertices[2] = [sx, sy + square_size, z];
-    vertices[3] = [sx + square_size, sy, z];
-
-
-    faces.push([0, 1, 2]);
-    faces.push([0, 1, 3]);
-
-	return {
-		vertex_positions: vertices,
-		vertex_normals: normals,
-		faces: faces,
-        vertex_tex_coords: []
-	}
-}
+import { mat4_to_string } from "../cg_libraries/cg_math.js";
 
 export function poly_mesh(n, b_1, b_2, height) {
     const vertices = [];
     const normals = [];
     const faces = [];
+    const tex = [];
 
     const th = (2 * Math.PI) / n;
 
@@ -57,205 +19,178 @@ export function poly_mesh(n, b_1, b_2, height) {
 
         faces.push([(2*i) % (2*n), ((2*i) + 1) % (2*n), ((2*i) + 3) % (2*n)]);
         faces.push([(2*i) % (2*n), ((2*i) + 2) % (2*n), ((2*i) + 3) % (2*n)]);
-    }
-    const vertex_tex_coords = [];
-
-    for (let i = 0; i < n; i++) {
+        
         const u = i / n;
-        vertex_tex_coords.push([u, 0]); // bottom
-        vertex_tex_coords.push([u, 1]); // top
+        tex.push([u, 0]); // bottom
+        tex.push([u, 1]); // top
     }
-
 
     return {
-		vertex_positions: vertices,
-		vertex_normals: normals,
-		faces: faces,
-        vertex_tex_coords: vertex_tex_coords,
-	}
+        vertex_positions: vertices,
+        vertex_normals: normals,
+        faces: faces,
+        vertex_tex_coords: tex
+    }
 }
 
-export function rotate_mesh(mesh, axis, th, ph) {
+export function rotate_vec(vec, th, ph) {
     const rot_th = mat4.fromRotation(mat4.create(), th, vec3.fromValues(1, 0, 0));
     const rot_ph = mat4.fromRotation(mat4.create(), ph, vec3.fromValues(0, 0, 1));
 
+    const rot_full = mat4.mul(mat4.create(), rot_ph, rot_th);
+
+    return vec4.transformMat4(vec4.create(), vec, rot_full);
+}
+
+export function rotate_mesh(mesh, th, ph) {
+    const rot_th = mat4.fromRotation(mat4.create(), th, vec3.fromValues(1, 0, 0));
+    const rot_ph = mat4.fromRotation(mat4.create(), ph, vec3.fromValues(0, 0, 1));
+
+    const rot_full = mat4.mul(mat4.create(), rot_ph, rot_th);
+
     const vertices = [...mesh.vertex_positions].map((v) => {
         const vec = vec4.fromValues(v[0], v[1], v[2], 1.);
-
-        vec4.transformMat4(vec, vec, rot_th);
-        vec4.transformMat4(vec, vec, rot_ph);
+        vec4.transformMat4(vec, vec, rot_full);
 
         return [vec[0], vec[1], vec[2]];
     });
     const normals = [...mesh.vertex_normals].map((v) => {
         const vec = vec4.fromValues(v[0], v[1], v[2], 1.);
-
-        vec4.transformMat4(vec, vec, rot_th);
-        vec4.transformMat4(vec, vec, rot_ph);
+        vec4.transformMat4(vec, vec, rot_full);
 
         return [vec[0], vec[1], vec[2]];
     });
 
-    const tex_coords = mesh.vertex_tex_coords.map((uv) => [...uv]);
     return {
-		vertex_positions: vertices,
-		vertex_normals: normals,
-		faces: mesh.faces,
-        vertex_tex_coords: tex_coords,
-	};
+        vertex_positions: vertices,
+        vertex_normals: normals,
+        faces: mesh.faces,
+        vertex_tex_coords: mesh.vertex_tex_coords
+    };
+}
+
+export function translate_vec(vec, to) {
+    const trans_to = mat4.fromTranslation(mat4.create(), vec3.fromValues(to[0], to[1], to[2]));
+
+    return vec4.transformMat4(vec4.create(), vec, trans_to);
 }
 
 export function translate_mesh(mesh, to) {
     const trans_to = mat4.fromTranslation(mat4.create(), vec3.fromValues(to[0], to[1], to[2]));
 
     const vertices = [...mesh.vertex_positions].map((v) => {
-        const vec = vec4.fromValues(v[0], v[1], v[2], 1.);
-
-        vec4.transformMat4(vec, vec, trans_to); 
+    const vec = vec4.fromValues(v[0], v[1], v[2], 1.);
+        vec4.transformMat4(vec, vec, trans_to);
 
         return [vec[0], vec[1], vec[2]];
     });
 
     return {
-		vertex_positions: vertices,
-		vertex_normals: normals,
-		faces: mesh.faces,
-        vertex_tex_coords: []
-	};
+        vertex_positions: vertices,
+        vertex_normals: mesh.vertex_normals,
+        faces: mesh.faces,
+        vertex_tex_coords: mesh.vertex_tex_coords,
+    };
 }
 
+export function tree(init) {
+    const POLY_N = 3;
 
-// // vvv Creates triangular mesh
-// export function branch_mesh(z_off) {
-//     const vertices = [];
-// 	const normals = [];
-// 	const faces = [];
+    const BRANCH_LEN = 0.7;
+    const BASE = 0.1;
 
-//     const r = 1/Math.sqrt(3);
-//     const a_1 = Math.PI * (2/3);
-//     const a_2 = Math.PI * (4/3);
+    const BRANCH_RATE = 0.75;
+    const BASE_RATE = 0.5;
 
-//     // Base bottom 0-2
-//     vertices.push([r, 0, 0]);
-//     vertices.push([r * Math.cos(a_1), r * Math.sin(a_1), 0]);
-//     vertices.push([r * Math.cos(a_2), r * Math.sin(a_2), 0]);
+    const X_ROT_RATE = (Math.PI / 180) * 35;
+    const Z_ROT_RATE = (2 * Math.PI) / 3;
 
-//     normals.push([1, 0, 0]);
-//     normals.push([Math.cos(a_1), Math.sin(a_1), 0]);
-//     normals.push([Math.cos(a_2), Math.sin(a_2), 0]);
-    
-//     // faces.push([0, 1, 2]);
+    const branches = [];
 
-//     // Base top 3-5
-//     vertices.push([r, 0, z_off]);
-//     vertices.push([r * Math.cos(a_1), r * Math.sin(a_1), z_off]);
-//     vertices.push([r * Math.cos(a_2), r * Math.sin(a_2), z_off]);
-
-//     normals.push([1, 0, 0]);
-//     normals.push([Math.cos(a_1), Math.sin(a_1), 0]);
-//     normals.push([Math.cos(a_2), Math.sin(a_2), 0]);
-//     // faces.push([3, 4, 5]);
-
-//     // Sides 
-//     faces.push([0, 1, 3]);
-//     faces.push([4, 1, 3]);
-
-//     faces.push([1, 2, 4]);
-//     faces.push([5, 2, 4]);
-
-//     faces.push([2, 0, 5]);
-//     faces.push([3, 0, 5]);
-
-//     return {
-// 		vertex_positions: vertices,
-// 		vertex_normals: normals,
-// 		faces: faces,
-//         vertex_tex_coords: []
-// 	}
-// }
-
-export function tree(init, position) {
-    // const BRANCH_LEN = 3;
-    const branches = [poly_mesh(3)];
-
-    const pos_stack = [];
-    const rot_stack = [];
-
-    const pos_mat = mat4.create();
-    const rot_mat = mat4.create();
+    const pos_stack = [[0, 0, 0]];
+    const rot_stack = [[0, 0]];
+    const h_stack = [BRANCH_LEN];
+    const b_stack = [BASE]
 
     for (let i = 0; i < init.length; i++) {
         switch(init[i]) {
             case 'B':
-                
+                let h = h_stack[h_stack.length - 1];
+                h_stack.push(h * BRANCH_RATE);
+
+                let b = b_stack[b_stack.length - 1];
+
+                let branch = poly_mesh(POLY_N, b, b * BASE_RATE, h);
+                let end = vec4.fromValues(0, 0, h, 1);
+
+                // Rotate mesh recursively
+                rot_stack.slice().reverse().forEach (rot => {
+                branch = rotate_mesh(branch, rot[0], rot[1]);
+                end = rotate_vec(end, rot[0], rot[1]);
+                });
+
+                // Translate mesh to last position
+                let last = pos_stack[pos_stack.length - 1];
+                branch = translate_mesh(branch, last);
+
+                // Push new last position
+                pos_stack.push([end[0] + last[0], end[1] + last[1], end[2] + last[2]]);
+
+                // Push mesh
+                branches.push(branch);
                 break;
-            case 'R':
-                
 
+            case 'X':
+                rot_stack.push([X_ROT_RATE, 0 * Z_ROT_RATE]);
+                break;
 
+            case 'Y':
+                rot_stack.push([X_ROT_RATE, 1 * Z_ROT_RATE]);
+                break;
+
+            case 'Z':
+                rot_stack.push([X_ROT_RATE, 2 * Z_ROT_RATE]);
+                break;
+
+            case '[':
+                b_stack.push(b_stack[b_stack.length - 1] * BASE_RATE)
+                break;
+
+            case ']':
+                pos_stack.pop();
+                rot_stack.pop();
+                h_stack.pop();
+                b_stack.pop();
                 break;
 
             default:
                 break;
         }
     }
-
-
-    // const mat_stack = [];
-    // const pos_stack = [];
-    // const siz_stack = [];
-
-    // let curr_mat = mat4.create();
-    // let curr_pos = vec4.fromValues(0., 0., 0., 1.)
-    // let curr_siz = BRANCH_LEN;
-
-    // for(let i = 0; i < init.length; i++) {
-    //     switch(init[i]){
-
-    //         case 'B':
-    //             // Position Matrix
-    //             curr_mat = mat4.translate(curr_mat, curr_mat, [0, 0, curr_siz])
-                
-    //             vec4.transformMat4(curr_pos, vec4.fromValues(0., 0., 0., 1.), curr_mat);
-
-
-    //             let mesh = branch_mesh(curr_siz);
-
-    //             const n_vertices = mesh.vertex_positions.map((v) => {
-    //                 const res = vec4.create();
-    //                 vec4.transformMat4(res, vec4.fromValues(v[0], v[1], v[2], 1.), curr_mat);
-    //                 return [res[0], res[1], res[2]];
-    //             })
-
-    //             // New mesh
-    //             const n_mesh = {
-    //                 vertex_positions: n_vertices,
-    //                 vertex_normals: mesh.vertex_normals,
-    //                 faces: mesh.faces,
-    //                 vertex_tex_coords: []
-    //             }
-
-    //             branches.push(n_mesh);
-    //             break;
-
-    //         case '[':
-    //             siz_stack.push(curr_siz);
-    //             curr_siz = curr_siz / 2;
-    //             break;
-
-    //         case ']':
-    //             curr_siz = siz_stack.pop();
-    //             break;
-
-    //         case 'X':0
-    //             curr_siz = curr_siz;
-    //             break;
-
-    //         case 'Y':
-    //             curr_siz = curr_siz;
-    //             break;
-
-    //     }
-    // }
     return branches;
 }
+
+export function merge_meshes(meshes){
+    const vertices = [];
+    const normals = [];
+    const faces = [];
+    const tex = [];
+
+    let vertex_count = 0;
+    meshes.forEach(branch => {
+        branch.vertex_positions.forEach(v => vertices.push(v));
+        branch.vertex_normals.forEach(n => normals.push(n));
+        branch.faces.forEach(f => faces.push(f[0] + vertex_count, f[1] + vertex_count, f[2] + vertex_count));
+        branch.vertex_tex_coords.forEach(t => tex.push(t));
+
+        vertex_count += branch.vertex_positions.length;
+    })
+
+
+    return {
+        vertex_positions: vertices,
+        vertex_normals: normals,
+        faces: faces,
+        vertex_tex_coords: tex
+    };
+};
