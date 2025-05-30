@@ -160,10 +160,10 @@ TODO
 	<tbody>
 		<tr>
 			<td>Alonso</td>
-			<td></td>
-			<td style="background-color: #f0f0f0;"></td>
-			<td></td>
-			<td></td>
+			<td>3h</td>
+			<td style="background-color: #f0f0f0;">2h</td>
+			<td>4h</td>
+			<td>14h</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -171,10 +171,10 @@ TODO
 		</tr>
 		<tr>
 			<td>Charlie</td>
-			<td></td>
-			<td style="background-color: #f0f0f0;"></td>
-			<td></td>
-			<td></td>
+			<td>2h</td>
+			<td style="background-color: #f0f0f0;">0h</td>
+			<td>8h</td>
+			<td>12h</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -182,14 +182,14 @@ TODO
 		</tr>
 		<tr>
 			<td>Marius</td>
-			<td></td>
-			<td style="background-color: #f0f0f0;"></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td>2h</td>
+			<td style="background-color: #f0f0f0;">0h</td>
+			<td>2h</td>
+			<td>9h30</td>
+			<td>8h</td>
+			<td>4h</td>
+			<td>18h30</td>
+			<td>44h</td>
 		</tr>
 	</tbody>
 </table>
