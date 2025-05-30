@@ -7,7 +7,8 @@
 export function rule(char) {
     switch (char) {
         case 'B':
-            return 'B[XB][YB][ZB][B]';
+            return 'L[XB][YB][ZB][B]';
+
         default:
             return char;
     }

@@ -119,7 +119,7 @@ export class MirkwoodScene extends Scene {
     });
 
     // Add random trees
-    const minimum_distance_from_fire = 0.8;
+    const minimum_distance_from_fire = 2.;
     const maximum_distance_from_fire = 4.0;
     const num_trees = 30;
 
@@ -287,7 +287,7 @@ export class MirkwoodScene extends Scene {
     create_button_with_hotkey("Bloom", "c", () => {
       this.ui_params.is_active_bloom = !this.ui_params.is_active_bloom;
     });
-    create_slider("Bloom intensity", [0.0, 40.0], (value) => {
+    create_slider("camera exposition", [0.0, 40.0], (value) => {
       this.ui_params.bloom_exposition = value/10.0;
     });
     create_slider("Bloom threshold", [0.0, 40.0], (value) => {
