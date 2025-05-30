@@ -181,22 +181,7 @@ export class MirkwoodScene extends Scene {
       const arbre = full_tree(n_axiom, tree_pos);
       
       add_tree(arbre, i.toString(), tree_scale);
-
-      // const tree_scale = 0.3 + Math.random() * 0.7;
-      
-      // this.objects.push({
-      //   translation: tree_pos,
-      //   scale: [tree_scale, tree_scale, tree_scale],
-      //   mesh_reference: 'pine.obj',
-      //   material: MATERIALS.pine
-      // });
     }
-
-    // Light Source
-    // this.lights.push({
-    //   position : [0. , -15.0, 5.],
-    //   color: [1.0, 0.5, 0.1]
-    // });
   }
 
   /**
