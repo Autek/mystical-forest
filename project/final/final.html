@@ -702,16 +702,16 @@ trees but this does not come from bloom.</p>
 <div
 style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
 <div>
-<img src="images/bloom_pip1.png" height="300px" style="vertical-align: middle;">
+<img src="images/bloom_pip1.png" height="210px" style="vertical-align: middle;">
 </div>
 <div>
-<img src="images/bloom_pip2.png" height="300px" style="vertical-align: middle;">
+<img src="images/bloom_pip2.png" height="210px" style="vertical-align: middle;">
 </div>
 <div>
-<img src="images/bloom_pip3.png" height="300px" style="vertical-align: middle;">
+<img src="images/bloom_pip3.png" height="210px" style="vertical-align: middle;">
 </div>
 <div>
-<img src="images/bloom_pip4.png" height="300px" style="vertical-align: middle;">
+<img src="images/bloom_pip4.png" height="210px" style="vertical-align: middle;">
 </div>
 </div>
 <figcaption style="text-align: center;">
@@ -751,6 +751,14 @@ developpement. Also at the begining, each branch was a seperate mesh,
 this would mean when rendering complex trees, it would overwhelm the
 computer. This challenge was solved by merging the meshed into one
 mesh.</p>
+<p>On the particle side, we encountered issues with GPU instancing. It
+was difficult to debug because only one triangle was being rendered,
+there were no errors in the console, and the shaders were not the source
+of the problem. In the end, we discovered that a required Regl extension
+for GPU instancing was missing.</p>
+<p>For the bloom effect, the main challenge was getting multiple shaders
+to work together, but it wasn’t the most difficult issue we faced
+overall.</p>
 <h2 id="contributions">Contributions</h2>
 <table>
 <caption>
