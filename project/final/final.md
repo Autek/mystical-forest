@@ -398,7 +398,10 @@ No components failed during our implementation.
 
 ### Challenges
 
-TODO
+At the beginning there was a steep learning curve for the framework which took a bit of time to adapt. For example, we had issues the frame buffer being shifted due to lack of understanding of how the frameworks parameters affected the system. Fortunately with time, we understood how the framework worked and how to write code for it. Framebuffer shifted during
+
+For the L-Systems, we had dificulty understanding how to correctly rotate and position the branches within the trees and how to parse correctly the generated string. This was the major barrier for developpement. Also at the begining, each branch was a seperate mesh, this would mean when rendering complex trees, it would overwhelm the computer. This challenge was solved by merging the meshed into one mesh.
+
 
 
 ## Contributions
