@@ -102,65 +102,92 @@ _We have a simple scene to visualize SSAO. From left to right, it has a taurus, 
 
 	In the position texture, we have the green quadrant representing positions where $y > 0$ and $x < 0$, the yellow quadrant with $y > 0$ and $x > 0$, the black quadrant with $y < 0$ and $x < 0$, and the red quadrant with $y < 0$ and $x > 0$. 
 
-	![G-buffer position texture](images/gbuffer_position.png)
-	_G-buffer position texture_
+	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  	<div><img src="images/gbuffer_position.png" height="270px" style="vertical-align: middle;"></div>
+	</div>
+	<figcaption style="text-align: center;">G-buffer position texture</figcaption>
 
 	The normal texture just shows the normals of the scene, as usual.
 	
-	![G-buffer normal texture](images/gbuffer_normals.png)
-	_G-buffer normal texture_
+	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  	<div><img src="images/gbuffer_normals.png" height="270px" style="vertical-align: middle;"></div>
+	</div>
+	<figcaption style="text-align: center;">G-buffer normal texture</figcaption>
 
 	The albedo texture shows the colors of the scene as they would appear wihtout any treatment. Everything is white.
 	
-	![G-buffer albedo texture](images/gbuffer_albedo.png)
-	_G-buffer albedo texture_
+	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  	<div><img src="images/gbuffer_albedo.png" height="270px" style="vertical-align: middle;"></div>
+	</div>
+	<figcaption style="text-align: center;">G-buffer albedo texture</figcaption>
+
 
 2. **SSAO:** Rendering only the SSAO texture, we can see the occlusion factor computed by the shader. It is already "reversed" so the darker regions are the ones being the most occluded. We are ony rendering the occlusion factor throught the red channel, which is why the image is red. 
 
 	We can clearly see that the regions of our objects that are closest to the ground are being occluded. There is some artifacting because of the repetition of the kernel samples, but it will later be smoothed out by the blur pass.
 	
-	![SSAO texture](images/ssao_simple.png)
-	_Visualization of the occlusion factor through the red channel_
+	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  	<div><img src="images/ssao_simple.png" height="270px" style="vertical-align: middle;"></div>
+	</div>
+	<figcaption style="text-align: center;">Visualization of the occlusion factor through the red channel</figcaption>
 
 	We zoom in on the cubes to see the effect and artifacts more clearly. We can see the occlusion between the two cubes, which is pretty nice.
 	
-	![SSAO texture cubes](images/ssao_cubes.png)
-	_Zoom on the two cubes_
+	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  	<div><img src="images/ssao_cubes.png" height="270px" style="vertical-align: middle;"></div>
+	</div>
+	<figcaption style="text-align: center;">Zoom on the two cubes</figcaption>
+
 
 3. **Blur:** The blur pass smoothes the result of the SSAO pass. We can see that the artifacts are gone, and the occlusion factor is more uniform. 
 
-	![Blurred SSAO texture](images/ssao_blurred.png)
-	_SSAO with blur enabled_
+	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  	<div><img src="images/ssao_blurred.png" height="270px" style="vertical-align: middle;"></div>
+	</div>
+	<figcaption style="text-align: center;">SSAO with blur enabled</figcaption>
 
 	Zomming in again on the cubes, we can see the effect of the blur pass.
 
-	![Blurred SSAO texture cubes](images/ssao_cubes_blurred.png)
-	_Zoom on the two cubes with blur enabled_
+	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  	<div><img src="images/ssao_cubes_blurred.png" height="270px" style="vertical-align: middle;"></div>
+	</div>
+	<figcaption style="text-align: center;">Zoom on the two cubes with blur enabled</figcaption>
 
 Finally, we can try tweaking the parameters of the SSAO pass to see how they affect the result. We are rendering the SSAO blurred texture.
 
 - **Radius:** Increasing the radius makes the occlusion factor more pronounced. Here, it is exagerated to show the effect. This also has the side-effect of having occlusion in weird places, like the top of the sphere, which is not occluded by anything. This is because the radius is too large and samples are taken from too far away.
 
-![SSAO big radius](images/ssao_big_radius.png)
-_SSAO with increased radius_
+	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  	<div><img src="images/ssao_big_radius.png" height="270px" style="vertical-align: middle;"></div>
+	</div>
+	<figcaption style="text-align: center;">SSAO with increased radius</figcaption>
 
 - **Bias:** Increasing the bias reduces the acne (which we don't have much of anyway), but also reduces the occlusion factor when it is too high.
 
-![SSAO big bias](images/ssao_big_bias.png)
-_SSAO with increased bias_
+	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  	<div><img src="images/ssao_big_bias.png" height="270px" style="vertical-align: middle;"></div>
+	</div>
+	<figcaption style="text-align: center;">SSAO with increased bias</figcaption>
 
 - **Intensity:** Increasing the intensity makes the occlusion factor more pronounced. Here, it is exagerated to show the effect.
 
-![SSAO big intensity](images/ssao_big_intensity.png)
-_SSAO with increased intensity_
+	<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  	<div><img src="images/ssao_big_intensity.png" height="270px" style="vertical-align: middle;"></div>
+	</div>
+	<figcaption style="text-align: center;">SSAO with increased intensity</figcaption>
 
 Here is the final result with all the other shaders, with all the parameters set to default values that seemed appropriate.
 
-![Final result with SSAO](images/ssao_final_enabled.png)
-_Scene with SSAO_
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<img src="images/ssao_final_enabled.png" height="270px" style="vertical-align: middle;">
+</div>
+<figcaption style="text-align: center;">Scene with SSAO</figcaption>
 
-![Final result without SSAO](images/ssao_final_disabled.png)
-_Scene without SSAO for comparision_
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<img src="images/ssao_final_disabled.png" height="270px" style="vertical-align: middle;">
+</div>
+<figcaption style="text-align: center;">Scene without SSAO for comparision</figcaption>
+
 
 ### Particle Effects
 
@@ -216,11 +243,28 @@ In the above video we can see fog getting over the particles if there is a lot o
 
 #### Implementation
 
-TODO
+The fog is implemented through a shader. The fog has its own frame buffer where it loads one texture produced by one pair of fragment and vertex shaders.
+
+In the shaders, we calculate the fog factor, which is a number between 0 and 1, where 0 represents full fog and 1 represents 0 no fog. To calculate, we use the distance of the vertex from the camera and the intensity of the fog tends towards 0 in a squared exponentially. 
+
+Within the final mixer shader, the color of the fragement is mixed with the fog's gray color the fog factor that is extracted from the fog texture.
 
 #### Validation
 
-TODO
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <div><img src="images/foggers/low_height.png" height="190px" style="vertical-align: middle;"></div>
+  <div><img src="images/foggers/mid_height.png" height="190px" style="vertical-align: middle;"></div>
+  <div><img src="images/foggers/high_height.png" height="190px" style="vertical-align: middle;"></div>
+</div>
+ <figcaption style="text-align: center;"> Fog Height </figcaption>
+In these images, the height of the fog varies. The difference between the fragments that are mixed with the fog texture and those that are not.
+
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <div><img src="images/foggers/low_opacity.png" height="190px" style="vertical-align: middle;"></div>
+  <div><img src="images/foggers/high_opacity.png" height="190px" style="vertical-align: middle;"></div>
+</div>
+ <figcaption style="text-align: center;"> Fog Opacity </figcaption>
+In these images, the oppacity of the fog varies. It can obscure as much as possible but also be as transparent as needed.
 
 
 ### L-Systems for Procedural Scene Generation
@@ -265,6 +309,13 @@ After generating a list of branch meshes and a seperate list of the leaf meshes 
  In the following images you can see the progression and "growth" of a tree, the initial axiom in these image is simply `B`. From the single character we can progress to the first step by applying the production rule `B -> L[XB][YB][ZB][B]`.
  Also the leaves, are randomly placed in the upper half of a given branch. Since the leaves are generated at each instance, 
  this generated small differences in each instance of a tree, even if they are generated from the same axiom and have the same depth. 
+
+ <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <div><img src="images/l_system/tree_scene.png" height="210px" style="vertical-align: middle;"></div>
+</div>
+ <figcaption style="text-align: center;"> Trees in scene </figcaption>
+
+In the following image you can see different trees surronding the campfire, some are different from one another due to the different starting axioms.
 
 ### Bloom
 
@@ -312,7 +363,7 @@ In the pictures above, we see the fire integrated with the bloom effect. The fla
 In the vido above, we can clearly see the bloom effect being added to the seen and everything looks nice. We also see that the exposition and bloom threshold is working as expected. We have some weird lighting on trees but this does not come from bloom.
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  <div><img src="images/bloom_pip1.png" height="210px" style="vertical-align: middle;"></div>
+  <div><img src=****"images/bloom_pip1.png" height="210px" style="vertical-align: middle;"></div>
   <div><img src="images/bloom_pip2.png" height="210px" style="vertical-align: middle;"></div>
   <div><img src="images/bloom_pip3.png" height="210px" style="vertical-align: middle;"></div>
   <div><img src="images/bloom_pip4.png" height="210px" style="vertical-align: middle;"></div>
