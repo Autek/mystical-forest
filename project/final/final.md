@@ -369,10 +369,10 @@ In the pictures above, we see the fire integrated with the bloom effect. The fla
 In the vido above, we can clearly see the bloom effect being added to the seen and everything looks nice. We also see that the exposition and bloom threshold is working as expected. We have some weird lighting on trees but this does not come from bloom.
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-<div><img src="images/bloom_pip1.png" height="300px" style="vertical-align: middle;"></div>
-<div><img src="images/bloom_pip2.png" height="300px" style="vertical-align: middle;"></div>
-<div><img src="images/bloom_pip3.png" height="300px" style="vertical-align: middle;"></div>
-<div><img src="images/bloom_pip4.png" height="300px" style="vertical-align: middle;"></div>
+<div><img src="images/bloom_pip1.png" height="210px" style="vertical-align: middle;"></div>
+<div><img src="images/bloom_pip2.png" height="210px" style="vertical-align: middle;"></div>
+<div><img src="images/bloom_pip3.png" height="210px" style="vertical-align: middle;"></div>
+<div><img src="images/bloom_pip4.png" height="210px" style="vertical-align: middle;"></div>
 
 </div>
  <figcaption style="text-align: center;">bloom pipeline</figcaption>
@@ -399,9 +399,11 @@ The OpenGL tutorials given were straighforward enough to not lose us on wrong pa
 
 At the beginning there was a steep learning curve for the framework which took a bit of time to adapt. For example, we had issues the frame buffer being shifted due to lack of understanding of how the frameworks parameters affected the system. Fortunately with time, we understood how the framework worked and how to write code for it. Framebuffer shifted during
 
-For the L-Systems, we had dificulty understanding how to correctly rotate and position the branches within the trees and how to parse correctly the generated string. This was the major barrier for developpement. Also at the begining, each branch was a seperate mesh, this would mean when rendering complex trees, it would overwhelm the computer. This challenge was solved by merging the meshed into one mesh.
+For the L-Systems, we had dificulty understanding how to correctly rotate and position the branches within the trees and how to parse correctly the generated string. This was the major barrier for developpement. Also at the begining, each branch was a seperate mesh, this would mean when rendering complex trees, it would overwhelm the computer. This challenge was solved by merging the meshed into one mesh. 
 
+On the particle side, we encountered issues with GPU instancing. It was difficult to debug because only one triangle was being rendered, there were no errors in the console, and the shaders were not the source of the problem. In the end, we discovered that a required Regl extension for GPU instancing was missing.
 
+For the bloom effect, the main challenge was getting multiple shaders to work together, but it wasn't the most difficult issue we faced overall.
 
 ## Contributions
 
