@@ -283,6 +283,13 @@ After generating a list of branch meshes and a seperate list of the leaf meshes 
  Also the leaves, are randomly placed in the upper half of a given branch. Since the leaves are generated at each instance, 
  this generated small differences in each instance of a tree, even if they are generated from the same axiom and have the same depth. 
 
+ <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <div><img src="images/l_system/tree_scene.png" height="210px" style="vertical-align: middle;"></div>
+</div>
+ <figcaption style="text-align: center;"> Trees in scene </figcaption>
+
+In the following image you can see different trees surronding the campfire, some are different from one another due to the different starting axioms.
+
 ### Bloom
 
 #### Implementation
