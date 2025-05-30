@@ -257,10 +257,10 @@ TODO
 			<td style="background-color: #f0f0f0;">2h</td>
 			<td>4h</td>
 			<td>14h</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td>4h</td>
+			<td>7h</td>
+			<td>15h</td>
+			<td>49h</td>
 		</tr>
 		<tr>
 			<td>Charlie</td>
