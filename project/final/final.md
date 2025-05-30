@@ -368,7 +368,7 @@ In the pictures above, we see the fire integrated with the bloom effect. The fla
 In the vido above, we can clearly see the bloom effect being added to the seen and everything looks nice. We also see that the exposition and bloom threshold is working as expected. We have some weird lighting on trees but this does not come from bloom.
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  <div><img src=****"images/bloom_pip1.png" height="210px" style="vertical-align: middle;"></div>
+  <div><img src="images/bloom_pip1.png" height="210px" style="vertical-align: middle;"></div>
   <div><img src="images/bloom_pip2.png" height="210px" style="vertical-align: middle;"></div>
   <div><img src="images/bloom_pip3.png" height="210px" style="vertical-align: middle;"></div>
   <div><img src="images/bloom_pip4.png" height="210px" style="vertical-align: middle;"></div>
