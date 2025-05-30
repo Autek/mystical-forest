@@ -192,15 +192,11 @@ After generating a list of branch meshes and a seperate list of the leaf meshes 
 
 #### Validation
 
- <div style="text-align: center;">
-	<img src="images/l_system/0_step.png" height="140px" style="vertical-align: middle;">
-	<img src="images/l_system/1_step.png" height="140px" style="vertical-align: middle;">
-	<img src="images/l_system/2_step.png" height="140px" style="vertical-align: middle;">
- </div>
- <div style="text-align: center;">
-	<img src="images/l_system/3_step.png" height="140px" style="vertical-align: middle;">
-	<img src="images/l_system/4_step.png" height="140px" style="vertical-align: middle;">
- </div>
+![image](images/l_system/0_step.png)
+![image](images/l_system/1_step.png)
+![image](images/l_system/2_step.png)
+![image](images/l_system/3_step.png)
+![image](images/l_system/4_step.png)	
  <figcaption style="text-align: center;">Different levels of depth (0, 1, 2, 3, 4) </figcaption>
 
  In the following images you can see the progression and "growth" of a tree, the initial axiom in these image is simply `B`. From the single character we can progress to the first step by applying the production rule `B -> L[XB][YB][ZB][B]`.

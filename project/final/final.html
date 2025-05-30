@@ -38,37 +38,29 @@
             <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
           </ul>-->
           <ul>
-          <li><a href="#mystical-forest"
-          id="toc-mystical-forest">Mystical Forest</a>
+          <li><a href="#mystical-forest">Mystical Forest</a>
           <ul>
-          <li><a href="#abstract" id="toc-abstract">Abstract</a></li>
-          <li><a href="#overview" id="toc-overview">Overview</a></li>
-          <li><a href="#feature-validation"
-          id="toc-feature-validation">Feature validation</a>
+          <li><a href="#abstract">Abstract</a></li>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#feature-validation">Feature validation</a>
           <ul>
-          <li><a href="#ambient-occlusion"
-          id="toc-ambient-occlusion">Ambient Occlusion</a></li>
-          <li><a href="#particle-effects"
-          id="toc-particle-effects">Particle Effects</a></li>
-          <li><a href="#fog" id="toc-fog">Fog</a></li>
-          <li><a href="#l-systems-for-procedural-scene-generation"
-          id="toc-l-systems-for-procedural-scene-generation">L-Systems
+          <li><a href="#ambient-occlusion">Ambient Occlusion</a></li>
+          <li><a href="#particle-effects">Particle Effects</a></li>
+          <li><a href="#fog">Fog</a></li>
+          <li><a
+          href="#l-systems-for-procedural-scene-generation">L-Systems
           for Procedural Scene Generation</a></li>
-          <li><a href="#bloom" id="toc-bloom">Bloom</a></li>
+          <li><a href="#bloom">Bloom</a></li>
           </ul></li>
-          <li><a href="#discussion" id="toc-discussion">Discussion</a>
+          <li><a href="#discussion">Discussion</a>
           <ul>
-          <li><a href="#additional-components"
-          id="toc-additional-components">Additional Components</a></li>
-          <li><a href="#failed-experiments"
-          id="toc-failed-experiments">Failed Experiments</a></li>
-          <li><a href="#challenges"
-          id="toc-challenges">Challenges</a></li>
+          <li><a href="#additional-components">Additional
+          Components</a></li>
+          <li><a href="#failed-experiments">Failed Experiments</a></li>
+          <li><a href="#challenges">Challenges</a></li>
           </ul></li>
-          <li><a href="#contributions"
-          id="toc-contributions">Contributions</a></li>
-          <li><a href="#references"
-          id="toc-references">References</a></li>
+          <li><a href="#contributions">Contributions</a></li>
+          <li><a href="#references">References</a></li>
           </ul></li>
           </ul>
         </div>
@@ -207,21 +199,37 @@ that factor to the ambient light of the scene to reduce it in areas that
 should be dimmed. A bias is applied to deal with acnee, and a later blur
 pass smoothes the result to avoid harsh edges.</p>
 <p>The occlusion factor is computed in three passes: 1. <strong>G-buffer
-pass:</strong> we render the scene to a G-buffer with three textures in
-different color attachement (position, normal and albedo). We couldn’t
-use the syntax given in the OpenGL tutorial since we are working in
-WEBGL1.0 instead of WEBGL2.0. This is done in
+pass:</strong> we render the scene to a simple G-buffer with three
+textures in different color attachement (position, normal and albedo).
+We couldn’t use the syntax given in the OpenGL tutorial since we are
+working in WEBGL1.0 instead of WEBGL2.0. This is done in
 <code>gbuffer_sr.js</code>, <code>gbuffer.vert.glsl</code> and
-<code>gbuffer,frag.glsl</code>.</p>
+<code>gbuffer.frag.glsl</code>.</p>
 <!-- todo: add images of different parts of the gbuffer -->
-<ol start="2" type="1">
-<li><strong>SSAO pass:</strong> this pass computes the ambient occlusion
-factor. In <code>ssao_sr.js</code>, we generate a kernel of random
-samples and pass it to the shaders. The vertex shader is a simple buffer
-to screen but the fragment shader <code>ssao.frag.glsl</code> computes
-the occulsion factor: it iterates on the random samples, gets the value
-of the G-buffer at that point and only increments the occlusion factor
-if needed.</li>
+<ol type="1">
+<li><p><strong>SSAO pass:</strong> this pass computes the ambient
+occlusion factor. In <code>ssao_sr.js</code>, we generate a kernel of
+random samples and a random rotation texture and pass it to the shaders.
+The vertex shader is a simple buffer-to-screen shader, but the fragment
+shader <code>ssao.frag.glsl</code> computes the occulsion factor. It
+iterates on the random (rotationned) samples, gets the value of the
+G-buffer at that point, transforms it to screen-space and computes and
+only increments the occlusion factor if the depth of the sample is
+visible from the viewer’s point of view. The occlusion factor is then
+normalized by the number of samples.</p>
+<p>There are multiple tweakable parameters to adjust the effect:</p>
+<ul>
+<li>kernel size: the number of samplse in the kernel. The more samples
+we have, the more accurate the result is, but also the more expensive it
+is to compute. We found that 64 samples was a good middle ground.</li>
+<li>radius: the radius in which the occlusion factor is computed. The
+larger the radius is, the larger the area of influence of the occlusion
+is. To avoid hard cuttoffs, the border should be smoothstep’d.</li>
+<li>bias: the bias is used to avoid acne like is done in other shadowing
+techniques.</li>
+<li>intensity: the intensity of the occlusion. It’s just a power applied
+to the final occlusion factor to make it more or less pronounced.</li>
+</ul></li>
 </ol>
 <!-- todo: add images of only ssao buffer -->
 <ol type="1">
@@ -235,8 +243,8 @@ blur was not visible.</li>
 </ol>
 <!-- todo: add images of blur on ssao -->
 <p>After having computed the ambient occlusion factor, we integrate it
-to the scene in the Blinn-Phong shader by multiplying it with the
-ambient light component.</p>
+to the scene by passing it to the Blinn-Phong and terrain shaders, and
+multiplying it with the ambient light component.</p>
 <h4 id="validation">Validation</h4>
 <p>TODO</p>
 <h3 id="particle-effects">Particle Effects</h3>
@@ -310,9 +318,80 @@ is a known issue and we don’t really know how to fix it easily.</p>
 <h3 id="l-systems-for-procedural-scene-generation">L-Systems for
 Procedural Scene Generation</h3>
 <h4 id="implementation-3">Implementation</h4>
-<p>TODO</p>
+<p>The trees are procedurally generated with Lindenmayer Systems,
+otherwise known as L-Systems. By predetermining an alphabet from which
+we can produces axioms that can be recursively developped through
+predetermine rules, tree can be “grown” from a string. To generate the
+trees in the scene, we chose a random spot away from the campfire and
+randomly choose a predetermined starting axiom. From there, the rules of
+system are applied a random amount of times.</p>
+<h5 id="defining-the-l-system">Defining the L-System</h5>
+<p>L-Systems are defined as a tuple <span
+class="math inline"><em>G</em> = (<em>V</em>,<em>ω</em>,<em>P</em>)</span>,
+where <span class="math inline"><em>V</em></span> is the alphabet, <span
+class="math inline"><em>ω</em></span> is the starting axiom and <span
+class="math inline"><em>P</em></span> is the set of production rules.
+The L-System <span class="math inline"><em>L</em></span> that was
+defined to describe the tree has a randomly chosen starting axiom, an
+alphabet of <span
+class="math inline"><em>V</em> = {<em>L</em>, <em>B</em>, <em>X</em>, <em>Y</em>, <em>Z</em>, [,]}</span>
+and one production rule <span
+class="math inline"><em>P</em> = {<em>B</em> → <em>L</em>[<em>X</em><em>B</em>][<em>Y</em><em>B</em>][<em>Z</em><em>B</em>][<em>B</em>]}</span>.
+The functions that represent the rules and their recursive application
+are defined in <code>l_system.js</code>, which are called within the
+scene to generate the string defining the tree.</p>
+<h5 id="generating-meshes">Generating Meshes</h5>
+<p>To generate the tree, meshes have to be made, which are defined in
+<code>tree_systems.js</code>. The meshes for the branches are polygonal
+based prisms and the meshes for the leaves are two triangular faces at a
+right angle. To be able to correctly place all the meshes, functions
+that rotate and transform the meshes were also defined making the code
+clearer. To optimize the number of objects, a function that would merge
+meshes into one mesh was made.</p>
+<h5 id="generating-the-tree">Generating the Tree</h5>
+<p>To generate the trees mesh, the final string must be parsed,
+therefore the alphabet must map to some action. The alphabet is parsed
+as:</p>
+<ul>
+<li><span class="math inline">{<em>L</em>, <em>B</em>}</span> : They
+represent a branch and the difference between the two is the branch
+represented by B could continue to grow if the production rule is
+applied.</li>
+<li><span
+class="math inline">{<em>X</em>, <em>Y</em>, <em>Z</em>}</span> : They
+represent a rotation from the base branch that they come from. The
+difference of the three symbols is the exact angle that the next branch
+will take.</li>
+<li><span class="math inline">{[,]}</span> : They represent a sub tree
+that would have a smaller base size and represent a new state from which
+new branches can come from.</li>
+</ul>
+<p>Leaves would be randomly placed on the upper half of branches.</p>
+<p>Using these rules, the string would be parsed and the corresponding
+branches and leaves would be generated and placed. To correctly be able
+to come back to an old position, a stack of the previous positions and
+rotations done would be kept.</p>
+<p>After generating a list of branch meshes and a seperate list of the
+leaf meshes they would both be merged into two collective meshes that
+would be added to scene with the <code>wood</code> material and the
+<code>leaf</code> material.</p>
 <h4 id="validation-3">Validation</h4>
-<p>TODO</p>
+<img src="images/l_system/0_step.png" alt="image" /> <img
+src="images/l_system/1_step.png" alt="image" /> <img
+src="images/l_system/2_step.png" alt="image" /> <img
+src="images/l_system/3_step.png" alt="image" /> <img
+src="images/l_system/4_step.png" alt="image" /><br />
+<figcaption style="text-align: center;">
+Different levels of depth (0, 1, 2, 3, 4)
+</figcaption>
+<p>In the following images you can see the progression and “growth” of a
+tree, the initial axiom in these image is simply <code>B</code>. From
+the single character we can progress to the first step by applying the
+production rule <code>B -&gt; L[XB][YB][ZB][B]</code>. Also the leaves,
+are randomly placed in the upper half of a given branch. Since the
+leaves are generated at each instance, this generated small differences
+in each instance of a tree, even if they are generated from the same
+axiom and have the same depth.</p>
 <h3 id="bloom">Bloom</h3>
 <h4 id="implementation-4">Implementation</h4>
 <p>TODO</p>
@@ -379,12 +458,16 @@ Alonso
 14h
 </td>
 <td>
+4h
 </td>
 <td>
+7h
 </td>
 <td>
+15h
 </td>
 <td>
+49h
 </td>
 </tr>
 <tr>
