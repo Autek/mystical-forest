@@ -232,8 +232,5 @@ export class SceneRenderer {
         } else {
             this.map_mixer.render(scene_state, this.texture("shadows"), this.texture("fog"), this.texture("base"));
         }
-
-        // Visualize cubemap
-        // this.mirror.env_capture.visualize();
     }
 }
