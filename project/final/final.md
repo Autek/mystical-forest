@@ -216,11 +216,21 @@ In the above video we can see fog getting over the particles if there is a lot o
 
 #### Implementation
 
-TODO
+The fog is implemented through a shader. The fog has its own frame buffer where it loads one texture produced by one pair of fragment and vertex shaders.
+
+In the shaders, we calculate the fog factor, which is a number between 0 and 1, where 0 represents full fog and 1 represents 0 no fog. To calculate, we use the distance of the vertex from the camera and the intensity of the fog tends towards 0 in a squared exponentially. 
+
+Within the final mixer shader, the color of the fragement is mixed with the fog's gray color the fog factor that is extracted from the fog texture.
 
 #### Validation
 
-TODO
+![image](images/foggers/low_height.png)
+![image](images/foggers/mid_height.png)
+![image](images/foggers/high_height.png)
+In these images, the height of the fog varies. The difference between the fragments that are mixed with the fog texture and those that are not.
+![image](images/foggers/low_opacity.png)
+![image](images/foggers/high_opacity.png)
+In these images, the oppacity of the fog varies. It can obscure as much as possible but also be as transparent as needed.
 
 
 ### L-Systems for Procedural Scene Generation
