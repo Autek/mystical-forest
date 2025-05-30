@@ -335,7 +335,7 @@ This introduces an exposure parameter, which is very useful for achieving a cine
 
 ### Failed Experiments
 
-TODO
+No components failed during our implementation.
 
 ### Challenges
 

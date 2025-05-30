@@ -192,8 +192,7 @@ We couldn’t use the syntax given in the OpenGL tutorial since we are
 working in WEBGL1.0 instead of WEBGL2.0. This is done in
 <code>gbuffer_sr.js</code>, <code>gbuffer.vert.glsl</code> and
 <code>gbuffer.frag.glsl</code>.</p>
-<!-- todo: add images of different parts of the gbuffer -->
-<ol type="1">
+<ol start="2" type="1">
 <li><p><strong>SSAO pass:</strong> this pass computes the ambient
 occlusion factor. In <code>ssao_sr.js</code>, we generate a kernel of
 random samples and a random rotation texture and pass it to the shaders.
@@ -233,7 +232,90 @@ blur was not visible.</li>
 to the scene by passing it to the Blinn-Phong and terrain shaders, and
 multiplying it with the ambient light component.</p>
 <h4 id="validation">Validation</h4>
-<p>TODO</p>
+<p><em>We have a simple scene to visualize SSAO. From left to right, it
+has a taurus, a spehere, a small cube, and a big cube.</em></p>
+<ol type="1">
+<li><p><strong>G-buffer:</strong></p>
+<p>In the position texture, we have the green quadrant representing
+positions where <span class="math inline"><em>y</em> &gt; 0</span> and
+<span class="math inline"><em>x</em> &lt; 0</span>, the yellow quadrant
+with <span class="math inline"><em>y</em> &gt; 0</span> and <span
+class="math inline"><em>x</em> &gt; 0</span>, the black quadrant with
+<span class="math inline"><em>y</em> &lt; 0</span> and <span
+class="math inline"><em>x</em> &lt; 0</span>, and the red quadrant with
+<span class="math inline"><em>y</em> &lt; 0</span> and <span
+class="math inline"><em>x</em> &gt; 0</span>.</p>
+<p><img src="images/gbuffer_position.png"
+alt="G-buffer position texture" /> <em>G-buffer position
+texture</em></p>
+<p>The normal texture just shows the normals of the scene, as usual.</p>
+<p><img src="images/gbuffer_normals.png"
+alt="G-buffer normal texture" /> <em>G-buffer normal texture</em></p>
+<p>The albedo texture shows the colors of the scene as they would appear
+wihtout any treatment. Everything is white.</p>
+<p><img src="images/gbuffer_albedo.png" alt="G-buffer albedo texture" />
+<em>G-buffer albedo texture</em></p></li>
+<li><p><strong>SSAO:</strong> Rendering only the SSAO texture, we can
+see the occlusion factor computed by the shader. It is already
+“reversed” so the darker regions are the ones being the most occluded.
+We are ony rendering the occlusion factor throught the red channel,
+which is why the image is red.</p>
+<p>We can clearly see that the regions of our objects that are closest
+to the ground are being occluded. There is some artifacting because of
+the repetition of the kernel samples, but it will later be smoothed out
+by the blur pass.</p>
+<p><img src="images/ssao_simple.png" alt="SSAO texture" />
+<em>Visualization of the occlusion factor through the red
+channel</em></p>
+<p>We zoom in on the cubes to see the effect and artifacts more clearly.
+We can see the occlusion between the two cubes, which is pretty
+nice.</p>
+<p><img src="images/ssao_cubes.png" alt="SSAO texture cubes" /> <em>Zoom
+on the two cubes</em></p></li>
+<li><p><strong>Blur:</strong> The blur pass smoothes the result of the
+SSAO pass. We can see that the artifacts are gone, and the occlusion
+factor is more uniform.</p>
+<p><img src="images/ssao_blurred.png" alt="Blurred SSAO texture" />
+<em>SSAO with blur enabled</em></p>
+<p>Zomming in again on the cubes, we can see the effect of the blur
+pass.</p>
+<p><img src="images/ssao_cubes_blurred.png"
+alt="Blurred SSAO texture cubes" /> <em>Zoom on the two cubes with blur
+enabled</em></p></li>
+</ol>
+<p>Finally, we can try tweaking the parameters of the SSAO pass to see
+how they affect the result. We are rendering the SSAO blurred
+texture.</p>
+<ul>
+<li><strong>Radius:</strong> Increasing the radius makes the occlusion
+factor more pronounced. Here, it is exagerated to show the effect. This
+also has the side-effect of having occlusion in weird places, like the
+top of the sphere, which is not occluded by anything. This is because
+the radius is too large and samples are taken from too far away.</li>
+</ul>
+<p><img src="images/ssao_big_radius.png" alt="SSAO big radius" />
+<em>SSAO with increased radius</em></p>
+<ul>
+<li><strong>Bias:</strong> Increasing the bias reduces the acne (which
+we don’t have much of anyway), but also reduces the occlusion factor
+when it is too high.</li>
+</ul>
+<p><img src="images/ssao_big_bias.png" alt="SSAO big bias" /> <em>SSAO
+with increased bias</em></p>
+<ul>
+<li><strong>Intensity:</strong> Increasing the intensity makes the
+occlusion factor more pronounced. Here, it is exagerated to show the
+effect.</li>
+</ul>
+<p><img src="images/ssao_big_intensity.png" alt="SSAO big intensity" />
+<em>SSAO with increased intensity</em></p>
+<p>Here is the final result with all the other shaders, with all the
+parameters set to default values that seemed appropriate.</p>
+<p><img src="images/ssao_final_enabled.png"
+alt="Final result with SSAO" /> <em>Scene with SSAO</em></p>
+<p><img src="images/ssao_final_disabled.png"
+alt="Final result without SSAO" /> <em>Scene without SSAO for
+comparision</em></p>
 <h3 id="particle-effects">Particle Effects</h3>
 <h4 id="implementation-1">Implementation</h4>
 <p>This implementation simulates dynamic fire particles using instanced,
@@ -497,7 +579,7 @@ achieving a cinematic look. It’s not strictly required for bloom, but it
 greatly improves the result—without it, the image tends to appear
 overexposed, with all bloomed pixels turning completely white.</p>
 <h3 id="failed-experiments">Failed Experiments</h3>
-<p>TODO</p>
+<p>No components failed during our implementation.</p>
 <h3 id="challenges">Challenges</h3>
 <p>TODO</p>
 <h2 id="contributions">Contributions</h2>
