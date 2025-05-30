@@ -121,7 +121,7 @@ export class MirkwoodScene extends Scene {
     // Add random trees
     const minimum_distance_from_fire = 0.8;
     const maximum_distance_from_fire = 4.0;
-    const num_trees = 20;
+    const num_trees = 30;
 
     // Lsystem shit
     let random_item = (stuff) => stuff[Math.floor(Math.random() * stuff.length)]
@@ -132,7 +132,7 @@ export class MirkwoodScene extends Scene {
       'B[ZB][B[YB]]'
     ];
 
-    let add_tree = (tree, tag) => {
+    let add_tree = (tree, tag, ratio) => {
       let b_tag = tag + "_branches";
       let l_tag = tag + "_leaves";
 
@@ -144,13 +144,13 @@ export class MirkwoodScene extends Scene {
 
       this.objects.push({
         translation: [0, 0, 0],
-        scale: [1, 1, 1],
+        scale: [ratio, ratio, ratio],
         mesh_reference: b_tag,
         material: MATERIALS.wood
       });
       this.objects.push({
         translation: [0, 0, 0],
-        scale: [1, 1, 1],
+        scale: [ratio, ratio, ratio],
         mesh_reference: l_tag,
         material: MATERIALS.green
       });
@@ -175,12 +175,12 @@ export class MirkwoodScene extends Scene {
       } while (true);
 
       
-
+      const tree_scale = (0.5 + Math.random() * 0.5);
       const axiom = random_item(init_axiom);
       const n_axiom = applyNTree(axiom, 3 + Math.floor(Math.random() * 2));
       const arbre = full_tree(n_axiom, tree_pos);
       
-      add_tree(arbre, i.toString());
+      add_tree(arbre, i.toString(), tree_scale);
 
       // const tree_scale = 0.3 + Math.random() * 0.7;
       
