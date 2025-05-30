@@ -11,7 +11,8 @@ title: Final Project Report CS-341 2025
 
 ## Abstract
 
-In our project Mystical Forest, we have create a foggy, mystical forest, with a calming fire. We used ambient occlusion and fog to create a dim atmosphere, and added a fire generated with particles and bloom to enhance the light it produces. The trees are L-systems generated simulate a real forest.  
+TODO
+
 
 ## Overview
 
@@ -25,15 +26,8 @@ In our project Mystical Forest, we have create a foggy, mystical forest, with a 
 </div>
 <figcaption style="text-align: center;">Some more visuals focusing on interesting details of your scene.</figcaption>
 
-We generated the trees procedurally using L-systems. This means they can be easily modified to create different types of trees, or other plants. blablabla @coaguila fill in this part. 
+TODO
 
-We also added a fog to create a more immersive atmosphere. The fog is implemented using a fragment shader that calculates the fog density based on the distance from the camera, and applies it to the scene. This gives a sense of depth and mystery to the forest, which is really cool to see. 
-
-To add even more to the atmosphere, and because it's an interesting effect, we added screen-space ambient occlusion. This creates a more realistic lighting by simulating how light interacts with nearby environment, especially in the corners and crevices that we have on the trees. It gives a nice depth to the scene. 
-
-Finally, we added a fire using particles. blablabla @Autek fill in this part. 
-
-The terrain was made by hand in Blender, and we used the given shader to apply texture to it.
 
 ## Feature validation
 
@@ -188,6 +182,7 @@ This implementation simulates dynamic fire particles using instanced, textured q
   - A base quad (2D unit square) is instanced per particle.
   - Quads are billboarded in the vertex shader.
   - Alpha blending is enabled for additive effects this works well for flames and will benefit from bloom.
+
 ---
 
 ##### Design Choices
@@ -196,20 +191,26 @@ This implementation simulates dynamic fire particles using instanced, textured q
 
 #### Validation
 
-<div>
+<div style="display: flex; justify-content: center;">
 <video src="videos/fire.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
 </div>
-In the preceding video, we observe a basic fire simulation and a preview of all available parameters and how they influence the fire's behavior. Reducing the particle lifespan creates a flickering effect like fireworks. This happens because each particle is assigned a lifetime upon creation. When we shorten the lifespan, the color calculations based on `(life / maxLife)` can yield values greater than one, since `life` may exceed `maxLife`. It's not a major issue, as the effect normalizes quickly.
+ <figcaption style="text-align: center;">fire particles isolated</figcaption>
 
-<div>
+In the above video, we observe a basic fire simulation and a preview of all available parameters and how they influence the fire's behavior. Reducing the particle lifespan creates a flickering effect like fireworks. This happens because each particle is assigned a lifetime upon creation. When we shorten the lifespan, the color calculations based on `(life / maxLife)` can yield values greater than one, since `life` may exceed `maxLife`. It's not a major issue, as the effect normalizes quickly.
+
+<div style="display: flex; justify-content: center;">
 <video src="videos/fire_in_scene.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
 </div>
-In the preceding video we can see how the fire integrates to the main scene. Everything looks pretty well together. Trees are overly bright on top but that is not an issue of the fire and has been fixed since.
+ <figcaption style="text-align: center;">fire particles in scene</figcaption>
 
-<div>
+In the above video we can see how the fire integrates to the main scene. Everything looks pretty well together. Trees are overly bright on top but that is not an issue of the fire and has been fixed since.
+
+<div style="display: flex; justify-content: center;">
 <video src="videos/fire_fog.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
 </div>
-In the preceding video we can see fog getting over the particles if there is a lot of fog (when we can see far withohitting the ground) This is a known issue and we don't really know how to fix it easily.
+ <figcaption style="text-align: center;">fire particles clashing with fog</figcaption>
+
+In the above video we can see fog getting over the particles if there is a lot of fog (when we can see far withohitting the ground) This is a known issue and we don't really know how to fix it easily.
 
 ### Fog
 
@@ -226,23 +227,98 @@ TODO
 
 #### Implementation
 
-TODO
+The trees are procedurally generated with Lindenmayer Systems, otherwise known as L-Systems. By predetermining an alphabet from which we can produces axioms that can be recursively developped through predetermine rules, tree can be "grown" from a string. To generate the trees in the scene, we chose a random spot away from the campfire and randomly choose a predetermined starting axiom. From there, the rules of system are applied a random amount of times.
+
+##### Defining the L-System
+L-Systems are defined as a tuple $G = (V, \omega, P)$, where $V$ is the alphabet, $\omega$ is the starting axiom and $P$ is the set of production rules. The L-System $L$ that was defined to describe the tree has a randomly chosen starting axiom, an alphabet of $V = \{L, B, X, Y, Z, [,]\}$ and one production rule $P = \{B \rightarrow L[XB][YB][ZB][B]\}$.
+The functions that represent the rules and their recursive application are defined in `l_system.js`, which are called within the scene to generate the string defining the tree. 
+
+##### Generating Meshes
+To generate the tree, meshes have to be made, which are defined in `tree_systems.js`. The meshes for the branches are polygonal based prisms and the meshes for the leaves are two triangular faces at a right angle.
+To be able to correctly place all the meshes, functions that rotate and transform the meshes were also defined making the code clearer. 
+To optimize the number of objects, a function that would merge meshes into one mesh was made.
+
+##### Generating the Tree
+To generate the trees mesh, the final string must be parsed, therefore the alphabet must map to some action. The alphabet is parsed as:
+
+- $\{L, B\}$ : They represent a branch and the difference between the two is the branch represented by B could continue to grow if the production rule is applied.
+- $\{X, Y, Z\}$ : They represent a rotation from the base branch that they come from. The difference of the three symbols is the exact angle that the next branch will take.
+- $\{[,]\}$ : They represent a sub tree that would have a smaller base size and represent a new state from which new branches can come from.
+
+Leaves would be randomly placed on the upper half of branches.
+
+Using these rules, the string would be parsed and the corresponding branches and leaves would be generated and placed. To correctly be able to come back to an old position, a stack of the previous positions and rotations done would be kept.
+
+After generating a list of branch meshes and a seperate list of the leaf meshes they would both be merged into two collective meshes that would be added to scene with the `wood` material and the `leaf` material.
 
 #### Validation
 
-TODO
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <div><img src="images/l_system/0_step.png" height="190px" style="vertical-align: middle;"></div>
+  <div><img src="images/l_system/1_step.png" height="190px" style="vertical-align: middle;"></div>
+  <div><img src="images/l_system/2_step.png" height="190px" style="vertical-align: middle;"></div>
+  <div><img src="images/l_system/3_step.png" height="190px" style="vertical-align: middle;"></div>
+  <div><img src="images/l_system/4_step.png" height="190px" style="vertical-align: middle;"></div>
+</div>
+ <figcaption style="text-align: center;">Different levels of depth (0, 1, 2, 3, 4) </figcaption>
 
+ In the following images you can see the progression and "growth" of a tree, the initial axiom in these image is simply `B`. From the single character we can progress to the first step by applying the production rule `B -> L[XB][YB][ZB][B]`.
+ Also the leaves, are randomly placed in the upper half of a given branch. Since the leaves are generated at each instance, 
+ this generated small differences in each instance of a tree, even if they are generated from the same axiom and have the same depth. 
 
 ### Bloom
 
 #### Implementation
 
-TODO
+This implementation includes a bloom effect. Bloom is computed by first thresholding the bright values of the screen and storing them in a separate texture. This texture is then blurred using a Gaussian kernel multiple times to create a soft glow. Finally, the blurred texture is additively blended back with the original image to produce the final effect.
+
+To enhance the visual quality and prevent overly bright areas from burning out, we also implement tone mapping. This step compresses high dynamic range values into a displayable range, ensuring a more natural and balanced appearance.
+
+---
+
+##### Bloom Integration
+
+- Bloom is applied as a post-processing step after rendering the scene.
+- It captures bright fragments (typically from fire particles) and blurs them across neighboring pixels.
+- This creates a glowing aura that enhances the perceived brightness and softness of the fire.
+- Combined with alpha blending, bloom adds volume and visual depth to the flames.
+
+---
+
+##### Design Choices
+
+- A simple threshold-based bloom implementation is used to keep performance reasonable.
+- We use a Gaussian blurring kernel to get a better render than with a box kernel.
+- We downsample the thresholded texture to get better performances without losing much quality.
+- We use and exponential tone mapping with an exposition parameter to allow for customization.
 
 #### Validation
 
-TODO
+<div style="display: flex; justify-content: space-around; align-items: center;">
+<div>
+<img src="images/not_bloom.png" height="210px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/bloom.png" height="210px" style="vertical-align: middle;">
+</div>
+</div>
+ <figcaption style="text-align: center;">bloom isolated</figcaption>
+In the pictures above, we see the fire integrated with the bloom effect. The flames appear more vivid and impactful. Bright particles contribute significantly to the glow, creating a more immersive look.
 
+<div style="display: flex; justify-content: center;">
+<video src="videos/bloom.mp4" height="210px" autoplay loop style="vertical-align: middle;"></video>
+</div>
+ <figcaption style="text-align: center;">bloom in scene</figcaption>
+In the vido above, we can clearly see the bloom effect being added to the seen and everything looks nice. We also see that the exposition and bloom threshold is working as expected. We have some weird lighting on trees but this does not come from bloom.
+
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <div><img src="images/bloom_pip1.png" height="210px" style="vertical-align: middle;"></div>
+  <div><img src="images/bloom_pip2.png" height="210px" style="vertical-align: middle;"></div>
+  <div><img src="images/bloom_pip3.png" height="210px" style="vertical-align: middle;"></div>
+  <div><img src="images/bloom_pip4.png" height="210px" style="vertical-align: middle;"></div>
+</div>
+ <figcaption style="text-align: center;">bloom pipeline</figcaption>
+In the pictures above, we see the whole blooming pipeline. First the base image, then the thresholded image, then the blurred thresholded map andfinally the mix of the blurred and base image. (it is not the same image everywhere.)
 
 ## Discussion
 
@@ -283,10 +359,10 @@ TODO
 			<td style="background-color: #f0f0f0;">2h</td>
 			<td>4h</td>
 			<td>14h</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td>4h</td>
+			<td>7h</td>
+			<td>15h</td>
+			<td>49h</td>
 		</tr>
 		<tr>
 			<td>Charlie</td>
@@ -294,10 +370,10 @@ TODO
 			<td style="background-color: #f0f0f0;">0h</td>
 			<td>8h</td>
 			<td>12h</td>
-			<td>8h</td>
-			<td>3h</td>
-			<td>7h</td>
-			<td>40h</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td>Marius</td>
@@ -346,7 +422,10 @@ TODO
 ## References
 
 #### Screen-Space Ambient Occlusion
-- TODO <!--! todo  -->
+- [Joey DeVries (2015) *Advanced Lighting: SSAO*](https://learnopengl.com/Advanced-Lighting/SSAO)
+- [Arijit Nandi (2023) *Depth-Only Screen Space Ambient Occlusion (SSAO) for Forward Renderers*](https://medium.com/better-programming/depth-only-ssao-for-forward-renderers-1a3dcfa1873a)
+- [Bavoil, L. Sainz, M (2008) *Screen Space Ambient Occlusion*](https://www.researchgate.net/publication/228576448_Screen_Space_Ambient_Occlusion)
+
 #### Particle Effects
 - [MographPlus (2017) *Tutorial No.62 : Rendering realistic Explosion and Smoke in Arnold for 3ds Max (Arnold Volume)*](https://www.youtube.com/watch?v=5k-8ltGNUXk)
 - [OGLDEV (2025) Particle System Using The Compute Shader // Intermediate OpenGL Series](https://www.youtube.com/watch?v=pzAZ0xjWDv8)
