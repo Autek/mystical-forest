@@ -26,7 +26,15 @@ TODO
 </div>
 <figcaption style="text-align: center;">Some more visuals focusing on interesting details of your scene.</figcaption>
 
-TODO
+We generated the trees procedurally using L-systems. This means they can be easily modified to create different types of trees, or other plants. blablabla @coaguila fill in this part. 
+
+We also added a fog to create a more immersive atmosphere. The fog is implemented using a fragment shader that calculates the fog density based on the distance from the camera, and applies it to the scene. This gives a sense of depth and mystery to the forest, which is really cool to see. 
+
+To add even more to the atmosphere, and because it's an interesting effect, we added screen-space ambient occlusion. This creates a more realistic lighting by simulating how light interacts with nearby environment, especially in the corners and crevices that we have on the trees. It gives a nice depth to the scene. 
+
+Finally, we added a fire using particles. blablabla @Autek fill in this part. 
+
+The terrain was made by hand in Blender, and we used the given shader to apply texture to it.
 
 
 ## Feature validation
