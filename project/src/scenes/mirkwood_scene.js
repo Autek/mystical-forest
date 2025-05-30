@@ -78,8 +78,8 @@ export class MirkwoodScene extends Scene {
     this.particle_emitters.push(fireEmitter);
     this.actors["fire"] = fireEmitter;
     this.lights.push({
-      position : [-0.75 , 0, -2],
-      color: [0.4, 0.20, 0.0]
+      position : [-0.75 , 0, -0.1],
+      color: [0.7, 0.4, 0.0]
     });
 
     const logs ={
@@ -115,11 +115,44 @@ export class MirkwoodScene extends Scene {
       material: MATERIALS.sunset_sky
     });
 
+    // Add random trees
+    const minimum_distance_from_fire = 0.8;
+    const maximum_distance_from_fire = 4.0;
+    const num_trees = 100;
+    
+    for (let i = 0; i < num_trees; i++) {
+      let tree_pos;
+      do {
+        const x = (Math.random() * 6) - 3;
+        const y = (Math.random() * 6) - 3;
+        const z = -0.1;
+
+        tree_pos = [x, y, z];
+        
+        const dx = tree_pos[0] - fire_pos[0];
+        const dy = tree_pos[1] - fire_pos[1];
+        const distance = Math.sqrt(dx*dx + dy*dy);
+        
+        if (distance >= minimum_distance_from_fire && distance <= maximum_distance_from_fire) {
+          break;
+        }
+      } while (true);
+      
+      const tree_scale = 0.3 + Math.random() * 0.7;
+      
+      this.objects.push({
+        translation: tree_pos,
+        scale: [tree_scale, tree_scale, tree_scale],
+        mesh_reference: 'pine.obj',
+        material: MATERIALS.pine
+      });
+    }
+
     // Light Source
-    this.lights.push({
-      position : [0. , -15.0, 5.],
-      color: [1.0, 0.5, 0.1]
-    });
+    // this.lights.push({
+    //   position : [0. , -15.0, 5.],
+    //   color: [1.0, 0.5, 0.1]
+    // });
   }
 
   /**
