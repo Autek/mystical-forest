@@ -486,6 +486,9 @@ TODO
 
 
 ## References
+#### Obj Meshes
+- Mountain Scene by Alonso Coaguila SCIPER: 339718
+- [Low Poly Campfire Free low-poly 3D model](https://www.cgtrader.com/free-3d-models/exterior/other/low-poly-campfire-f8ee77da-78f4-42f2-9c81-4a36f12d8f5e)
 
 #### Screen-Space Ambient Occlusion
 - [Joey DeVries (2015) *Advanced Lighting: SSAO*](https://learnopengl.com/Advanced-Lighting/SSAO)
