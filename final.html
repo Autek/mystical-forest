@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="generator" content="pandoc">
+    <meta name="description" content="">
+
+    <title>Final Project Report CS-341 2025</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">code{white-space: pre;}</style>
+    <style type="text/css">.sidebar ul{padding-left: 10px;}</style>
+    <link rel="stylesheet" href="css/cg_report.css" />
+  </head>
+
+  <body>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div id="sidebar" class="col-sm-3 col-md-2 sidebar">
+          <!--<ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+          </ul>-->
+          <ul>
+          <li><a href="#mystical-forest"
+          id="toc-mystical-forest">Mystical Forest</a>
+          <ul>
+          <li><a href="#abstract" id="toc-abstract">Abstract</a></li>
+          <li><a href="#overview" id="toc-overview">Overview</a></li>
+          <li><a href="#feature-validation"
+          id="toc-feature-validation">Feature validation</a>
+          <ul>
+          <li><a href="#ambient-occlusion"
+          id="toc-ambient-occlusion">Ambient Occlusion</a></li>
+          <li><a href="#particle-effects"
+          id="toc-particle-effects">Particle Effects</a></li>
+          <li><a href="#fog" id="toc-fog">Fog</a></li>
+          <li><a href="#l-systems-for-procedural-scene-generation"
+          id="toc-l-systems-for-procedural-scene-generation">L-Systems
+          for Procedural Scene Generation</a></li>
+          <li><a href="#bloom" id="toc-bloom">Bloom</a></li>
+          </ul></li>
+          <li><a href="#discussion" id="toc-discussion">Discussion</a>
+          <ul>
+          <li><a href="#additional-components"
+          id="toc-additional-components">Additional Components</a></li>
+          <li><a href="#failed-experiments"
+          id="toc-failed-experiments">Failed Experiments</a></li>
+          <li><a href="#challenges"
+          id="toc-challenges">Challenges</a></li>
+          </ul></li>
+          <li><a href="#contributions"
+          id="toc-contributions">Contributions</a></li>
+          <li><a href="#references"
+          id="toc-references">References</a></li>
+          </ul></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        
+<h1 id="mystical-forest">Mystical Forest</h1>
+<div
+style="display: flex; justify-content: space-around; align-items: center;">
+<p><img src="images/main.png" height="300px" style="vertical-align: middle;"></p>
+</div>
+<figcaption style="text-align: center;">
+Mystical Forest
+</figcaption>
+<h2 id="abstract">Abstract</h2>
+<p>Imagine yourself in a forest at night surrounded by the stars. The
+fog is setting in. You decide to make campfire in an empty patch. You
+cannot help yourself but to feel warm while be surrounded by the stars,
+the trees, and the mountains. Truly a mystical experience in this dim
+atmosphere. This is our project Mystical Forest. This project implements
+different features like Screen Space Ambient Occlusion, Particle
+Effects, Fog, Procedurally Generated Trees from L-Systems, and
+Bloom.</p>
+<h2 id="overview">Overview</h2>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/l_system/4_step.png" height="190px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/bloom.png" height="190px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/foggers/high_height.png" height="190px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+Overview of our components
+</figcaption>
+<p>We generated the trees procedurally using L-systems. This allows
+varying trees that share a similar underlaying structure. It also allows
+to “grow” trees and show them in different stages of developpment. The
+code is easily modifiable to produce other plants, like potentially
+bushes and other types of trees.</p>
+<p>We also added a fog to create a more immersive atmosphere. The fog is
+implemented using a fragment shader that calculates the fog density
+based on the distance from the camera, and applies it to the scene. This
+gives a sense of depth and mystery to the forest, which is really cool
+to see.</p>
+<p>To add even more to the atmosphere, and because it’s an interesting
+effect, we added screen-space ambient occlusion. This creates a more
+realistic lighting by simulating how light interacts with nearby
+environment, especially in the corners and crevices that we have on the
+trees. It gives a nice depth to the scene.</p>
+<p>We added a fire using particles. the fire adds to the cozy atmosphere
+and works very well with the bloom effect also added. It brings some
+light to the scene that is otherwise rendered at night. The particles
+don’t emit light but we placed a light inside the fire</p>
+<p>Finally, we added bloom. Bloom finishes the effects on the scene. It
+makes the fire smoother and allows to better see the flames. This makes
+for a very cozy scene that has a peaceful vibe. And also with the
+exposition parameter this allows for a lot of different vibes to the
+scene.</p>
+<p>The terrain was made by hand in Blender, and we used the given shader
+to apply texture to it.</p>
+<h2 id="feature-validation">Feature validation</h2>
+<table>
+<caption>
+Feature Summary
+</caption>
+<thead>
+<tr>
+<th>
+Feature
+</th>
+<th>
+Adapted Points
+</th>
+<th>
+Status
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Ambient Occlusion
+</td>
+<td>
+17
+</td>
+<td style="background-color: #d4edda;">
+Completed
+</td>
+</tr>
+<tr>
+<td>
+Particle Effects
+</td>
+<td>
+17
+</td>
+<td style="background-color: #d4edda;">
+Completed
+</td>
+</tr>
+<tr>
+<td>
+Fog
+</td>
+<td>
+4
+</td>
+<td style="background-color: #d4edda;">
+Completed
+</td>
+</tr>
+<tr>
+<td>
+L-Systems for Procedural Scene Generation
+</td>
+<td>
+8
+</td>
+<td style="background-color: #d4edda;">
+Completed
+</td>
+</tr>
+<tr>
+<td>
+Bloom
+</td>
+<td>
+4
+</td>
+<td style="background-color: #d4edda;">
+Completed
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ambient-occlusion">Ambient Occlusion</h3>
+<h4 id="implementation">Implementation</h4>
+<p>The ambient occlusion is implemented in screen space by using a
+fragment shader that samples the depth buffer to compute the occlusion
+factor: it compares the depth of the current fragment with the depth of
+nearby fragments to determine how much light is occluded. We then apply
+that factor to the ambient light of the scene to reduce it in areas that
+should be dimmed. A bias is applied to deal with acnee, and a later blur
+pass smoothes the result to avoid harsh edges.</p>
+<p>The occlusion factor is computed in three passes: 1. <strong>G-buffer
+pass:</strong> we render the scene to a simple G-buffer with three
+textures in different color attachement (position, normal and albedo).
+We couldn’t use the syntax given in the OpenGL tutorial since we are
+working in WEBGL1.0 instead of WEBGL2.0. This is done in
+<code>gbuffer_sr.js</code>, <code>gbuffer.vert.glsl</code> and
+<code>gbuffer.frag.glsl</code>.</p>
+<ol start="2" type="1">
+<li><p><strong>SSAO pass:</strong> this pass computes the ambient
+occlusion factor. In <code>ssao_sr.js</code>, we generate a kernel of
+random samples and a random rotation texture and pass it to the shaders.
+The vertex shader is a simple buffer-to-screen shader, but the fragment
+shader <code>ssao.frag.glsl</code> computes the occulsion factor. It
+iterates on the random (rotationned) samples, gets the value of the
+G-buffer at that point, transforms it to screen-space and computes and
+only increments the occlusion factor if the depth of the sample is
+visible from the viewer’s point of view. The occlusion factor is then
+normalized by the number of samples.</p>
+<p>There are multiple tweakable parameters to adjust the effect:</p>
+<ul>
+<li>kernel size: the number of samplse in the kernel. The more samples
+we have, the more accurate the result is, but also the more expensive it
+is to compute. We found that 64 samples was a good middle ground.</li>
+<li>radius: the radius in which the occlusion factor is computed. The
+larger the radius is, the larger the area of influence of the occlusion
+is. To avoid hard cuttoffs, the border should be smoothstep’d.</li>
+<li>bias: the bias is used to avoid acne like is done in other shadowing
+techniques.</li>
+<li>intensity: the intensity of the occlusion. It’s just a power applied
+to the final occlusion factor to make it more or less pronounced.</li>
+</ul></li>
+<li><p><em>(optional)</em> <strong>Blur pass:</strong> this pass
+smoothes the result of the SSAO pass to avoid harsh edges. It applies a
+4x4 box blur to the SSAO texture. This is done in
+<code>blur_sr.js</code>, <code>buffer_to_screen.vert.glsl</code> and
+<code>blur.frag.glsl</code>. We found that a box blur was sufficient for
+our needs since SSAO is already a discreet effect so the diffence
+between box blur and guassian blur was not visible.</p></li>
+</ol>
+<p>After having computed the ambient occlusion factor, we integrate it
+to the scene by passing it to the Blinn-Phong and terrain shaders, and
+multiplying it with the ambient light component.</p>
+<h4 id="validation">Validation</h4>
+<p><em>We crafted a simple scene to visualize SSAO. From left to right,
+it has a taurus, a spehere, a small cube, and a big cube.</em></p>
+<ol type="1">
+<li><p><strong>G-buffer:</strong></p>
+<p>In the position texture, we have the green quadrant representing
+positions where <span class="math inline"><em>y</em> &gt; 0</span> and
+<span class="math inline"><em>x</em> &lt; 0</span>, the yellow quadrant
+with <span class="math inline"><em>y</em> &gt; 0</span> and <span
+class="math inline"><em>x</em> &gt; 0</span>, the black quadrant with
+<span class="math inline"><em>y</em> &lt; 0</span> and <span
+class="math inline"><em>x</em> &lt; 0</span>, and the red quadrant with
+<span class="math inline"><em>y</em> &lt; 0</span> and <span
+class="math inline"><em>x</em> &gt; 0</span>.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/gbuffer_position.png" height="300px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>G-buffer position texture</p>
+</figcaption>
+<p>The normal texture just shows the normals of the scene, as usual.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/gbuffer_normals.png" height="300px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>G-buffer normal texture</p>
+</figcaption>
+<p>The albedo texture shows the colors of the scene as they would appear
+wihtout any treatment. Everything is white.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/gbuffer_albedo.png" height="300px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>G-buffer albedo texture</p>
+</figcaption></li>
+<li><p><strong>SSAO:</strong> Rendering only the SSAO texture, we can
+see the occlusion factor computed by the shader. It is already
+“reversed” so the darker regions are the ones being the most occluded.
+We are ony rendering the occlusion factor throught the red channel,
+which is why the image is red.</p>
+<p>We can clearly see that the regions of our objects that are closest
+to the ground are being occluded. There is some artifacting because of
+the repetition of the kernel samples, but it will later be smoothed out
+by the blur pass.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/ssao_simple.png" height="300px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>Visualization of the occlusion factor through the red channel</p>
+</figcaption>
+<p>We zoom in on the cubes to see the effect and artifacts more clearly.
+We can see the occlusion between the two cubes, which is pretty
+nice.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/ssao_cubes.png" height="300px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>Zoom on the two cubes</p>
+</figcaption></li>
+<li><p><strong>Blur:</strong> The blur pass smoothes the result of the
+SSAO pass. We can see that the artifacts are gone, and the occlusion
+factor is more uniform.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/ssao_blurred.png" height="300px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>SSAO with blur enabled</p>
+</figcaption>
+<p>Zomming in again on the cubes, we can see the effect of the blur
+pass.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/ssao_cubes_blurred.png" height="300px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>Zoom on the two cubes with blur enabled</p>
+</figcaption></li>
+</ol>
+<p>Finally, we can try tweaking the parameters of the SSAO pass to see
+how they affect the result. We are rendering the SSAO blurred
+texture.</p>
+<ul>
+<li><p><strong>Radius:</strong> Increasing the radius makes the
+occlusion factor more pronounced. Here, it is exagerated to show the
+effect. This also has the side-effect of having occlusion in weird
+places, like the top of the sphere, which is not occluded by anything.
+This is because the radius is too large and samples are taken from too
+far away.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/ssao_big_radius.png" height="300px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>SSAO with increased radius</p>
+</figcaption></li>
+<li><p><strong>Bias:</strong> Increasing the bias reduces the acne
+(which we don’t have much of anyway), but also reduces the occlusion
+factor when it is too high.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/ssao_big_bias.png" height="300px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>SSAO with increased bias</p>
+</figcaption></li>
+<li><p><strong>Intensity:</strong> Increasing the intensity makes the
+occlusion factor more pronounced. Here, it is exagerated to show the
+effect.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/ssao_big_intensity.png" height="300px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+<p>SSAO with increased intensity</p>
+</figcaption></li>
+</ul>
+<p>Here is the final result with all the other shaders, with all the
+parameters set to default values that seemed appropriate.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<p><img src="images/ssao_final_enabled.png" height="300px" style="vertical-align: middle;"></p>
+</div>
+<figcaption style="text-align: center;">
+Scene with SSAO
+</figcaption>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<p><img src="images/ssao_final_disabled.png" height="300px" style="vertical-align: middle;"></p>
+</div>
+<figcaption style="text-align: center;">
+Scene without SSAO for comparision
+</figcaption>
+<h3 id="particle-effects">Particle Effects</h3>
+<h4 id="implementation-1">Implementation</h4>
+<p>This implementation simulates dynamic fire particles using instanced,
+textured quads that evolve and fade over time. Each particle is rendered
+as a camera-facing billboard, with GPU rendering and CPU simulation. A
+fire emitter spawns and evolves over time, with configurable parameters
+for size, lifespan, emission rate, color options, speed, fire
+radius.</p>
+<hr />
+<h5 id="pipeline-structure">Pipeline Structure</h5>
+<ul>
+<li>A FireEmitter extends a general ParticleEmitter class.</li>
+<li>A FireEmitter manages particle state: position, velocity, life,
+color, spawn radius, size.</li>
+<li>On each frame:
+<ul>
+<li>Dead particles are culled.</li>
+<li>New ones are spawned based on emissionRate.</li>
+<li>Attributes are updated using remaining lifetime (RGB and
+alpha).</li>
+</ul></li>
+<li>Results are exported into two arrays: positions (vec4: x, y, z,
+size) and colors (RGBA uint8).</li>
+<li>A base quad (2D unit square) is instanced per particle.</li>
+<li>Quads are billboarded in the vertex shader.</li>
+<li>Alpha blending is enabled for additive effects this works well for
+flames and will benefit from bloom.</li>
+</ul>
+<hr />
+<h5 id="design-choices">Design Choices</h5>
+<ul>
+<li>CPU simulation: because it is simpler than compute shaders and
+sufficient for our use.</li>
+</ul>
+<h4 id="validation-1">Validation</h4>
+<div style="display: flex; justify-content: center;">
+<video src="videos/fire.mp4" height="300px" autoplay loop style="vertical-align: middle;">
+</video>
+</div>
+<figcaption style="text-align: center;">
+fire particles isolated
+</figcaption>
+<p>In the above video, we observe a basic fire simulation and a preview
+of all available parameters and how they influence the fire’s behavior.
+Reducing the particle lifespan creates a flickering effect like
+fireworks. This happens because each particle is assigned a lifetime
+upon creation. When we shorten the lifespan, the color calculations
+based on <code>(life / maxLife)</code> can yield values greater than
+one, since <code>life</code> may exceed <code>maxLife</code>. It’s not a
+major issue, as the effect normalizes quickly.</p>
+<div style="display: flex; justify-content: center;">
+<video src="videos/fire_in_scene.mp4" height="300px" autoplay loop style="vertical-align: middle;">
+</video>
+</div>
+<figcaption style="text-align: center;">
+fire particles in scene
+</figcaption>
+<p>In the above video we can see how the fire integrates to the main
+scene. Everything looks pretty well together. Trees are overly bright on
+top but that is not an issue of the fire and has been fixed since.</p>
+<div style="display: flex; justify-content: center;">
+<video src="videos/fire_fog.mp4" height="300px" autoplay loop style="vertical-align: middle;">
+</video>
+</div>
+<figcaption style="text-align: center;">
+fire particles clashing with fog
+</figcaption>
+<p>In the above video we can see fog getting over the particles if there
+is a lot of fog (when we can see far withohitting the ground) This is a
+known issue and we don’t really know how to fix it easily.</p>
+<h3 id="fog">Fog</h3>
+<h4 id="implementation-2">Implementation</h4>
+<p>The fog is implemented through a shader. The fog has its own frame
+buffer where it loads one texture produced by one pair of fragment and
+vertex shaders.</p>
+<p>In the shaders, we calculate the fog factor, which is a number
+between 0 and 1, where 0 represents full fog and 1 represents 0 no fog.
+To calculate, we use the distance of the vertex from the camera and the
+intensity of the fog tends towards 0 in a squared exponentially.</p>
+<p>Within the final mixer shader, the color of the fragement is mixed
+with the fog’s gray color the fog factor that is extracted from the fog
+texture.</p>
+<h4 id="validation-2">Validation</h4>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/foggers/low_height.png" height="190px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/foggers/mid_height.png" height="190px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/foggers/high_height.png" height="190px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+Fog Height
+</figcaption>
+<p>In these images, the height of the fog varies. The difference between
+the fragments that are mixed with the fog texture and those that are
+not.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/foggers/low_opacity.png" height="190px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/foggers/high_opacity.png" height="190px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+Fog Opacity
+</figcaption>
+<p>In these images, the oppacity of the fog varies. It can obscure as
+much as possible but also be as transparent as needed.</p>
+<h3 id="l-systems-for-procedural-scene-generation">L-Systems for
+Procedural Scene Generation</h3>
+<h4 id="implementation-3">Implementation</h4>
+<p>The trees are procedurally generated with Lindenmayer Systems,
+otherwise known as L-Systems. By predetermining an alphabet from which
+we can produces axioms that can be recursively developped through
+predetermine rules, tree can be “grown” from a string. To generate the
+trees in the scene, we chose a random spot away from the campfire and
+randomly choose a predetermined starting axiom. From there, the rules of
+system are applied a random amount of times.</p>
+<h5 id="defining-the-l-system">Defining the L-System</h5>
+<p>L-Systems are defined as a tuple <span
+class="math inline"><em>G</em> = (<em>V</em>, <em>ω</em>, <em>P</em>)</span>,
+where <span class="math inline"><em>V</em></span> is the alphabet, <span
+class="math inline"><em>ω</em></span> is the starting axiom and <span
+class="math inline"><em>P</em></span> is the set of production rules.
+The L-System <span class="math inline"><em>L</em></span> that was
+defined to describe the tree has a randomly chosen starting axiom, an
+alphabet of <span
+class="math inline"><em>V</em> = {<em>L</em>, <em>B</em>, <em>X</em>, <em>Y</em>, <em>Z</em>, [,]}</span>
+and one production rule <span
+class="math inline"><em>P</em> = {<em>B</em> → <em>L</em>[<em>X</em><em>B</em>][<em>Y</em><em>B</em>][<em>Z</em><em>B</em>][<em>B</em>]}</span>.
+The functions that represent the rules and their recursive application
+are defined in <code>l_system.js</code>, which are called within the
+scene to generate the string defining the tree.</p>
+<h5 id="generating-meshes">Generating Meshes</h5>
+<p>To generate the tree, meshes have to be made, which are defined in
+<code>tree_systems.js</code>. The meshes for the branches are polygonal
+based prisms and the meshes for the leaves are two triangular faces at a
+right angle. To be able to correctly place all the meshes, functions
+that rotate and transform the meshes were also defined making the code
+clearer. To optimize the number of objects, a function that would merge
+meshes into one mesh was made.</p>
+<h5 id="generating-the-tree">Generating the Tree</h5>
+<p>To generate the trees mesh, the final string must be parsed,
+therefore the alphabet must map to some action. The alphabet is parsed
+as:</p>
+<ul>
+<li><span class="math inline">{<em>L</em>, <em>B</em>}</span> : They
+represent a branch and the difference between the two is the branch
+represented by B could continue to grow if the production rule is
+applied.</li>
+<li><span
+class="math inline">{<em>X</em>, <em>Y</em>, <em>Z</em>}</span> : They
+represent a rotation from the base branch that they come from. The
+difference of the three symbols is the exact angle that the next branch
+will take.</li>
+<li><span class="math inline">{[,]}</span> : They represent a sub tree
+that would have a smaller base size and represent a new state from which
+new branches can come from.</li>
+</ul>
+<p>Leaves would be randomly placed on the upper half of branches.</p>
+<p>Using these rules, the string would be parsed and the corresponding
+branches and leaves would be generated and placed. To correctly be able
+to come back to an old position, a stack of the previous positions and
+rotations done would be kept.</p>
+<p>After generating a list of branch meshes and a seperate list of the
+leaf meshes they would both be merged into two collective meshes that
+would be added to scene with the <code>wood</code> material and the
+<code>leaf</code> material.</p>
+<h4 id="validation-3">Validation</h4>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/l_system/0_step.png" height="190px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/l_system/1_step.png" height="190px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/l_system/2_step.png" height="190px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/l_system/3_step.png" height="190px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/l_system/4_step.png" height="190px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+Different levels of depth (0, 1, 2, 3, 4)
+</figcaption>
+<p>In the following images you can see the progression and “growth” of a
+tree, the initial axiom in these image is simply <code>B</code>. From
+the single character we can progress to the first step by applying the
+production rule <code>B -&gt; L[XB][YB][ZB][B]</code>. Also the leaves,
+are randomly placed in the upper half of a given branch. Since the
+leaves are generated at each instance, this generated small differences
+in each instance of a tree, even if they are generated from the same
+axiom and have the same depth.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/l_system/tree_scene.png" height="300px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+Trees in scene
+</figcaption>
+<p>In the following image you can see different trees surronding the
+campfire, some are different from one another due to the different
+starting axioms.</p>
+<h3 id="bloom">Bloom</h3>
+<h4 id="implementation-4">Implementation</h4>
+<p>This implementation includes a bloom effect. Bloom is computed by
+first thresholding the bright values of the screen and storing them in a
+separate texture. This texture is then blurred using a Gaussian kernel
+multiple times to create a soft glow. Finally, the blurred texture is
+additively blended back with the original image to produce the final
+effect.</p>
+<p>To enhance the visual quality and prevent overly bright areas from
+burning out, we also implement tone mapping. This step compresses high
+dynamic range values into a displayable range, ensuring a more natural
+and balanced appearance.</p>
+<hr />
+<h5 id="bloom-integration">Bloom Integration</h5>
+<ul>
+<li>Bloom is applied as a post-processing step after rendering the
+scene.</li>
+<li>It captures bright fragments (typically from fire particles) and
+blurs them across neighboring pixels.</li>
+<li>This creates a glowing aura that enhances the perceived brightness
+and softness of the fire.</li>
+<li>Combined with alpha blending, bloom adds volume and visual depth to
+the flames.</li>
+</ul>
+<hr />
+<h5 id="design-choices-1">Design Choices</h5>
+<ul>
+<li>A simple threshold-based bloom implementation is used to keep
+performance reasonable.</li>
+<li>We use a Gaussian blurring kernel to get a better render than with a
+box kernel.</li>
+<li>We downsample the thresholded texture to get better performances
+without losing much quality.</li>
+<li>We use and exponential tone mapping with an exposition parameter to
+allow for customization.</li>
+</ul>
+<h4 id="validation-4">Validation</h4>
+<div
+style="display: flex; justify-content: space-around; align-items: center;">
+<div>
+<p><img src="images/not_bloom.png" height="300px" style="vertical-align: middle;"></p>
+</div>
+<div>
+<p><img src="images/bloom.png" height="300px" style="vertical-align: middle;"></p>
+</div>
+</div>
+<figcaption style="text-align: center;">
+bloom isolated
+</figcaption>
+<p>In the pictures above, we see the fire integrated with the bloom
+effect. The flames appear more vivid and impactful. Bright particles
+contribute significantly to the glow, creating a more immersive
+look.</p>
+<div style="display: flex; justify-content: center;">
+<video src="videos/bloom.mp4" height="300px" autoplay loop style="vertical-align: middle;">
+</video>
+</div>
+<figcaption style="text-align: center;">
+bloom in scene
+</figcaption>
+<p>In the vido above, we can clearly see the bloom effect being added to
+the seen and everything looks nice. We also see that the exposition and
+bloom threshold is working as expected. We have some weird lighting on
+trees but this does not come from bloom.</p>
+<div
+style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+<div>
+<img src="images/bloom_pip1.png" height="210px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/bloom_pip2.png" height="210px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/bloom_pip3.png" height="210px" style="vertical-align: middle;">
+</div>
+<div>
+<img src="images/bloom_pip4.png" height="210px" style="vertical-align: middle;">
+</div>
+</div>
+<figcaption style="text-align: center;">
+bloom pipeline
+</figcaption>
+<p>In the pictures above, we see the whole blooming pipeline. First the
+base image, then the thresholded image, then the blurred thresholded map
+andfinally the mix of the blurred and base image. (it is not the same
+image everywhere.)</p>
+<h2 id="discussion">Discussion</h2>
+<h3 id="additional-components">Additional Components</h3>
+<p>As a small additional component, we implemented HDR rendering with
+tone mapping to bring values back into the [0,1] range. The equation we
+used is:</p>
+<p><span
+class="math display"><strong>1</strong> − exp (−hdrColor ⋅ exposure)</span></p>
+<p>This introduces an exposure parameter, which is very useful for
+achieving a cinematic look. It’s not strictly required for bloom, but it
+greatly improves the result—without it, the image tends to appear
+overexposed, with all bloomed pixels turning completely white.</p>
+<h3 id="failed-experiments">Failed Experiments</h3>
+<p>The OpenGL tutorials given were straighforward enough to not lose us
+on wrong paths. We did struggle with the framework and general
+implementation but we did not try anything that did not pan out with (a
+lot of) debugging.</p>
+<h3 id="challenges">Challenges</h3>
+<p>At the beginning there was a steep learning curve for the framework
+which took a bit of time to adapt. For example, we had issues the frame
+buffer being shifted due to lack of understanding of how the frameworks
+parameters affected the system. Fortunately with time, we understood how
+the framework worked and how to write code for it. Framebuffer shifted
+during</p>
+<p>For the L-Systems, we had dificulty understanding how to correctly
+rotate and position the branches within the trees and how to parse
+correctly the generated string. This was the major barrier for
+developpement. Also at the begining, each branch was a seperate mesh,
+this would mean when rendering complex trees, it would overwhelm the
+computer. This challenge was solved by merging the meshed into one
+mesh.</p>
+<p>On the particle side, we encountered issues with GPU instancing. It
+was difficult to debug because only one triangle was being rendered,
+there were no errors in the console, and the shaders were not the source
+of the problem. In the end, we discovered that a required Regl extension
+for GPU instancing was missing.</p>
+<p>For the bloom effect, the main challenge was getting multiple shaders
+to work together, but it wasn’t the most difficult issue we faced
+overall.</p>
+<h2 id="contributions">Contributions</h2>
+<table>
+<caption>
+Worked hours
+</caption>
+<thead>
+<tr>
+<th>
+Name
+</th>
+<th>
+Week 1
+</th>
+<th>
+Week 2
+</th>
+<th>
+Week 3
+</th>
+<th>
+Week 4
+</th>
+<th>
+Week 5
+</th>
+<th>
+Week 6
+</th>
+<th>
+Week 7
+</th>
+<th>
+Total
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Alonso
+</td>
+<td>
+3h
+</td>
+<td style="background-color: #f0f0f0;">
+2h
+</td>
+<td>
+4h
+</td>
+<td>
+14h
+</td>
+<td>
+4h
+</td>
+<td>
+7h
+</td>
+<td>
+15h
+</td>
+<td>
+49h
+</td>
+</tr>
+<tr>
+<td>
+Charlie
+</td>
+<td>
+2h
+</td>
+<td style="background-color: #f0f0f0;">
+0h
+</td>
+<td>
+8h
+</td>
+<td>
+12h
+</td>
+<td>
+8h
+</td>
+<td>
+3h
+</td>
+<td>
+9h
+</td>
+<td>
+42h
+</td>
+</tr>
+<tr>
+<td>
+Marius
+</td>
+<td>
+2h
+</td>
+<td style="background-color: #f0f0f0;">
+0h
+</td>
+<td>
+2h
+</td>
+<td>
+9h30
+</td>
+<td>
+8h
+</td>
+<td>
+4h
+</td>
+<td>
+18h30
+</td>
+<td>
+44h
+</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>
+Individual contributions
+</caption>
+<thead>
+<tr>
+<th>
+Name
+</th>
+<th>
+Contribution
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Alonso
+</td>
+<td>
+1/3
+</td>
+</tr>
+<tr>
+<td>
+Charlie
+</td>
+<td>
+1/3
+</td>
+</tr>
+<tr>
+<td>
+Marius
+</td>
+<td>
+1/3
+</td>
+</tr>
+</tbody>
+</table>
+<h4 id="comments">Comments</h4>
+<p>We have no comments. We worked well together and we are happy with
+the result.</p>
+<h2 id="references">References</h2>
+<h4 id="meshes">Meshes</h4>
+<ul>
+<li>Mountain Scene by Alonso Coaguila, SCIPER: 339718</li>
+<li><a
+href="https://www.cgtrader.com/free-3d-models/exterior/other/low-poly-campfire-f8ee77da-78f4-42f2-9c81-4a36f12d8f5e">Low
+Poly Campfire Free low-poly 3D model</a></li>
+</ul>
+<h4 id="screen-space-ambient-occlusion">Screen-Space Ambient
+Occlusion</h4>
+<ul>
+<li><a href="https://learnopengl.com/Advanced-Lighting/SSAO">Joey
+DeVries (2015) <em>Advanced Lighting: SSAO</em></a></li>
+</ul>
+<h4 id="particle-effects-1">Particle Effects</h4>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=5k-8ltGNUXk">MographPlus
+(2017) <em>Tutorial No.62 : Rendering realistic Explosion and Smoke in
+Arnold for 3ds Max (Arnold Volume)</em></a></li>
+<li><a href="https://www.youtube.com/watch?v=pzAZ0xjWDv8">OGLDEV (2025)
+Particle System Using The Compute Shader // Intermediate OpenGL
+Series</a></li>
+<li><a
+href="https://www.opengl-tutorial.org/intermediate-tutorials/billboards-particles/">OpenGL-Tutorial/Particles</a></li>
+<li><a
+href="https://learnopengl.com/In-Practice/2D-Game/Particles">LearnOpenGL/Particles</a></li>
+<li><a href="https://regl-project.github.io/regl/www/gallery.html">Regl
+Example Gallery, instance-triangle.js</a></li>
+</ul>
+<h4 id="fog-1">Fog</h4>
+<ul>
+<li><a href="https://youtu.be/BYbIs1C7rkM?feature=shared">OGLDEV (2022)
+<em>Mastering Fog Rendering in OpenGL: Adding Depth and Atmosphere to
+Your Graphics (part 2/2)</em></a></li>
+<li><a href="https://dl.acm.org/doi/pdf/10.1145/280953.282233">Legakis,
+J. (1998) <em>Fast Multi Layer Fog</em> (SIGGRAPH ’98: ACM SIGGRAPH
+98)</a></li>
+</ul>
+<h4 id="l-systems-for-procedural-scene-generation-1">L-Systems for
+Procedural Scene Generation</h4>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=feNVBEPXAcE">SimonDev
+(2020) <em>Procedural Plant Generation with L-Systems</em></a></li>
+<li><a
+href="https://algorithmicbotany.org/papers/modeling-plant-development-with-l-systems.pdf">P.
+Prusinkiewicz, M. Cieslak, P. Ferraro, J. Hanan (2018) <em>Modeling
+Plant Development with L-Systems</em></a></li>
+</ul>
+<h4 id="bloom-1">Bloom</h4>
+<ul>
+<li><a href="https://learnopengl.com/Advanced-Lighting/Bloom">Joey
+DeVries (2015) <em>Advanced Lighting: Bloom</em></a></li>
+<li><a href="https://www.youtube.com/watch?v=SqvPzbvfZEs">3Angle (2024)
+<em>WebGL Game Part 19 - Bloom Effect</em></a></li>
+<li><a href="https://www.youtube.com/watch?v=tI70-HIc5ro">The Cherno
+(2021) <em>Bloom.</em></a></li>
+</ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+    <script>
+        //document.getElementById('sidebar').getElementsByTagName('ul')[0].className += "nav nav-sidebar";
+        
+        /* ajust the height when click the toc
+           the code is from https://github.com/twbs/bootstrap/issues/1768
+        */
+        var shiftWindow = function() { scrollBy(0, -50) };
+        window.addEventListener("hashchange", shiftWindow);
+        function load() { if (window.location.hash) shiftWindow(); }
+        
+        /*add Bootstrap styles to tables*/
+        var tables = document.getElementsByTagName("table");
+        for(var i = 0; i < tables.length; ++i){
+            tables[i].className += "table table-bordered table-hover";
+        }
+    </script>
+  </body>
+</html>
