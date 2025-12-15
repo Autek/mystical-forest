@@ -1,6 +1,17 @@
----
-title: Final Project Report CS-341 2025
----
+## Preface
+
+This project was developed collaboratively by **Marius**, **Alonso**, and **Charlie** for the **CS-341 – Computer Graphics (2025)** course at EPFL, titled **_Mystical Forest_**. The project is a real-time WebGL scene focused on atmosphere and immersion, combining several graphics techniques such as screen-space ambient occlusion, particle-based fire, fog, bloom, and L-system–based procedural tree generation.
+
+This README serves as both project documentation and a technical report. It presents the motivation, implementation details, validation results, and challenges encountered during development, along with all original visuals and media produced for the project.
+
+### Acknowledgments and Licensing
+
+This project is based on the CS-341 framework provided by the course staff. The original framework authors are **Michele Vidulis, Vicky Chappuis, and Krzysztof Lis**. In accordance with the license, proper attribution is provided here.
+
+All additional code, assets, and media in this repository were produced by the project authors as part of the CS-341 coursework. The project is shared publicly in accordance with the course guidelines.
+
+For more information about the course, see the [**CS-341 – Computer Graphics**](https://edu.epfl.ch/coursebook/fr/computer-graphics-CS-341)
+ webpage.
 
 # Mystical Forest
 
